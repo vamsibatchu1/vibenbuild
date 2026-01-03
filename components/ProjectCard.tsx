@@ -9,9 +9,6 @@ interface ProjectCardProps {
 }
 
 export function ProjectCard({ project }: ProjectCardProps) {
-  // Split description into paragraphs if needed
-  const descriptionParts = project.description.split('\n').filter(Boolean)
-  
   return (
     <motion.a
       href={project.link}
@@ -39,51 +36,117 @@ export function ProjectCard({ project }: ProjectCardProps) {
 
         {/* Content Section - Two Columns */}
         <div className="relative flex flex-col md:flex-row">
-          {/* Left Column - Text Content */}
-          <div className="w-full md:w-[35%] p-6 md:p-8 lg:p-10 space-y-6 md:space-y-8">
-            {/* Description Blocks */}
-            <div className="space-y-4 md:space-y-6">
-              {/* First Description Block */}
-              {descriptionParts[0] && (
-                <div className="font-ibm-plex-mono text-sm md:text-base lg:text-lg text-black leading-relaxed">
-                  {descriptionParts[0]}
+          {/* Left Column - Interface Panel */}
+          <div className="w-full md:w-[45%] border-r-2 border-black bg-[#FEF0E7]">
+            {/* Top Row */}
+            <div className="border-b-2 border-black flex">
+              {/* COPYING Section */}
+              <div className="flex-1 p-3 md:p-4 border-r-2 border-black">
+                <div className="font-ibm-plex-mono text-xs md:text-sm text-black uppercase mb-2">
+                  COPYING...
                 </div>
-              )}
-              
-              {/* Second Description Block */}
-              {descriptionParts[1] && (
-                <div className="font-ibm-plex-mono text-sm md:text-base lg:text-lg text-black leading-relaxed">
-                  {descriptionParts[1]}
+                <div className="flex items-center justify-center">
+                  <svg className="w-12 h-12 md:w-16 md:h-16" viewBox="0 0 100 100">
+                    <circle cx="50" cy="50" r="45" stroke="black" strokeWidth="2" fill="none"/>
+                    {Array.from({ length: 12 }).map((_, i) => {
+                      const angle = (i * 30 - 90) * (Math.PI / 180);
+                      const x1 = 50 + 45 * Math.cos(angle);
+                      const y1 = 50 + 45 * Math.sin(angle);
+                      const x2 = 50 + 50 * Math.cos(angle);
+                      const y2 = 50 + 50 * Math.sin(angle);
+                      return (
+                        <line key={i} x1={x1} y1={y1} x2={x2} y2={y2} stroke="black" strokeWidth="2"/>
+                      );
+                    })}
+                  </svg>
                 </div>
-              )}
+              </div>
+
+              {/* DATA VOLUME Section */}
+              <div className="flex-1 p-3 md:p-4 border-r-2 border-black">
+                <div className="font-ibm-plex-mono text-xs md:text-sm text-black uppercase mb-2">
+                  DATA VOLUME
+                </div>
+                <div className="flex items-center justify-between mb-1">
+                  <span className="font-ibm-plex-mono text-xs md:text-sm text-black">280.50</span>
+                  <span className="font-ibm-plex-mono text-xs md:text-sm text-black">OF 561TB</span>
+                </div>
+                <div className="w-full h-4 border-2 border-black bg-[#FEF0E7]">
+                  <div className="h-full bg-black" style={{ width: '50%' }}></div>
+                </div>
+              </div>
+
+              {/* EST. TIME Section */}
+              <div className="flex-1 p-3 md:p-4">
+                <div className="font-ibm-plex-mono text-xs md:text-sm text-black uppercase mb-2">
+                  EST. TIME
+                </div>
+                <div className="font-ibm-plex-mono text-base md:text-lg font-bold text-black text-right">
+                  0h:12m:43s
+                </div>
+              </div>
             </div>
 
-            {/* Tags and Metadata */}
-            <div className="space-y-4 pt-4 border-t-2 border-black">
-              {/* Tags */}
-              {project.tags && project.tags.length > 0 && (
-                <div className="flex flex-wrap gap-2 md:gap-3">
-                  {project.tags.map((tag) => (
-                    <span
-                      key={tag}
-                      className="font-ibm-plex-mono text-xs md:text-sm text-black border border-black px-2 md:px-3 py-1"
-                    >
-                      {tag}
-                    </span>
-                  ))}
+            {/* Middle Row */}
+            <div className="border-b-2 border-black flex">
+              <div className="flex-1 p-3 md:p-4 border-r-2 border-black">
+                <div className="font-ibm-plex-mono text-xs md:text-sm text-black">
+                  OVERALL PROGRESS 50%
                 </div>
-              )}
-              
-              {/* Metadata */}
-              <div className="font-ibm-plex-mono text-xs md:text-sm text-black">
-                <div>Week {project.week}, {project.year}</div>
+              </div>
+              <div className="flex-1 p-3 md:p-4">
+                <div className="font-ibm-plex-mono text-xs md:text-sm text-black text-right">
+                  LESS THAN 15 MIN.
+                </div>
+              </div>
+            </div>
+
+            {/* Bottom Row */}
+            <div className="flex">
+              {/* TRANSFER SPEED Section */}
+              <div className="flex-1 p-3 md:p-4 border-r-2 border-black">
+                <div className="font-ibm-plex-mono text-xs md:text-sm text-black uppercase mb-2">
+                  TRANSFER SPEED
+                </div>
+                <div className="font-ibm-plex-mono text-base md:text-lg font-bold text-black">
+                  36GB/s
+                </div>
+              </div>
+
+              {/* TRANSFER DETAILS Section */}
+              <div className="flex-1 p-3 md:p-4 border-r-2 border-black">
+                <div className="font-ibm-plex-mono text-xs md:text-sm text-black uppercase mb-2">
+                  TRANSFER DETAILS
+                </div>
+                <div className="font-ibm-plex-mono text-xs md:text-sm text-black mb-1">
+                  12,756,809,126,304 FILES
+                </div>
+                <div className="flex justify-between">
+                  <span className="font-ibm-plex-mono text-xs text-black">FROM LOCAL DRIVE</span>
+                  <span className="font-ibm-plex-mono text-xs text-black">TO DROPBOX ENTERPRISE</span>
+                </div>
+              </div>
+
+              {/* ACTIONS Section */}
+              <div className="flex-1 p-3 md:p-4">
+                <div className="font-ibm-plex-mono text-xs md:text-sm text-black uppercase mb-2">
+                  ACTIONS
+                </div>
+                <div className="space-y-1">
+                  <button className="w-full border-2 border-black bg-[#FEF0E7] hover:bg-black hover:text-[#FEF0E7] transition-colors font-ibm-plex-mono text-xs md:text-sm text-black py-1 px-2 text-left">
+                    CANCEL
+                  </button>
+                  <button className="w-full border-2 border-black bg-[#FEF0E7] hover:bg-black hover:text-[#FEF0E7] transition-colors font-ibm-plex-mono text-xs md:text-sm text-black py-1 px-2 text-left">
+                    PAUSE
+                  </button>
+                  <button className="w-full border-2 border-black bg-[#FEF0E7] hover:bg-black hover:text-[#FEF0E7] transition-colors font-ibm-plex-mono text-xs md:text-sm text-black py-1 px-2 text-left">
+                    CLOSE WINDOW
+                  </button>
+                </div>
               </div>
             </div>
           </div>
 
-          {/* Vertical Divider */}
-          <div className="hidden md:block w-[2px] bg-black"></div>
-          <div className="md:hidden w-full h-[2px] bg-black"></div>
 
           {/* Right Column - Images (16:9 aspect ratio) */}
           <div className="flex-1 p-6 md:p-8 lg:p-10">
