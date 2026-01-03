@@ -1,0 +1,13 @@
+[
+  {
+    "id": "project-1",
+    "title": "Sample Project",
+    "description": "This is a sample project description. Replace this with your actual project details. Each project will have one to two paragraphs describing what it does and how it was built.",
+    "tags": ["sample", "demo"],
+    "thumbnails": [],
+    "link": "https://example.com",
+    "week": 1,
+    "year": 2026
+  }
+]
+
