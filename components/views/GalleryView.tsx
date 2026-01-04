@@ -11,7 +11,7 @@ interface GalleryViewProps {
 
 export function GalleryView({ projects }: GalleryViewProps) {
   return (
-    <div className="w-full max-w-7xl mx-auto">
+    <div className="w-full max-w-[800px] mx-auto">
       <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
         {projects.map((project, index) => (
           <motion.div

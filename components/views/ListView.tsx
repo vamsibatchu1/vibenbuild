@@ -52,7 +52,7 @@ export function ListView({ projects }: ListViewProps) {
 
       {/* Column Headers */}
       <div className="mb-2">
-        <div className="flex gap-8 text-xs text-white/80 uppercase tracking-wide items-start">
+        <div className="flex gap-4 text-xs text-white/80 uppercase tracking-wide items-start">
           <div className="w-16 flex-shrink-0 text-left">Week</div>
           <div className="w-20 flex-shrink-0 text-left">Grid</div>
           <div className="w-24 flex-shrink-0 text-left">Project Name</div>
@@ -63,7 +63,7 @@ export function ListView({ projects }: ListViewProps) {
       </div>
 
       {/* Product List */}
-      <div className="space-y-0 mb-12">
+      <div className="space-y-4 mb-12">
         {projects.map((project, index) => (
           <motion.div
             key={project.id}
@@ -77,7 +77,7 @@ export function ListView({ projects }: ListViewProps) {
               rel="noopener noreferrer"
               className="block py-1.5 hover:bg-white/5 transition-colors"
             >
-              <div className="flex gap-8 text-xs text-white items-start">
+              <div className="flex gap-4 text-xs text-white items-start border-b border-dashed border-white pb-4">
                 {/* Week Number */}
                 <div className="w-16 flex-shrink-0 text-white/80 text-left">
                   {String(project.week).padStart(2, '0')}

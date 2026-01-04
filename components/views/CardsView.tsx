@@ -10,7 +10,8 @@ interface CardsViewProps {
 
 export function CardsView({ projects }: CardsViewProps) {
   return (
-    <div className="flex flex-col md:gap-8 items-center">
+    <div className="w-full max-w-[800px] mx-auto">
+      <div className="flex flex-col md:gap-8 items-center">
       <AnimatePresence mode="wait">
         {projects.map((project, index) => (
           <motion.div
@@ -25,6 +26,7 @@ export function CardsView({ projects }: CardsViewProps) {
           </motion.div>
         ))}
       </AnimatePresence>
+      </div>
     </div>
   )
 }

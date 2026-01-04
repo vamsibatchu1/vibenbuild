@@ -52,7 +52,7 @@ export function TypingAnimation({ text, speed = 30, onComplete }: TypingAnimatio
     <span className="inline">
       {displayedText}
       <span 
-        className={`inline-block bg-black align-middle ${showCursor ? 'opacity-100' : 'opacity-0'} transition-opacity`}
+        className={`inline-block bg-white align-middle ${showCursor ? 'opacity-100' : 'opacity-0'} transition-opacity`}
         style={{ width: '16px', height: '1em', marginLeft: '2px' }}
       />
     </span>

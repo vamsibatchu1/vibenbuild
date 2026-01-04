@@ -4,6 +4,7 @@ import { Project } from '@/types/project'
 import { motion } from 'framer-motion'
 import Link from 'next/link'
 import { useState } from 'react'
+import { ProjectCredits } from '@/components/ProjectCredits'
 
 interface GraphViewProps {
   projects: Project[]
@@ -28,40 +29,38 @@ export function GraphView({ projects }: GraphViewProps) {
   const [hoveredPoint, setHoveredPoint] = useState<string | null>(null)
 
   return (
-    <div className="w-full max-w-5xl mx-auto">
-      <div className="relative aspect-square border-2 border-white bg-black p-8">
+    <div className="w-full max-w-[800px] mx-auto">
+      <div className="relative aspect-square bg-black p-8">
         {/* Axes */}
         <div className="absolute inset-0 flex items-center justify-center">
           {/* X-axis */}
-          <div className="absolute bottom-8 left-8 right-8 h-0.5 bg-white/30">
-            <div className="absolute left-0 -top-2 font-ibm-plex-mono text-xs text-white/60">
+          <div className="absolute bottom-12 left-12 right-12 h-0.5 bg-white/30">
+            <div className="absolute left-0 top-2 font-ibm-plex-mono text-xs text-white/60">
               Low
             </div>
-            <div className="absolute right-0 -top-2 font-ibm-plex-mono text-xs text-white/60">
+            <div className="absolute left-1/2 -translate-x-1/2 top-2 font-ibm-plex-mono text-xs text-white/60 whitespace-nowrap">
+              Complexity / Effort
+            </div>
+            <div className="absolute right-0 top-2 font-ibm-plex-mono text-xs text-white/60">
               High
             </div>
           </div>
           {/* Y-axis */}
-          <div className="absolute top-8 bottom-8 left-8 w-0.5 bg-white/30">
-            <div className="absolute top-0 -left-8 font-ibm-plex-mono text-xs text-white/60">
+          <div className="absolute top-12 bottom-12 left-12 w-0.5 bg-white/30">
+            <div className="absolute top-0 -left-12 font-ibm-plex-mono text-xs text-white/60 whitespace-nowrap text-left">
               High
             </div>
-            <div className="absolute bottom-0 -left-8 font-ibm-plex-mono text-xs text-white/60">
+            <div className="absolute top-1/2 -translate-y-1/2 -left-12 font-ibm-plex-mono text-xs text-white/60 whitespace-nowrap -rotate-90 origin-left text-left">
+              Impact / Value
+            </div>
+            <div className="absolute bottom-0 -left-12 font-ibm-plex-mono text-xs text-white/60 whitespace-nowrap text-left">
               Low
             </div>
           </div>
         </div>
 
-        {/* Labels */}
-        <div className="absolute bottom-4 left-1/2 -translate-x-1/2 font-ibm-plex-mono text-xs text-white/60">
-          Complexity / Effort
-        </div>
-        <div className="absolute left-4 top-1/2 -translate-y-1/2 -rotate-90 origin-center font-ibm-plex-mono text-xs text-white/60">
-          Impact / Value
-        </div>
-
         {/* Grid lines */}
-        <div className="absolute inset-8">
+        <div className="absolute inset-12">
           {[0, 25, 50, 75, 100].map((value) => (
             <div key={value}>
               <div
@@ -77,21 +76,21 @@ export function GraphView({ projects }: GraphViewProps) {
         </div>
 
         {/* Quadrant labels */}
-        <div className="absolute top-12 left-12 font-ibm-plex-mono text-xs text-white/40">
+        <div className="absolute top-16 left-16 font-ibm-plex-mono text-xs text-white/40">
           High Impact, Low Effort
         </div>
-        <div className="absolute top-12 right-12 font-ibm-plex-mono text-xs text-white/40 text-right">
+        <div className="absolute top-16 right-16 font-ibm-plex-mono text-xs text-white/40 text-right">
           High Impact, High Effort
         </div>
-        <div className="absolute bottom-12 left-12 font-ibm-plex-mono text-xs text-white/40">
+        <div className="absolute bottom-16 left-16 font-ibm-plex-mono text-xs text-white/40">
           Low Impact, Low Effort
         </div>
-        <div className="absolute bottom-12 right-12 font-ibm-plex-mono text-xs text-white/40 text-right">
+        <div className="absolute bottom-16 right-16 font-ibm-plex-mono text-xs text-white/40 text-right">
           Low Impact, High Effort
         </div>
 
         {/* Data points */}
-        <div className="absolute inset-8">
+        <div className="absolute inset-12">
           {points.map((point, index) => (
             <motion.div
               key={point.project.id}
@@ -140,6 +139,9 @@ export function GraphView({ projects }: GraphViewProps) {
           ))}
         </div>
       </div>
+      
+      {/* Project Credits */}
+      <ProjectCredits />
     </div>
   )
 }
