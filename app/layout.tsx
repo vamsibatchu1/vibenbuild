@@ -15,8 +15,11 @@ const ibmPlexMono = IBM_Plex_Mono({
 })
 
 export const metadata: Metadata = {
-  title: 'Vibe and Build',
+  title: 'Vibe N Build',
   description: '52 creative projects built throughout 2026',
+  icons: {
+    icon: '/images/favicon.svg',
+  },
 }
 
 export default function RootLayout({

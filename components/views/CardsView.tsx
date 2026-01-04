@@ -16,11 +16,11 @@ export function CardsView({ projects }: CardsViewProps) {
         {projects.map((project, index) => (
           <motion.div
             key={project.id}
-            initial={{ opacity: 0, y: 20, scale: 0.6 }}
-            animate={{ opacity: 1, y: 0, scale: 0.6 }}
-            exit={{ opacity: 0, scale: 0.5 }}
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0 }}
             transition={{ duration: 0.3, delay: index * 0.05 }}
-            style={{ transformOrigin: 'center center' }}
+            className="w-full"
           >
             <ProjectCard project={project} />
           </motion.div>

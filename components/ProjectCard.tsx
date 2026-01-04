@@ -31,11 +31,11 @@ export function ProjectCard({ project }: ProjectCardProps) {
       href={project.link}
       target="_blank"
       rel="noopener noreferrer"
-      className="block group"
+      className="block group w-full"
       whileHover={{ y: -2 }}
       transition={{ duration: 0.2 }}
     >
-      <div className="border-2 border-white bg-black relative">
+      <div className="border-2 border-white bg-black relative w-full">
         {/* Header Section */}
         <div className="border-b-2 border-white p-4 md:p-5 lg:p-6">
           <div className="flex justify-between items-center">
@@ -112,18 +112,20 @@ export function ProjectCard({ project }: ProjectCardProps) {
                 </div>
               </div>
 
-              {/* DATA VOLUME Section */}
-              <div className="flex-1 p-3 md:p-4 border-r-2 border-white">
-                <div className="font-ibm-plex-mono text-xs md:text-sm text-white uppercase mb-2">
-                  DATA VOLUME
+              {/* CONCEPTS Section */}
+              <div className="flex-1 p-3 md:p-4 border-r-2 border-white min-w-0">
+                <div className="font-ibm-plex-mono text-xs md:text-sm text-white uppercase mb-2 whitespace-nowrap">
+                  CONCEPTS
                 </div>
-                <div className="flex items-center justify-between mb-2">
-                  <span className="font-ibm-plex-mono text-xs md:text-sm text-white">280.50</span>
-                  <span className="font-ibm-plex-mono text-xs md:text-sm text-white">OF 561TB</span>
+                <div className="flex items-center justify-between mb-2 gap-1">
+                  <span className="font-ibm-plex-mono text-xs md:text-sm text-white whitespace-nowrap">{project.tags.length}</span>
+                  <span className="font-ibm-plex-mono text-xs md:text-sm text-white whitespace-nowrap">EXPLORED</span>
                 </div>
                 <div className="flex items-end gap-0.5 h-8 md:h-10">
                   {Array.from({ length: 20 }).map((_, i) => {
-                    const fillPercentage = 50; // 280.50 / 561 ≈ 50%
+                    const conceptsCount = project.tags.length;
+                    const maxConcepts = 10; // Maximum concepts to display
+                    const fillPercentage = Math.min((conceptsCount / maxConcepts) * 100, 100);
                     const barHeight = Math.random() * 0.3 + 0.7; // Random height between 70-100%
                     const shouldFill = i < (fillPercentage / 100) * 20;
                     return (
@@ -141,12 +143,14 @@ export function ProjectCard({ project }: ProjectCardProps) {
               </div>
 
               {/* EST. TIME Section */}
-              <div className="flex-1 p-3 md:p-4">
-                <div className="font-ibm-plex-mono text-xs md:text-sm text-white uppercase mb-2 text-right">
+              <div className="flex-1 p-3 md:p-4 min-w-0">
+                <div className="font-ibm-plex-mono text-xs md:text-sm text-white uppercase mb-2 text-right whitespace-nowrap">
                   EST. TIME
                 </div>
-                <div className="font-ibm-plex-mono text-base md:text-lg font-bold text-white text-right">
-                  0h:12m:43s
+                <div className="font-ibm-plex-mono text-xs md:text-sm text-white text-right space-y-0.5">
+                  <div className="whitespace-nowrap">2 HOURS</div>
+                  <div className="whitespace-nowrap">12 MINUTES</div>
+                  <div className="whitespace-nowrap">43 SECONDS</div>
                 </div>
               </div>
             </div>

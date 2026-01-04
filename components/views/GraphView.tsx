@@ -4,7 +4,6 @@ import { Project } from '@/types/project'
 import { motion } from 'framer-motion'
 import Link from 'next/link'
 import { useState } from 'react'
-import { ProjectCredits } from '@/components/ProjectCredits'
 
 interface GraphViewProps {
   projects: Project[]
@@ -139,9 +138,6 @@ export function GraphView({ projects }: GraphViewProps) {
           ))}
         </div>
       </div>
-      
-      {/* Project Credits */}
-      <ProjectCredits />
     </div>
   )
 }

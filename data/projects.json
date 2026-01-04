@@ -1,11 +1,11 @@
 [
   {
     "id": "project-01",
-    "title": "AI Story Generator",
-    "description": "An intelligent narrative engine that crafts personalized stories based on user preferences, mood, and reading history. Uses advanced language models to create engaging fiction.",
-    "tags": ["AI", "Creative Writing", "NLP"],
+    "title": "Gridscape",
+    "description": "Gridscape is an infinite spatial knowledge engine for mapping complex ideas. Start with any topic and generate non-linear research nodes. Draw frames on the canvas to synthesize new conceptual artifacts.",
+    "tags": ["AI", "Creative Writing", "Knowledge Graph"],
     "thumbnails": [],
-    "link": "https://example.com/project-01",
+    "link": "https://gridscape-1017582726454.us-west1.run.app/",
     "week": 1,
     "year": 2026
   },

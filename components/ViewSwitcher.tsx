@@ -9,10 +9,11 @@ interface ViewSwitcherProps {
 }
 
 const views: { id: ViewType; label: string }[] = [
-  { id: 'cards', label: 'Cards' },
   { id: 'list', label: 'List' },
+  { id: 'cards', label: 'Cards' },
   { id: 'gallery', label: 'Gallery' },
   { id: 'graph', label: 'Graph' },
+  { id: 'tags', label: 'Tags' },
 ]
 
 export function ViewSwitcher({ currentView, onViewChange }: ViewSwitcherProps) {
