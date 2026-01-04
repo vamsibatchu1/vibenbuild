@@ -4,6 +4,7 @@ import './globals.css'
 
 const newsreader = Newsreader({ 
   subsets: ['latin'],
+  weight: ['300', '400'],
   variable: '--font-newsreader',
 })
 

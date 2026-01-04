@@ -45,7 +45,7 @@ export function ProjectCard({ project }: ProjectCardProps) {
             </div>
 
             {/* Title - Right, Center Aligned */}
-            <h2 className="font-ibm-plex-mono text-xl md:text-2xl lg:text-3xl font-bold text-black uppercase tracking-tight text-center">
+            <h2 className="font-newsreader text-xl md:text-2xl lg:text-3xl font-regular text-black tracking-tight text-center">
               {project.title}
             </h2>
           </div>
@@ -54,7 +54,7 @@ export function ProjectCard({ project }: ProjectCardProps) {
         {/* Content Section - Two Columns */}
         <div className="relative flex flex-col md:flex-row">
           {/* Left Column - Interface Panel */}
-          <div className="w-full md:w-[45%] border-r-2 border-black bg-[#FEF0E7]">
+          <div className="w-full md:w-[45%] border-r-2 border-black bg-[#FEF0E7] flex flex-col">
             {/* Top Row */}
             <div className="border-b-2 border-black flex">
               {/* COPYING Section */}
@@ -165,52 +165,27 @@ export function ProjectCard({ project }: ProjectCardProps) {
               </div>
             </div>
 
-            {/* Bottom Row */}
-            <div className="flex">
-              {/* TRANSFER SPEED Section */}
-              <div className="flex-1 p-3 md:p-4 border-r-2 border-black">
-                <div className="font-ibm-plex-mono text-xs md:text-sm text-black uppercase mb-2">
-                  TRANSFER SPEED
-                </div>
-                <div className="font-ibm-plex-mono text-base md:text-lg font-bold text-black">
-                  36GB/s
-                </div>
+            {/* Bottom Row - Description Block */}
+            <div className="flex-1 border-black flex">
+              {/* Icon Column */}
+              <div className="flex-shrink-0 border-r-2 border-black p-3 md:p-4 flex items-start">
+                <Image
+                  src="/images/retro-landing.png"
+                  alt="Project icon"
+                  width={48}
+                  height={48}
+                  className="object-contain"
+                />
               </div>
-
-              {/* TRANSFER DETAILS Section */}
-              <div className="flex-1 p-3 md:p-4 border-r-2 border-black">
-                <div className="font-ibm-plex-mono text-xs md:text-sm text-black uppercase mb-2">
-                  TRANSFER DETAILS
-                </div>
-                <div className="font-ibm-plex-mono text-xs md:text-sm text-black mb-1">
-                  12,756,809,126,304 FILES
-                </div>
-                <div className="flex justify-between">
-                  <span className="font-ibm-plex-mono text-xs text-black">FROM LOCAL DRIVE</span>
-                  <span className="font-ibm-plex-mono text-xs text-black">TO DROPBOX ENTERPRISE</span>
-                </div>
-              </div>
-
-              {/* ACTIONS Section */}
+              
+              {/* Text Column */}
               <div className="flex-1 p-3 md:p-4">
-                <div className="font-ibm-plex-mono text-xs md:text-sm text-black uppercase mb-2">
-                  ACTIONS
-                </div>
-                <div className="space-y-1">
-                  <button className="w-full border-2 border-black bg-[#FEF0E7] hover:bg-black hover:text-[#FEF0E7] transition-colors font-ibm-plex-mono text-xs md:text-sm text-black py-1 px-2 text-left">
-                    CANCEL
-                  </button>
-                  <button className="w-full border-2 border-black bg-[#FEF0E7] hover:bg-black hover:text-[#FEF0E7] transition-colors font-ibm-plex-mono text-xs md:text-sm text-black py-1 px-2 text-left">
-                    PAUSE
-                  </button>
-                  <button className="w-full border-2 border-black bg-[#FEF0E7] hover:bg-black hover:text-[#FEF0E7] transition-colors font-ibm-plex-mono text-xs md:text-sm text-black py-1 px-2 text-left">
-                    CLOSE WINDOW
-                  </button>
+                <div className="font-ibm-plex-mono text-xs md:text-sm text-black leading-relaxed">
+                  {project.description}
                 </div>
               </div>
             </div>
           </div>
-
 
           {/* Right Column - Images (16:9 aspect ratio) */}
           <div className="flex-1 p-3 md:p-4">
