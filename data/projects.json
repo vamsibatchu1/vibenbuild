@@ -1,13 +1,522 @@
 [
   {
-    "id": "project-1",
-    "title": "Sample Project",
-    "description": "This is a sample project description. Replace this with your actual project details. Each project will have one to two paragraphs describing what it does and how it was built.",
-    "tags": ["sample", "demo"],
+    "id": "project-01",
+    "title": "AI Story Generator",
+    "description": "An intelligent narrative engine that crafts personalized stories based on user preferences, mood, and reading history. Uses advanced language models to create engaging fiction.",
+    "tags": ["AI", "Creative Writing", "NLP"],
     "thumbnails": [],
-    "link": "https://example.com",
+    "link": "https://example.com/project-01",
     "week": 1,
+    "year": 2026
+  },
+  {
+    "id": "project-02",
+    "title": "Code Visualizer",
+    "description": "Interactive tool that transforms code into beautiful visual representations, helping developers understand complex algorithms and data structures through animated diagrams.",
+    "tags": ["Developer Tools", "Visualization", "Education"],
+    "thumbnails": [],
+    "link": "https://example.com/project-02",
+    "week": 2,
+    "year": 2026
+  },
+  {
+    "id": "project-03",
+    "title": "Mood Tracker",
+    "description": "A minimalist app for tracking emotional patterns over time with AI-powered insights. Helps users identify triggers and maintain mental wellness through data visualization.",
+    "tags": ["Health", "Wellness", "Data Visualization"],
+    "thumbnails": [],
+    "link": "https://example.com/project-03",
+    "week": 3,
+    "year": 2026
+  },
+  {
+    "id": "project-04",
+    "title": "Recipe AI Chef",
+    "description": "Smart cooking assistant that suggests recipes based on available ingredients, dietary restrictions, and cooking skill level. Includes step-by-step video guidance.",
+    "tags": ["Food", "AI", "Lifestyle"],
+    "thumbnails": [],
+    "link": "https://example.com/project-04",
+    "week": 4,
+    "year": 2026
+  },
+  {
+    "id": "project-05",
+    "title": "Music Composer",
+    "description": "AI-powered music composition tool that generates original melodies, harmonies, and rhythms. Export compositions in multiple formats for musicians and producers.",
+    "tags": ["Music", "AI", "Creative"],
+    "thumbnails": [],
+    "link": "https://example.com/project-05",
+    "week": 5,
+    "year": 2026
+  },
+  {
+    "id": "project-06",
+    "title": "Language Learning Buddy",
+    "description": "Interactive language learning platform with conversational AI tutors. Practice speaking, listening, and writing in over 50 languages with personalized feedback.",
+    "tags": ["Education", "Language", "AI"],
+    "thumbnails": [],
+    "link": "https://example.com/project-06",
+    "week": 6,
+    "year": 2026
+  },
+  {
+    "id": "project-07",
+    "title": "Dream Journal",
+    "description": "Capture and analyze your dreams with AI-powered interpretation. Track patterns, themes, and symbols across your dream journal entries.",
+    "tags": ["Wellness", "Journaling", "AI"],
+    "thumbnails": [],
+    "link": "https://example.com/project-07",
+    "week": 7,
+    "year": 2026
+  },
+  {
+    "id": "project-08",
+    "title": "Color Palette Generator",
+    "description": "Generate harmonious color schemes for design projects. Extract palettes from images, create gradients, and export for various design tools.",
+    "tags": ["Design", "Tools", "Creative"],
+    "thumbnails": [],
+    "link": "https://example.com/project-08",
+    "week": 8,
+    "year": 2026
+  },
+  {
+    "id": "project-09",
+    "title": "Habit Tracker",
+    "description": "Build and maintain positive habits with gamification elements. Track streaks, set goals, and receive AI-powered motivation and reminders.",
+    "tags": ["Productivity", "Wellness", "Gamification"],
+    "thumbnails": [],
+    "link": "https://example.com/project-09",
+    "week": 9,
+    "year": 2026
+  },
+  {
+    "id": "project-10",
+    "title": "Poetry Generator",
+    "description": "Create beautiful poetry in various styles and forms. Input themes or emotions, and receive AI-generated verses that capture your intent.",
+    "tags": ["Creative Writing", "AI", "Poetry"],
+    "thumbnails": [],
+    "link": "https://example.com/project-10",
+    "week": 10,
+    "year": 2026
+  },
+  {
+    "id": "project-11",
+    "title": "Expense Analyzer",
+    "description": "Smart expense tracking with automatic categorization and spending insights. Visualize spending patterns and receive budgeting recommendations.",
+    "tags": ["Finance", "Productivity", "Data Visualization"],
+    "thumbnails": [],
+    "link": "https://example.com/project-11",
+    "week": 11,
+    "year": 2026
+  },
+  {
+    "id": "project-12",
+    "title": "Workout Planner",
+    "description": "Personalized fitness routines based on goals, equipment, and fitness level. Track progress with AI-powered form analysis and recommendations.",
+    "tags": ["Health", "Fitness", "AI"],
+    "thumbnails": [],
+    "link": "https://example.com/project-12",
+    "week": 12,
+    "year": 2026
+  },
+  {
+    "id": "project-13",
+    "title": "Mind Map Creator",
+    "description": "Visual brainstorming tool for organizing thoughts and ideas. Create interactive mind maps with AI suggestions for connections and structure.",
+    "tags": ["Productivity", "Visualization", "Tools"],
+    "thumbnails": [],
+    "link": "https://example.com/project-13",
+    "week": 13,
+    "year": 2026
+  },
+  {
+    "id": "project-14",
+    "title": "Quote Generator",
+    "description": "Generate inspirational quotes, affirmations, and wisdom based on themes, moods, or personal preferences. Share beautiful quote cards.",
+    "tags": ["Creative", "Social", "AI"],
+    "thumbnails": [],
+    "link": "https://example.com/project-14",
+    "week": 14,
+    "year": 2026
+  },
+  {
+    "id": "project-15",
+    "title": "Time Zone Converter",
+    "description": "Elegant tool for managing meetings across multiple time zones. Visualize team availability and schedule events with automatic conversions.",
+    "tags": ["Productivity", "Tools", "Business"],
+    "thumbnails": [],
+    "link": "https://example.com/project-15",
+    "week": 15,
+    "year": 2026
+  },
+  {
+    "id": "project-16",
+    "title": "Password Generator",
+    "description": "Secure password generator with customizable complexity options. Includes password strength analyzer and secure storage integration.",
+    "tags": ["Security", "Tools", "Privacy"],
+    "thumbnails": [],
+    "link": "https://example.com/project-16",
+    "week": 16,
+    "year": 2026
+  },
+  {
+    "id": "project-17",
+    "title": "Gratitude Journal",
+    "description": "Daily gratitude practice app with prompts and reflection tools. Track your gratitude journey and discover patterns in what brings you joy.",
+    "tags": ["Wellness", "Journaling", "Mindfulness"],
+    "thumbnails": [],
+    "link": "https://example.com/project-17",
+    "week": 17,
+    "year": 2026
+  },
+  {
+    "id": "project-18",
+    "title": "Font Pairing Tool",
+    "description": "Discover perfect font combinations for your design projects. Test pairings, preview in context, and export CSS code.",
+    "tags": ["Design", "Typography", "Tools"],
+    "thumbnails": [],
+    "link": "https://example.com/project-18",
+    "week": 18,
+    "year": 2026
+  },
+  {
+    "id": "project-19",
+    "title": "Pomodoro Timer",
+    "description": "Focus timer with customizable work and break intervals. Track productivity sessions and analyze your most productive times.",
+    "tags": ["Productivity", "Time Management", "Focus"],
+    "thumbnails": [],
+    "link": "https://example.com/project-19",
+    "week": 19,
+    "year": 2026
+  },
+  {
+    "id": "project-20",
+    "title": "Logo Designer",
+    "description": "AI-powered logo creation tool that generates unique designs based on brand name, industry, and style preferences. Export in multiple formats.",
+    "tags": ["Design", "AI", "Branding"],
+    "thumbnails": [],
+    "link": "https://example.com/project-20",
+    "week": 20,
+    "year": 2026
+  },
+  {
+    "id": "project-21",
+    "title": "Book Recommender",
+    "description": "Personalized book suggestions based on reading history, preferences, and mood. Discover your next favorite read with AI-powered matching.",
+    "tags": ["Reading", "AI", "Recommendation"],
+    "thumbnails": [],
+    "link": "https://example.com/project-21",
+    "week": 21,
+    "year": 2026
+  },
+  {
+    "id": "project-22",
+    "title": "Weather Dashboard",
+    "description": "Beautiful weather visualization with forecasts, historical data, and climate insights. Customizable widgets for your location.",
+    "tags": ["Weather", "Data Visualization", "Tools"],
+    "thumbnails": [],
+    "link": "https://example.com/project-22",
+    "week": 22,
+    "year": 2026
+  },
+  {
+    "id": "project-23",
+    "title": "Meeting Notes AI",
+    "description": "Automated meeting transcription and summarization. Extract action items, key decisions, and insights from recorded conversations.",
+    "tags": ["Productivity", "AI", "Business"],
+    "thumbnails": [],
+    "link": "https://example.com/project-23",
+    "week": 23,
+    "year": 2026
+  },
+  {
+    "id": "project-24",
+    "title": "Photo Colorizer",
+    "description": "Transform black and white photos into colorized versions using AI. Preserve historical memories with realistic color restoration.",
+    "tags": ["Photo Editing", "AI", "Creative"],
+    "thumbnails": [],
+    "link": "https://example.com/project-24",
+    "week": 24,
+    "year": 2026
+  },
+  {
+    "id": "project-25",
+    "title": "Task Scheduler",
+    "description": "Intelligent task management with AI-powered prioritization and scheduling. Optimize your workflow based on deadlines and energy levels.",
+    "tags": ["Productivity", "AI", "Task Management"],
+    "thumbnails": [],
+    "link": "https://example.com/project-25",
+    "week": 25,
+    "year": 2026
+  },
+  {
+    "id": "project-26",
+    "title": "Art Style Transfer",
+    "description": "Apply artistic styles to your photos. Transform images into paintings inspired by famous artists and art movements.",
+    "tags": ["Photo Editing", "AI", "Art"],
+    "thumbnails": [],
+    "link": "https://example.com/project-26",
+    "week": 26,
+    "year": 2026
+  },
+  {
+    "id": "project-27",
+    "title": "Code Snippet Manager",
+    "description": "Organize and search your code snippets with AI-powered tagging and suggestions. Share snippets with your team.",
+    "tags": ["Developer Tools", "Productivity", "Code"],
+    "thumbnails": [],
+    "link": "https://example.com/project-27",
+    "week": 27,
+    "year": 2026
+  },
+  {
+    "id": "project-28",
+    "title": "Meditation Guide",
+    "description": "Guided meditation sessions with customizable durations and themes. Track your practice and discover new techniques.",
+    "tags": ["Wellness", "Mindfulness", "Health"],
+    "thumbnails": [],
+    "link": "https://example.com/project-28",
+    "week": 28,
+    "year": 2026
+  },
+  {
+    "id": "project-29",
+    "title": "Invoice Generator",
+    "description": "Create professional invoices quickly with customizable templates. Track payments and manage client billing efficiently.",
+    "tags": ["Business", "Finance", "Tools"],
+    "thumbnails": [],
+    "link": "https://example.com/project-29",
+    "week": 29,
+    "year": 2026
+  },
+  {
+    "id": "project-30",
+    "title": "Storyboard Creator",
+    "description": "Visual storytelling tool for creating storyboards and narrative flows. Perfect for filmmakers, writers, and content creators.",
+    "tags": ["Creative", "Visualization", "Storytelling"],
+    "thumbnails": [],
+    "link": "https://example.com/project-30",
+    "week": 30,
+    "year": 2026
+  },
+  {
+    "id": "project-31",
+    "title": "Email Template Builder",
+    "description": "Design beautiful email templates with drag-and-drop interface. Preview across devices and export HTML code.",
+    "tags": ["Design", "Email", "Tools"],
+    "thumbnails": [],
+    "link": "https://example.com/project-31",
+    "week": 31,
+    "year": 2026
+  },
+  {
+    "id": "project-32",
+    "title": "Plant Care Assistant",
+    "description": "AI-powered plant care guide with watering schedules, light requirements, and troubleshooting tips. Identify plants from photos.",
+    "tags": ["Lifestyle", "AI", "Gardening"],
+    "thumbnails": [],
+    "link": "https://example.com/project-32",
+    "week": 32,
+    "year": 2026
+  },
+  {
+    "id": "project-33",
+    "title": "Resume Builder",
+    "description": "Create professional resumes with AI-powered content suggestions. Optimize for ATS systems and multiple job applications.",
+    "tags": ["Career", "Tools", "AI"],
+    "thumbnails": [],
+    "link": "https://example.com/project-33",
+    "week": 33,
+    "year": 2026
+  },
+  {
+    "id": "project-34",
+    "title": "Sound Visualizer",
+    "description": "Transform audio into mesmerizing visual patterns. Upload music or sounds and watch them come to life as animated visuals.",
+    "tags": ["Music", "Visualization", "Creative"],
+    "thumbnails": [],
+    "link": "https://example.com/project-34",
+    "week": 34,
+    "year": 2026
+  },
+  {
+    "id": "project-35",
+    "title": "Travel Planner",
+    "description": "Plan your perfect trip with AI-powered itinerary suggestions. Discover hidden gems, optimize routes, and manage bookings.",
+    "tags": ["Travel", "AI", "Planning"],
+    "thumbnails": [],
+    "link": "https://example.com/project-35",
+    "week": 35,
+    "year": 2026
+  },
+  {
+    "id": "project-36",
+    "title": "QR Code Generator",
+    "description": "Create custom QR codes with logos, colors, and styles. Track scans and generate codes for URLs, WiFi, contacts, and more.",
+    "tags": ["Tools", "QR Codes", "Business"],
+    "thumbnails": [],
+    "link": "https://example.com/project-36",
+    "week": 36,
+    "year": 2026
+  },
+  {
+    "id": "project-37",
+    "title": "Journal Prompts",
+    "description": "Daily journaling prompts based on your goals and interests. Explore self-reflection with AI-generated thought-provoking questions.",
+    "tags": ["Journaling", "Wellness", "AI"],
+    "thumbnails": [],
+    "link": "https://example.com/project-37",
+    "week": 37,
+    "year": 2026
+  },
+  {
+    "id": "project-38",
+    "title": "Icon Generator",
+    "description": "Create custom icons and symbols for your projects. Generate SVG icons with customizable styles, colors, and sizes.",
+    "tags": ["Design", "Icons", "Tools"],
+    "thumbnails": [],
+    "link": "https://example.com/project-38",
+    "week": 38,
+    "year": 2026
+  },
+  {
+    "id": "project-39",
+    "title": "Sleep Tracker",
+    "description": "Monitor sleep patterns with smart alarms and sleep quality analysis. Receive personalized recommendations for better rest.",
+    "tags": ["Health", "Wellness", "Sleep"],
+    "thumbnails": [],
+    "link": "https://example.com/project-39",
+    "week": 39,
+    "year": 2026
+  },
+  {
+    "id": "project-40",
+    "title": "Text Summarizer",
+    "description": "AI-powered text summarization tool. Extract key points from articles, documents, and long-form content in seconds.",
+    "tags": ["AI", "Productivity", "Text Processing"],
+    "thumbnails": [],
+    "link": "https://example.com/project-40",
+    "week": 40,
+    "year": 2026
+  },
+  {
+    "id": "project-41",
+    "title": "Gradient Generator",
+    "description": "Create beautiful gradient backgrounds and color transitions. Export CSS code and use in your design projects.",
+    "tags": ["Design", "Colors", "Tools"],
+    "thumbnails": [],
+    "link": "https://example.com/project-41",
+    "week": 41,
+    "year": 2026
+  },
+  {
+    "id": "project-42",
+    "title": "Calorie Counter",
+    "description": "Track your nutrition with AI-powered food recognition. Log meals by photo and get detailed nutritional information.",
+    "tags": ["Health", "Nutrition", "AI"],
+    "thumbnails": [],
+    "link": "https://example.com/project-42",
+    "week": 42,
+    "year": 2026
+  },
+  {
+    "id": "project-43",
+    "title": "Business Card Designer",
+    "description": "Design professional business cards with templates and customization options. Export print-ready files.",
+    "tags": ["Design", "Business", "Branding"],
+    "thumbnails": [],
+    "link": "https://example.com/project-43",
+    "week": 43,
+    "year": 2026
+  },
+  {
+    "id": "project-44",
+    "title": "Word Cloud Generator",
+    "description": "Create beautiful word clouds from text. Customize colors, fonts, and layouts to visualize key themes and concepts.",
+    "tags": ["Visualization", "Text", "Creative"],
+    "thumbnails": [],
+    "link": "https://example.com/project-44",
+    "week": 44,
+    "year": 2026
+  },
+  {
+    "id": "project-45",
+    "title": "Password Manager",
+    "description": "Secure password storage with encryption and auto-fill capabilities. Generate strong passwords and manage credentials safely.",
+    "tags": ["Security", "Privacy", "Tools"],
+    "thumbnails": [],
+    "link": "https://example.com/project-45",
+    "week": 45,
+    "year": 2026
+  },
+  {
+    "id": "project-46",
+    "title": "Chart Generator",
+    "description": "Create professional charts and graphs from data. Multiple chart types with customization options and export capabilities.",
+    "tags": ["Data Visualization", "Charts", "Tools"],
+    "thumbnails": [],
+    "link": "https://example.com/project-46",
+    "week": 46,
+    "year": 2026
+  },
+  {
+    "id": "project-47",
+    "title": "Name Generator",
+    "description": "Generate creative names for projects, characters, brands, and more. Filter by style, length, and language.",
+    "tags": ["Creative", "Tools", "Naming"],
+    "thumbnails": [],
+    "link": "https://example.com/project-47",
+    "week": 47,
+    "year": 2026
+  },
+  {
+    "id": "project-48",
+    "title": "Screen Time Tracker",
+    "description": "Monitor device usage and app activity. Set limits, receive insights, and improve digital wellness habits.",
+    "tags": ["Productivity", "Wellness", "Tracking"],
+    "thumbnails": [],
+    "link": "https://example.com/project-48",
+    "week": 48,
+    "year": 2026
+  },
+  {
+    "id": "project-49",
+    "title": "Mockup Generator",
+    "description": "Create device mockups for your designs. Showcase apps and websites in realistic device frames with customizable backgrounds.",
+    "tags": ["Design", "Mockups", "Tools"],
+    "thumbnails": [],
+    "link": "https://example.com/project-49",
+    "week": 49,
+    "year": 2026
+  },
+  {
+    "id": "project-50",
+    "title": "Text to Speech",
+    "description": "Convert text to natural-sounding speech in multiple languages and voices. Customize speed, pitch, and pronunciation.",
+    "tags": ["AI", "Audio", "Accessibility"],
+    "thumbnails": [],
+    "link": "https://example.com/project-50",
+    "week": 50,
+    "year": 2026
+  },
+  {
+    "id": "project-51",
+    "title": "Image Compressor",
+    "description": "Optimize images for web without losing quality. Batch process multiple files and reduce file sizes efficiently.",
+    "tags": ["Tools", "Image Processing", "Optimization"],
+    "thumbnails": [],
+    "link": "https://example.com/project-51",
+    "week": 51,
+    "year": 2026
+  },
+  {
+    "id": "project-52",
+    "title": "Project Showcase",
+    "description": "A comprehensive portfolio showcasing all 52 creative projects built throughout 2026. Multiple visualization modes and interactive exploration.",
+    "tags": ["Portfolio", "Showcase", "Meta"],
+    "thumbnails": [],
+    "link": "https://example.com/project-52",
+    "week": 52,
     "year": 2026
   }
 ]
-

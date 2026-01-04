@@ -35,17 +35,17 @@ export function ProjectCard({ project }: ProjectCardProps) {
       whileHover={{ y: -2 }}
       transition={{ duration: 0.2 }}
     >
-      <div className="border-2 border-black bg-[#FEF0E7] relative">
+      <div className="border-2 border-white bg-black relative">
         {/* Header Section */}
-        <div className="border-b-2 border-black p-4 md:p-5 lg:p-6">
+        <div className="border-b-2 border-white p-4 md:p-5 lg:p-6">
           <div className="flex justify-between items-center">
             {/* Project Number - Left, Center Aligned */}
-            <div className="font-ibm-plex-mono text-3xl md:text-4xl lg:text-5xl font-bold text-black text-center">
+            <div className="font-ibm-plex-mono text-3xl md:text-4xl lg:text-5xl font-bold text-white text-center">
               {String(project.week).padStart(2, '0')}
             </div>
 
             {/* Title - Right, Center Aligned */}
-            <h2 className="font-newsreader text-xl md:text-2xl lg:text-3xl font-regular text-black tracking-tight text-center">
+            <h2 className="font-newsreader text-xl md:text-2xl lg:text-3xl font-regular text-white tracking-tight text-center">
               {project.title}
             </h2>
           </div>
@@ -54,18 +54,18 @@ export function ProjectCard({ project }: ProjectCardProps) {
         {/* Content Section - Two Columns */}
         <div className="relative flex flex-col md:flex-row">
           {/* Left Column - Interface Panel */}
-          <div className="w-full md:w-[45%] border-r-2 border-black bg-[#FEF0E7] flex flex-col">
+          <div className="w-full md:w-[45%] border-r-2 border-white bg-black flex flex-col">
             {/* Top Row */}
-            <div className="border-b-2 border-black flex">
+            <div className="border-b-2 border-white flex">
               {/* COPYING Section */}
-              <div className="flex-1 p-3 md:p-4 border-r-2 border-black">
-                <div className="font-ibm-plex-mono text-xs md:text-sm text-black uppercase mb-3">
+              <div className="flex-1 p-3 md:p-4 border-r-2 border-white">
+                <div className="font-ibm-plex-mono text-xs md:text-sm text-white uppercase mb-3">
                   COPYING...
                 </div>
                 <div className="flex items-center justify-center">
                   <svg className="w-16 h-16 md:w-20 md:h-20" viewBox="0 0 100 100">
                     {/* Hollow center circle */}
-                    <circle cx="50" cy="50" r="8" stroke="black" strokeWidth="1.5" fill="none"/>
+                    <circle cx="50" cy="50" r="8" stroke="white" strokeWidth="1.5" fill="none"/>
                     
                     {/* Rectangular segments in arc (from 10 o'clock to 5 o'clock) */}
                     {Array.from({ length: 24 }).map((_, i) => {
@@ -104,7 +104,7 @@ export function ProjectCard({ project }: ProjectCardProps) {
                         <polygon
                           key={i}
                           points={`${x1a},${y1a} ${x1b},${y1b} ${x2b},${y2b} ${x2a},${y2a}`}
-                          fill="black"
+                          fill="white"
                         />
                       );
                     })}
@@ -113,13 +113,13 @@ export function ProjectCard({ project }: ProjectCardProps) {
               </div>
 
               {/* DATA VOLUME Section */}
-              <div className="flex-1 p-3 md:p-4 border-r-2 border-black">
-                <div className="font-ibm-plex-mono text-xs md:text-sm text-black uppercase mb-2">
+              <div className="flex-1 p-3 md:p-4 border-r-2 border-white">
+                <div className="font-ibm-plex-mono text-xs md:text-sm text-white uppercase mb-2">
                   DATA VOLUME
                 </div>
                 <div className="flex items-center justify-between mb-2">
-                  <span className="font-ibm-plex-mono text-xs md:text-sm text-black">280.50</span>
-                  <span className="font-ibm-plex-mono text-xs md:text-sm text-black">OF 561TB</span>
+                  <span className="font-ibm-plex-mono text-xs md:text-sm text-white">280.50</span>
+                  <span className="font-ibm-plex-mono text-xs md:text-sm text-white">OF 561TB</span>
                 </div>
                 <div className="flex items-end gap-0.5 h-8 md:h-10">
                   {Array.from({ length: 20 }).map((_, i) => {
@@ -129,10 +129,10 @@ export function ProjectCard({ project }: ProjectCardProps) {
                     return (
                       <div
                         key={i}
-                        className="flex-1 border border-black"
+                        className="flex-1 border border-white"
                         style={{
                           height: `${barHeight * 100}%`,
-                          backgroundColor: shouldFill ? 'black' : '#FEF0E7',
+                          backgroundColor: shouldFill ? 'white' : 'black',
                         }}
                       />
                     );
@@ -142,33 +142,33 @@ export function ProjectCard({ project }: ProjectCardProps) {
 
               {/* EST. TIME Section */}
               <div className="flex-1 p-3 md:p-4">
-                <div className="font-ibm-plex-mono text-xs md:text-sm text-black uppercase mb-2 text-right">
+                <div className="font-ibm-plex-mono text-xs md:text-sm text-white uppercase mb-2 text-right">
                   EST. TIME
                 </div>
-                <div className="font-ibm-plex-mono text-base md:text-lg font-bold text-black text-right">
+                <div className="font-ibm-plex-mono text-base md:text-lg font-bold text-white text-right">
                   0h:12m:43s
                 </div>
               </div>
             </div>
 
             {/* Middle Row */}
-            <div className="border-b-2 border-black flex">
-              <div className="flex-1 p-3 md:p-4 border-r-2 border-black">
-                <div className="font-ibm-plex-mono text-xs md:text-sm text-black">
+            <div className="border-b-2 border-white flex">
+              <div className="flex-1 p-3 md:p-4 border-r-2 border-white">
+                <div className="font-ibm-plex-mono text-xs md:text-sm text-white">
                   OVERALL PROGRESS 50%
                 </div>
               </div>
               <div className="flex-1 p-3 md:p-4">
-                <div className="font-ibm-plex-mono text-xs md:text-sm text-black text-right">
+                <div className="font-ibm-plex-mono text-xs md:text-sm text-white text-right">
                   LESS THAN 15 MIN.
                 </div>
               </div>
             </div>
 
             {/* Bottom Row - Description Block */}
-            <div className="flex-1 border-black flex">
+            <div className="flex-1 border-white flex">
               {/* Icon Column */}
-              <div className="flex-shrink-0 border-r-2 border-black p-3 md:p-4 flex items-start">
+              <div className="flex-shrink-0 border-r-2 border-white p-3 md:p-4 flex items-start">
                 <Image
                   src="/images/retro-landing.png"
                   alt="Project icon"
@@ -180,7 +180,7 @@ export function ProjectCard({ project }: ProjectCardProps) {
               
               {/* Text Column */}
               <div className="flex-1 p-3 md:p-4">
-                <div className="font-ibm-plex-mono text-xs md:text-sm text-black leading-relaxed">
+                <div className="font-ibm-plex-mono text-xs md:text-sm text-white leading-relaxed">
                   {project.description}
                 </div>
               </div>
@@ -193,7 +193,7 @@ export function ProjectCard({ project }: ProjectCardProps) {
               {/* Image Display */}
               {thumbnails.length > 0 ? (
                 <div 
-                  className="w-full relative border-2 border-black"
+                  className="w-full relative border-2 border-white"
                   style={{ paddingBottom: '56.25%' }} // 16:9 aspect ratio (9/16 = 0.5625)
                 >
                   <Image
@@ -205,27 +205,37 @@ export function ProjectCard({ project }: ProjectCardProps) {
                 </div>
               ) : (
                 <div className="w-full relative" style={{ paddingBottom: '56.25%' }}>
-                  <div className="absolute inset-0 border-2 border-black bg-[#FEF0E7] flex items-center justify-center">
-                    <span className="font-ibm-plex-mono text-sm text-black">No image</span>
+                  <div className="absolute inset-0 border-2 border-white bg-black flex items-center justify-center">
+                    <span className="font-ibm-plex-mono text-sm text-white">No image</span>
                   </div>
                 </div>
               )}
 
               {/* Navigation Buttons */}
-              <div className="flex justify-between">
+              <div className="flex justify-between relative z-10">
                 <button
                   onClick={handlePrevious}
-                  className="group w-10 h-10 md:w-12 md:h-12 border-2 border-black bg-[#FEF0E7] hover:bg-black transition-colors flex items-center justify-center cursor-pointer"
+                  className="group w-10 h-10 md:w-12 md:h-12 border-2 border-white bg-black hover:bg-white transition-colors flex items-center justify-center cursor-pointer relative z-10"
                   aria-label="Previous image"
                 >
-                  <ChevronLeft className="w-5 h-5 md:w-6 md:h-6 !text-black group-hover:!text-[#FEF0E7] transition-colors" />
+                  <ChevronLeft 
+                    className="w-5 h-5 md:w-6 md:h-6 transition-colors" 
+                    strokeWidth={2}
+                    stroke="white"
+                    style={{ stroke: 'white' }}
+                  />
                 </button>
                 <button
                   onClick={handleNext}
-                  className="group w-10 h-10 md:w-12 md:h-12 border-2 border-black bg-[#FEF0E7] hover:bg-black transition-colors flex items-center justify-center cursor-pointer"
+                  className="group w-10 h-10 md:w-12 md:h-12 border-2 border-white bg-black hover:bg-white transition-colors flex items-center justify-center cursor-pointer relative z-10"
                   aria-label="Next image"
                 >
-                  <ChevronRight className="w-5 h-5 md:w-6 md:h-6 !text-black group-hover:!text-[#FEF0E7] transition-colors" />
+                  <ChevronRight 
+                    className="w-5 h-5 md:w-6 md:h-6 transition-colors" 
+                    strokeWidth={2}
+                    stroke="white"
+                    style={{ stroke: 'white' }}
+                  />
                 </button>
               </div>
             </div>
