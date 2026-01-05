@@ -12,7 +12,7 @@ const views: { id: ViewType; label: string }[] = [
   { id: 'list', label: 'List' },
   { id: 'cards', label: 'Cards' },
   { id: 'gallery', label: 'Gallery' },
-  { id: 'graph', label: 'Graph' },
+  { id: 'timeline', label: 'Timeline' },
   { id: 'tags', label: 'Tags' },
 ]
 

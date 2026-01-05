@@ -77,7 +77,7 @@ export function GalleryView({ projects }: GalleryViewProps) {
 
                 {/* Thumbnail with random height */}
                 <div
-                  className="w-full bg-gray-600 relative overflow-hidden"
+                  className="w-full bg-gray-200 relative overflow-hidden"
                   style={{ height: `${height}px` }}
                 >
                   {project.thumbnails && project.thumbnails.length > 0 ? (

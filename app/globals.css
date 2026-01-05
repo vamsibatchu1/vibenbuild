@@ -12,7 +12,7 @@ html,
 body {
   max-width: 100vw;
   overflow-x: hidden;
-  background-color: #FEF0E7;
+  background-color: #FFFFFF;
   min-height: 100vh;
 }
 
@@ -43,5 +43,15 @@ body {
 [aria-label="Next image"]:hover svg {
   stroke: white !important;
   color: white !important;
+}
+
+/* Hide scrollbar for timeline */
+.scrollbar-hide {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+.scrollbar-hide::-webkit-scrollbar {
+  display: none;
 }
 
