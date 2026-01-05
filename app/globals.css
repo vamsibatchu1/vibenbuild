@@ -32,6 +32,10 @@ body {
   font-family: var(--font-plus-jakarta-sans);
 }
 
+.font-inter {
+  font-family: var(--font-inter);
+}
+
 /* Ensure Lucide icons in project card navigation buttons are always visible */
 [aria-label="Previous image"] svg,
 [aria-label="Next image"] svg {

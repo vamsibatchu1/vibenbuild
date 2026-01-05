@@ -13,7 +13,6 @@ const views: { id: ViewType; label: string }[] = [
   { id: 'cards', label: 'Cards' },
   { id: 'gallery', label: 'Gallery' },
   { id: 'timeline', label: 'Timeline' },
-  { id: 'tags', label: 'Tags' },
 ]
 
 export function ViewSwitcher({ currentView, onViewChange }: ViewSwitcherProps) {

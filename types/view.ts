@@ -1,4 +1,4 @@
-export type ViewType = 'cards' | 'list' | 'gallery' | 'timeline' | 'tags'
+export type ViewType = 'cards' | 'list' | 'gallery' | 'timeline'
 
 export interface ViewConfig {
   id: ViewType

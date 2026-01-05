@@ -8,7 +8,6 @@ import { CardsView } from '@/components/views/CardsView'
 import { ListView } from '@/components/views/ListView'
 import { GalleryView } from '@/components/views/GalleryView'
 import { TimelineView } from '@/components/views/TimelineView'
-import { TagsView } from '@/components/views/TagsView'
 import { motion, AnimatePresence } from 'framer-motion'
 
 interface ExperimentsClientProps {
@@ -28,8 +27,6 @@ export function ExperimentsClient({ initialProjects }: ExperimentsClientProps) {
         return <GalleryView projects={initialProjects} />
       case 'timeline':
         return <TimelineView projects={initialProjects} />
-      case 'tags':
-        return <TagsView projects={initialProjects} />
       default:
         return <CardsView projects={initialProjects} />
     }
