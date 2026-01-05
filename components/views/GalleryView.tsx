@@ -50,7 +50,7 @@ export function GalleryView({ projects }: GalleryViewProps) {
   }, [projects, baseWidth])
 
   return (
-    <div className="w-full max-w-[800px] mx-auto bg-black">
+    <div className="w-full max-w-[800px] mx-auto bg-white">
       <div className="grid grid-cols-6 gap-2 md:gap-3">
         {projects.map((project, index) => {
           const height = projectHeights[index]
@@ -70,7 +70,7 @@ export function GalleryView({ projects }: GalleryViewProps) {
               >
                 {/* Number at the top */}
                 <div className="mb-1 md:mb-2">
-                  <span className="font-ibm-plex-mono text-xs md:text-sm text-white">
+                  <span className="font-ibm-plex-mono text-xs md:text-sm text-black">
                     {String(project.week).padStart(2, '0')}
                   </span>
                 </div>

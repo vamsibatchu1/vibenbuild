@@ -36,7 +36,7 @@ export function ExperimentsClient({ initialProjects }: ExperimentsClientProps) {
   }
 
   return (
-    <main className="min-h-screen bg-black py-8 md:py-12">
+    <main className="min-h-screen bg-white py-8 md:py-12">
       <div className="container mx-auto px-4 md:px-6 lg:px-8 max-w-7xl">
         <div className="flex justify-center">
           <ViewSwitcher currentView={currentView} onViewChange={setCurrentView} />

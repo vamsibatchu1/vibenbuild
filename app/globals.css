@@ -28,16 +28,20 @@ body {
   font-family: 'Google Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
 }
 
+.font-plus-jakarta-sans {
+  font-family: var(--font-plus-jakarta-sans);
+}
+
 /* Ensure Lucide icons in project card navigation buttons are always visible */
 [aria-label="Previous image"] svg,
 [aria-label="Next image"] svg {
-  stroke: white !important;
-  color: white !important;
+  stroke: black !important;
+  color: black !important;
 }
 
 [aria-label="Previous image"]:hover svg,
 [aria-label="Next image"]:hover svg {
-  stroke: black !important;
-  color: black !important;
+  stroke: white !important;
+  color: white !important;
 }
 

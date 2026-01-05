@@ -24,10 +24,10 @@ export function ViewSwitcher({ currentView, onViewChange }: ViewSwitcherProps) {
           <button
             key={view.id}
             onClick={() => onViewChange(view.id)}
-            className={`px-4 py-2 border-2 border-white font-ibm-plex-mono text-sm transition-colors ${
+            className={`px-4 py-2 border-2 border-black font-ibm-plex-mono text-sm transition-colors ${
               currentView === view.id
-                ? 'bg-white text-black'
-                : 'bg-black text-white hover:bg-white hover:text-black'
+                ? 'bg-black text-white'
+                : 'bg-white text-black hover:bg-black hover:text-white'
             }`}
           >
             {view.label}

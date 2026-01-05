@@ -11,11 +11,11 @@
   },
   {
     "id": "project-02",
-    "title": "Code Visualizer",
-    "description": "Interactive tool that transforms code into beautiful visual representations, helping developers understand complex algorithms and data structures through animated diagrams.",
-    "tags": ["Developer Tools", "Visualization", "Education"],
+    "title": "Worldwide",
+    "description": "Worldwide is a tactical geolocation game that challenges operatives to decipher AI-generated cultural and historical intelligence to identify secret countries on an interactive map. It features a Joint Operations mode where agents can synchronize in real-time lobbies to compete or collaborate via a secure, live tactical feed.",
+    "tags": ["Game", "Geolocation", "Tactical"],
     "thumbnails": [],
-    "link": "https://example.com/project-02",
+    "link": "https://worldwide-696629161862.us-west1.run.app/",
     "week": 2,
     "year": 2026
   },
