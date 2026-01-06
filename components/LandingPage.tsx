@@ -5,11 +5,13 @@ import Link from 'next/link'
 import { motion, AnimatePresence } from 'framer-motion'
 import Image from 'next/image'
 import { TypingAnimation } from './TypingAnimation'
+import { EmailModal } from './EmailModal'
 
 export function LandingPage() {
   const [showImage, setShowImage] = useState(false)
   const [showButton, setShowButton] = useState(false)
   const [showLink, setShowLink] = useState(false)
+  const [isEmailModalOpen, setIsEmailModalOpen] = useState(false)
 
   const mainText = "One app per week. Every week. All year. A creative challenge exploring what's possible when you ship consistently with Google AI Studio. 52 weeks. 52 apps. 52 learning opportunities."
 
@@ -64,7 +66,10 @@ export function LandingPage() {
                 Enter
               </button>
             </Link>
-            <button className="flex-1 h-11 border-2 border-white bg-transparent font-ibm-plex-mono text-base text-white hover:bg-white hover:text-black transition-colors">
+            <button 
+              onClick={() => setIsEmailModalOpen(true)}
+              className="flex-1 h-11 border-2 border-white bg-transparent font-ibm-plex-mono text-base text-white hover:bg-white hover:text-black transition-colors"
+            >
               Get notified
             </button>
           </div>
@@ -86,6 +91,12 @@ export function LandingPage() {
           </Link>
         </motion.div>
       </div>
+
+      {/* Email Modal */}
+      <EmailModal 
+        isOpen={isEmailModalOpen} 
+        onClose={() => setIsEmailModalOpen(false)} 
+      />
     </main>
   )
 }

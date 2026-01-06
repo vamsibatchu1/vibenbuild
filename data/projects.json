@@ -31,11 +31,11 @@
   },
   {
     "id": "project-04",
-    "title": "Recipe AI Chef",
-    "description": "Smart cooking assistant that suggests recipes based on available ingredients, dietary restrictions, and cooking skill level. Includes step-by-step video guidance.",
-    "tags": ["Food", "AI", "Lifestyle"],
+    "title": "Elemental",
+    "description": "Elemental is an interactive, high-aesthetic periodic table application that utilizes the Gemini API to intelligently highlight relevant chemical elements based on natural language scientific queries.",
+    "tags": ["Science", "AI", "Periodic Table"],
     "thumbnails": [],
-    "link": "https://example.com/project-04",
+    "link": "https://atomic-grid-interactive-periodic-table-69725660120.us-west1.run.app/",
     "week": 4,
     "year": 2026
   },

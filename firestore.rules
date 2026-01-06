@@ -1,0 +1,21 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    // Subscribers collection - allow anyone to create (write), but not read or update
+    match /subscribers/{subscriberId} {
+      // Allow anyone to create a new subscriber document
+      allow create: if request.resource.data.keys().hasOnly(['email', 'subscribedAt']) 
+                     && request.resource.data.email is string
+                     && request.resource.data.subscribedAt is timestamp;
+      
+      // Deny all reads and updates (only you can read via Firebase console or Admin SDK)
+      allow read, update, delete: if false;
+    }
+    
+    // Deny access to all other collections
+    match /{document=**} {
+      allow read, write: if false;
+    }
+  }
+}
+

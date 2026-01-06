@@ -125,10 +125,10 @@ export function ListView({ projects }: ListViewProps) {
       <div className="mb-8">
         <div className="mb-6">
           <div className="text-xs text-black/70 leading-relaxed max-w-md mb-4 uppercase">
-            Welcome to our digital showcase. All apps featured here are part of the 2026 product suite built with Google AI Studio.
+            Welcome to my digital experiment gallery. All apps featured here are part of the 2026 product suite built with Google AI Studio.
           </div>
           <div className="text-xs text-black/70 leading-relaxed max-w-md uppercase flex items-center gap-1 flex-wrap">
-            Press, up <ArrowUp className="inline-block w-3 h-3" /> and down <ArrowDown className="inline-block w-3 h-3" /> arrows to navigate as well.
+            Scroll and Click or Press, up <ArrowUp className="inline-block w-3 h-3" /> and down <ArrowDown className="inline-block w-3 h-3" /> arrows to navigate.
           </div>
         </div>
       </div>
