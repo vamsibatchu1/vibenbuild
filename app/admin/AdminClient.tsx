@@ -139,6 +139,50 @@ export function AdminClient({ initialProjects }: AdminClientProps) {
     }
   }, [projects, updateProject])
 
+  const handleAddProject = useCallback(() => {
+    // Find the next available week number
+    const existingWeeks = projects.map(p => p.week).sort((a, b) => a - b)
+    let nextWeek = 1
+    for (let week of existingWeeks) {
+      if (week === nextWeek) {
+        nextWeek++
+      } else {
+        break
+      }
+    }
+    
+    // Generate new project ID
+    const nextId = `project-${String(nextWeek).padStart(2, '0')}`
+    
+    // Create new project with default values
+    const newProject: Project = {
+      id: nextId,
+      title: 'New Project',
+      description: 'Enter project description here...',
+      tags: [],
+      thumbnails: [],
+      link: 'https://example.com',
+      week: nextWeek,
+      year: 2026
+    }
+    
+    // Add to projects array
+    setProjects(prev => [...prev, newProject].sort((a, b) => a.week - b.week))
+    
+    // Open edit mode for the new project
+    setEditingId(nextId)
+  }, [projects])
+
+  const handleDeleteProject = useCallback((projectId: string) => {
+    if (confirm('Are you sure you want to delete this project? This action cannot be undone.')) {
+      setProjects(prev => prev.filter(p => p.id !== projectId))
+      // If the deleted project was being edited, close edit mode
+      if (editingId === projectId) {
+        setEditingId(null)
+      }
+    }
+  }, [editingId])
+
   if (!isAuthenticated) {
     return (
       <div className="min-h-screen flex items-center justify-center bg-white">
@@ -197,6 +241,13 @@ export function AdminClient({ initialProjects }: AdminClientProps) {
                 </span>
               )}
               <button
+                onClick={handleAddProject}
+                className="flex items-center gap-2 border-2 border-black bg-white text-black px-4 py-2 hover:bg-black/5 transition-colors text-xs font-ibm-plex-mono uppercase"
+              >
+                <Plus className="w-3 h-3" />
+                Add Project
+              </button>
+              <button
                 onClick={handleSave}
                 disabled={isSaving}
                 className="flex items-center gap-2 bg-black text-white px-4 py-2 hover:bg-black/80 transition-colors disabled:opacity-50 disabled:cursor-not-allowed text-xs font-ibm-plex-mono uppercase"
@@ -218,7 +269,7 @@ export function AdminClient({ initialProjects }: AdminClientProps) {
             <div className="w-24 flex-shrink-0 text-left">Project Name</div>
             <div className="w-24 flex-shrink-0 text-left">Tags</div>
             <div className="flex-1 min-w-[300px] text-left">Description</div>
-            <div className="w-16 flex-shrink-0 text-right">Actions</div>
+            <div className="w-20 md:w-24 flex-shrink-0 text-right">Actions</div>
           </div>
         </div>
 
@@ -231,6 +282,7 @@ export function AdminClient({ initialProjects }: AdminClientProps) {
               index={index}
               isEditing={editingId === project.id}
               onToggleEdit={() => setEditingId(editingId === project.id ? null : project.id)}
+              onDelete={() => handleDeleteProject(project.id)}
               onUpdate={(updates) => updateProject(project.id, updates)}
               onImageUpload={(file) => handleImageUpload(project.id, file)}
               onRemoveImage={(imagePath) => removeImage(project.id, imagePath)}
@@ -249,6 +301,7 @@ interface ProjectRowProps {
   index: number
   isEditing: boolean
   onToggleEdit: () => void
+  onDelete: () => void
   onUpdate: (updates: Partial<Project>) => void
   onImageUpload: (file: File) => void
   onRemoveImage: (imagePath: string) => void
@@ -261,6 +314,7 @@ function ProjectRow({
   index,
   isEditing,
   onToggleEdit,
+  onDelete,
   onUpdate,
   onImageUpload,
   onRemoveImage,
@@ -302,13 +356,20 @@ function ProjectRow({
             </div>
 
             {/* Actions */}
-            <div className="w-8 md:w-16 text-right text-black/60">
+            <div className="w-20 md:w-24 flex-shrink-0 text-right text-black/60 flex items-center justify-end gap-2">
               <button
                 onClick={onToggleEdit}
                 className="hover:text-black transition-colors"
                 aria-label="Edit project"
               >
                 <Edit className="w-4 h-4 inline" />
+              </button>
+              <button
+                onClick={onDelete}
+                className="hover:text-red-600 transition-colors"
+                aria-label="Delete project"
+              >
+                <Trash2 className="w-4 h-4 inline" />
               </button>
             </div>
           </div>

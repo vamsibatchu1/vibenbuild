@@ -49,6 +49,21 @@ export function GalleryView({ projects }: GalleryViewProps) {
     return projects.map((project, index) => getRandomHeight(project.id, baseWidth, index))
   }, [projects, baseWidth])
 
+  // Generate heights for skeleton items too
+  const allHeights = useMemo(() => {
+    const heights: number[] = []
+    // Heights for actual projects
+    projects.forEach((project, index) => {
+      heights.push(projectHeights[index])
+    })
+    // Heights for skeleton items (weeks 6-52)
+    for (let i = 0; i < 47; i++) {
+      const week = i + 6
+      heights.push(getRandomHeight(`skeleton-${week}`, baseWidth, projects.length + i))
+    }
+    return heights
+  }, [projects, projectHeights, baseWidth])
+
   return (
     <div className="w-full max-w-[800px] mx-auto bg-white">
       <div className="grid grid-cols-6 gap-2 md:gap-3">
@@ -90,6 +105,37 @@ export function GalleryView({ projects }: GalleryViewProps) {
                   ) : null}
                 </div>
               </Link>
+            </motion.div>
+          )
+        })}
+        {/* Skeleton placeholders for weeks 6-52 */}
+        {Array.from({ length: 47 }, (_, i) => {
+          const week = i + 6
+          const index = projects.length + i
+          const height = allHeights[index]
+          return (
+            <motion.div
+              key={`skeleton-${week}`}
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ duration: 0.3, delay: index * 0.02 }}
+              className="flex flex-col opacity-30"
+            >
+              <div className="block">
+                {/* Number at the top */}
+                <div className="mb-1 md:mb-2">
+                  <span className="font-ibm-plex-mono text-xs md:text-sm text-black/40">
+                    {String(week).padStart(2, '0')}
+                  </span>
+                </div>
+
+                {/* Skeleton thumbnail */}
+                <div
+                  className="w-full bg-black/5 border-2 border-dashed border-black/30 relative overflow-hidden"
+                  style={{ height: `${height}px` }}
+                >
+                </div>
+              </div>
             </motion.div>
           )
         })}

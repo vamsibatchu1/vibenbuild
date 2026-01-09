@@ -194,6 +194,50 @@ export function ListView({ projects }: ListViewProps) {
             </Link>
           </motion.div>
         ))}
+        {/* Skeleton placeholders for weeks 6-52 */}
+        {Array.from({ length: 47 }, (_, i) => {
+          const week = i + 6
+          const index = projects.length + i
+          return (
+            <motion.div
+              key={`skeleton-${week}`}
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ duration: 0.2, delay: index * 0.01 }}
+              className={index > 0 ? 'mt-4' : ''}
+            >
+              <div className={`block transition-colors ${index === 0 ? '-mt-2 pt-2' : '-mt-4 pt-4'} opacity-30`}>
+                <div className="flex gap-2 md:gap-4 text-xs text-black items-start border-b-2 border-dashed border-black/30 pb-4">
+                  {/* Week Number */}
+                  <div className="w-12 md:w-16 flex-shrink-0 text-black/40 text-left font-plus-jakarta-sans font-bold text-base tracking-tighter">
+                    {String(week).padStart(2, '0')}
+                  </div>
+
+                  {/* Project Name Skeleton */}
+                  <div className="w-20 md:w-24 flex-shrink-0 text-black/30 text-left font-plus-jakarta-sans font-bold text-base tracking-tighter">
+                    <div className="h-4 bg-black/10 w-full"></div>
+                  </div>
+
+                  {/* Tags Skeleton - Hidden on mobile */}
+                  <div className="hidden md:block w-24 flex-shrink-0 text-black/30 text-left">
+                    <div className="h-4 bg-black/10 w-3/4"></div>
+                  </div>
+
+                  {/* Description Skeleton */}
+                  <div className="flex-1 min-w-0 md:min-w-[300px] text-black/30 leading-relaxed text-left">
+                    <div className="h-4 bg-black/10 w-full mb-1"></div>
+                    <div className="h-4 bg-black/10 w-5/6"></div>
+                  </div>
+
+                  {/* Link Skeleton */}
+                  <div className="w-8 md:w-16 text-right text-black/20">
+                    ─
+                  </div>
+                </div>
+              </div>
+            </motion.div>
+          )
+        })}
       </div>
 
       {/* Indexes Section */}

@@ -22,6 +22,9 @@ export function TimelineView({ projects }: TimelineViewProps) {
 
   // Get project for selected week
   const selectedProject = projects.find((p) => p.week === selectedWeek)
+  
+  // Check if selected week is a skeleton (week 6-52 without data)
+  const isSkeleton = selectedWeek >= 6 && !selectedProject
 
   // Calculate percentage completed based on week number (out of 52)
   const getPercentage = (week: number): number => {
@@ -237,6 +240,63 @@ export function TimelineView({ projects }: TimelineViewProps) {
               </div>
             </motion.div>
           </Link>
+        ) : isSkeleton ? (
+          <motion.div 
+            key={selectedWeek}
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ duration: 0.1 }}
+            className="block w-full max-w-[400px] opacity-30"
+          >
+            {/* Skeleton Thumbnail */}
+            <div className="w-full mb-6 relative" style={{ paddingBottom: '56.25%' }}>
+              <div className="absolute inset-0 bg-black/5 border-2 border-dashed border-black/30"></div>
+            </div>
+
+            {/* Skeleton Project Details */}
+            <div className="text-left">
+              {/* Title Skeleton */}
+              <div className="mb-2">
+                <div className="h-8 bg-black/10 w-3/4"></div>
+              </div>
+            
+              {/* Tags Skeleton */}
+              <div className="flex flex-wrap gap-2 mb-2">
+                <div className="h-6 bg-black/10 w-20 border border-dashed border-black/30"></div>
+                <div className="h-6 bg-black/10 w-24 border border-dashed border-black/30"></div>
+                <div className="h-6 bg-black/10 w-16 border border-dashed border-black/30"></div>
+              </div>
+              
+              {/* Description Skeleton */}
+              <div className="mb-2 space-y-2">
+                <div className="h-4 bg-black/10 w-full"></div>
+                <div className="h-4 bg-black/10 w-5/6"></div>
+                <div className="h-4 bg-black/10 w-4/5"></div>
+              </div>
+              
+              {/* Progress Indicator and Week Skeleton */}
+              <div className="flex items-center justify-between gap-4">
+                <div className="flex items-center gap-2">
+                  <div className="h-5 bg-black/10 w-12"></div>
+                  <div className="flex items-center" style={{ gap: '2px' }}>
+                    {Array.from({ length: 10 }).map((_, i) => (
+                      <div
+                        key={i}
+                        className="border border-dashed border-black/30 bg-white relative overflow-hidden"
+                        style={{ width: '24px', height: '1em' }}
+                      >
+                        <div className="h-full bg-black/5 w-full"></div>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+                
+                <div className="font-ibm-plex-mono text-xs text-black/40">
+                  Week {String(selectedWeek).padStart(2, '0')}
+                </div>
+              </div>
+            </div>
+          </motion.div>
         ) : (
           <div className="text-center">
             <p className="font-ibm-plex-mono text-black/60">No project found for week {selectedWeek}</p>
