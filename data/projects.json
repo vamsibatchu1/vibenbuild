@@ -24,7 +24,9 @@
       "Geolocation",
       "Tactical"
     ],
-    "thumbnails": [],
+    "thumbnails": [
+      "/images/thumbnails/02.webp"
+    ],
     "link": "https://worldwide-696629161862.us-west1.run.app/",
     "week": 2,
     "year": 2026
@@ -34,7 +36,6 @@
     "title": "Flickbook",
     "description": "Your streaming history, beautifully stamped. Flickbook generates unique visa-style stamps for each show and movie you've watched.",
     "tags": [
-      "Data Visualization",
       "Movies",
       "Art"
     ],
@@ -70,7 +71,9 @@
       "Creative",
       "Journal"
     ],
-    "thumbnails": [],
+    "thumbnails": [
+      "/images/thumbnails/05.webp"
+    ],
     "link": "https://stemwise-247949494736.us-west1.run.app/",
     "week": 5,
     "year": 2026
