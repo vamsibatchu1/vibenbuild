@@ -6,6 +6,87 @@ import Link from 'next/link'
 import { ArrowUp, ArrowDown } from 'lucide-react'
 import { useState, useEffect, useRef } from 'react'
 
+// Animated Pixel Art Component
+function AnimatedPixelArt() {
+  const rows = 13 // Height: 13 rows
+  const cols = 40 // Width: 40 columns - making it rectangular
+  const [pixels, setPixels] = useState<boolean[][]>([])
+
+  useEffect(() => {
+    // Create a pattern with high randomness that animates smoothly
+    const createPattern = (seed: number) => {
+      return Array(rows).fill(null).map((_, i) =>
+        Array(cols).fill(null).map((_, j) => {
+          // Create irregular border by removing pixels in top-left corner
+          // Use a smooth curve to define the irregular edge
+          const distanceFromTopLeft = Math.sqrt(i * i + j * j)
+          const maxDistance = Math.sqrt(rows * rows + cols * cols)
+          const normalizedDistance = distanceFromTopLeft / maxDistance
+          
+          // Create an irregular mask - pixels closer to top-left are more likely to be removed
+          // Add some randomness to the mask boundary
+          const irregularEdge = 0.15 + (Math.sin(i * 0.8) * Math.cos(j * 0.6) * 0.08) + (Math.random() * 0.1)
+          const shouldHide = normalizedDistance < irregularEdge
+          
+          if (shouldHide) {
+            return false // Remove pixel in top-left corner area
+          }
+          
+          // Create structured wave-like patterns for consistent animation
+          const wave1 = Math.sin((i + seed) * 0.5) * Math.cos((j + seed) * 0.3)
+          const wave2 = Math.cos((i + seed) * 0.4) * Math.sin((j + seed) * 0.5)
+          const combined = (wave1 + wave2) / 2
+          
+          // Use a deterministic pattern with minimal randomness
+          // Create a hash-like pattern based on position for consistency
+          const positionHash = ((i * 17 + j * 23 + seed * 7) % 100) / 100
+          
+          // Combine wave patterns with position hash for ~60% black pixels
+          // Adjust threshold to get approximately 60% of pixels black
+          const value = (combined * 0.5) + (positionHash * 0.5)
+          const threshold = 0.4 // This should give us approximately 60% black pixels
+          
+          return value > threshold
+        })
+      )
+    }
+
+    // Initialize with pattern
+    setPixels(createPattern(0))
+
+    // Animate with faster seed progression for more variation
+    let seed = 0
+    const interval = setInterval(() => {
+      seed += 0.5 + Math.random() * 0.3 // Variable seed increment for more randomness
+      setPixels(createPattern(seed))
+    }, 80) // Slightly faster updates for more dynamic feel
+
+    return () => clearInterval(interval)
+  }, [])
+
+  return (
+    <div className="flex items-center justify-end">
+      <div className="grid gap-0.5" style={{ gridTemplateColumns: `repeat(${cols}, 1fr)` }}>
+        {pixels.map((row, i) =>
+          row.map((isBlack, j) => (
+            <motion.div
+              key={`${i}-${j}`}
+              className="w-1.5 h-1.5"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: isBlack ? 1 : 0 }}
+              transition={{ duration: 0.1, ease: 'easeOut' }}
+            >
+              {isBlack && (
+                <div className="w-full h-full bg-black rounded-sm" />
+              )}
+            </motion.div>
+          ))
+        )}
+      </div>
+    </div>
+  )
+}
+
 interface ListViewProps {
   projects: Project[]
 }
@@ -122,13 +203,22 @@ export function ListView({ projects }: ListViewProps) {
   return (
     <div className="w-full max-w-[800px] mx-auto bg-white font-ibm-plex-mono">
       {/* Header Section */}
-      <div className="mb-8">
+      <div className="mb-8" style={{ paddingTop: '40px' }}>
         <div className="mb-6">
-          <div className="text-xs text-black/70 leading-relaxed max-w-md mb-4 uppercase">
-            Welcome to my digital experiment gallery. All apps featured here are part of the 2026 product suite built with Google AI Studio.
-          </div>
-          <div className="text-xs text-black/70 leading-relaxed max-w-md uppercase flex items-center gap-1 flex-wrap">
-            Scroll and Click or Press, up <ArrowUp className="inline-block w-3 h-3" /> and down <ArrowDown className="inline-block w-3 h-3" /> arrows to navigate.
+          <div className="flex gap-4 items-start mb-4">
+            {/* Left Column - Text */}
+            <div className="flex-1">
+              <div className="text-xs text-black/70 leading-relaxed max-w-md mb-4 uppercase">
+                Welcome to my digital experiment gallery. All apps featured here are part of the 2026 product suite built with Google AI Studio.
+              </div>
+              <div className="text-xs text-black/70 leading-relaxed max-w-md uppercase flex items-center gap-1 flex-wrap">
+                Scroll and Click or Press, up <ArrowUp className="inline-block w-3 h-3" /> and down <ArrowDown className="inline-block w-3 h-3" /> arrows to navigate.
+              </div>
+            </div>
+            {/* Right Column - Pixel Art */}
+            <div className="flex-shrink-0 hidden md:block">
+              <AnimatedPixelArt />
+            </div>
           </div>
         </div>
       </div>

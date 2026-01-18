@@ -258,7 +258,7 @@ export function AdminClient({ initialProjects }: AdminClientProps) {
             </div>
           </div>
           <div className="text-xs text-black/70 leading-relaxed max-w-md mb-4 uppercase font-ibm-plex-mono">
-            Edit project information below. Click "Edit" on any row to modify details.
+            Edit project information below. Click &quot;Edit&quot; on any row to modify details.
           </div>
         </div>
 

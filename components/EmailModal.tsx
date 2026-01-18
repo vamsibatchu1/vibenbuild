@@ -128,10 +128,10 @@ export function EmailModal({ isOpen, onClose }: EmailModalProps) {
                     </svg>
                   </div>
                   <h2 className="font-ibm-plex-mono text-xl text-white mb-2">
-                    You're subscribed!
+                    You&apos;re subscribed!
                   </h2>
                   <p className="font-ibm-plex-mono text-sm text-white/80">
-                    We'll notify you about new projects and updates.
+                    We&apos;ll notify you about new projects and updates.
                   </p>
                 </div>
               ) : (
