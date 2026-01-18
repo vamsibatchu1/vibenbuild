@@ -77,5 +77,34 @@
     "link": "https://stemwise-247949494736.us-west1.run.app/",
     "week": 5,
     "year": 2026
+  },
+  {
+    "id": "project-06",
+    "title": "Canopy",
+    "description": "Canopy is an interactive procedural visualization tool that generates organic \"living trees\" of cinematic relationships between films and industry professionals using real-world data.",
+    "tags": [
+      "Visualization",
+      "Movies",
+      "TV",
+      "Data"
+    ],
+    "thumbnails": [],
+    "link": "https://canopy-271967923745.us-west1.run.app/",
+    "week": 6,
+    "year": 2026
+  },
+  {
+    "id": "project-07",
+    "title": "Wanderword",
+    "description": "Wanderword is an AI-powered visualization tool that traces the etymological journey of words across global maps and historical timelines.",
+    "tags": [
+      "Lanugage",
+      "Maps",
+      "Visualization"
+    ],
+    "thumbnails": [],
+    "link": "https://wanderword-141284551734.us-west1.run.app/",
+    "week": 7,
+    "year": 2026
   }
 ]
