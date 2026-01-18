@@ -88,7 +88,9 @@
       "TV",
       "Data"
     ],
-    "thumbnails": [],
+    "thumbnails": [
+      "/images/thumbnails/06.webp"
+    ],
     "link": "https://canopy-271967923745.us-west1.run.app/",
     "week": 6,
     "year": 2026
@@ -102,7 +104,9 @@
       "Maps",
       "Visualization"
     ],
-    "thumbnails": [],
+    "thumbnails": [
+      "/images/thumbnails/07.webp"
+    ],
     "link": "https://wanderword-141284551734.us-west1.run.app/",
     "week": 7,
     "year": 2026
