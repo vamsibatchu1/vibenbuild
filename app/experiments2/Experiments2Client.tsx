@@ -46,13 +46,15 @@ export function Experiments2Client() {
             <WelcomeColumn />
             
             {/* Experiment Columns */}
-            {experiments.map((experiment, index) => (
-              <ExperimentColumn
-                key={experiment.id}
-                experiment={experiment}
-                index={index + 1}
-              />
-            ))}
+            {experiments
+              .filter((experiment) => experiment.id !== 'exp-10')
+              .map((experiment, index) => (
+                <ExperimentColumn
+                  key={experiment.id}
+                  experiment={experiment}
+                  index={index + 1}
+                />
+              ))}
           </div>
         </div>
       </div>
