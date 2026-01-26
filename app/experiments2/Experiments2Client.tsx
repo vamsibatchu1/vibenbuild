@@ -210,10 +210,29 @@ function ExperimentColumn({ experiment, index }: ExperimentColumnProps) {
           <div key={blockIndex} style={{ marginBottom: blockIndex < contentBlocks.length - 1 ? '20px' : '0' }}>
             {block.type === 'header' ? (
               <div>
-                <div style={{ marginBottom: '20px' }}>
-                  <h2 className="text-black font-londrina-solid" style={{ fontSize: '40px', fontWeight: 400 }}>
+                <div style={{ marginBottom: '8px' }}>
+                  <h2 className="text-black font-londrina-solid" style={{ fontSize: '40px', fontWeight: 400, marginTop: '0', marginBottom: '0', lineHeight: '1.1' }}>
                     {experiment.title}
                   </h2>
+                </div>
+                
+                {/* Tags */}
+                <div className="flex flex-wrap gap-2" style={{ marginBottom: '8px' }}>
+                  {experiment.tags.map((tag) => (
+                    <span
+                      key={tag}
+                      className="text-xs uppercase font-ibm-plex-mono"
+                      style={{
+                        padding: '4px 8px',
+                        border: '1px solid #d1d5db',
+                        backgroundColor: '#ffffff',
+                        color: '#374151',
+                        display: 'inline-block'
+                      }}
+                    >
+                      {tag}
+                    </span>
+                  ))}
                 </div>
                 
                 {/* Metadata */}
