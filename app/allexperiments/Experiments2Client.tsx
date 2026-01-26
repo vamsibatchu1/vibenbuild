@@ -1,9 +1,11 @@
 'use client'
 
 import { motion, AnimatePresence } from 'framer-motion'
-import { useEffect, useState } from 'react'
+import { useEffect, useState, FormEvent } from 'react'
 import Image from 'next/image'
-import { ChevronLeft, ChevronRight } from 'lucide-react'
+import { ChevronLeft, ChevronRight, Mail, ExternalLink } from 'lucide-react'
+import { collection, addDoc, serverTimestamp, query, where, getDocs } from 'firebase/firestore'
+import { db } from '@/lib/firebase'
 import experimentsData from './experiments.json'
 
 interface Experiment {
@@ -51,7 +53,7 @@ export function Experiments2Client() {
   }, [isMobile])
 
   const handleNext = () => {
-    const totalColumns = filteredExperiments.length + 1 // +1 for welcome column
+    const totalColumns = filteredExperiments.length + 2 // +1 for welcome column, +1 for exit column
     setCurrentColumnIndex((prev) => (prev < totalColumns - 1 ? prev + 1 : prev))
   }
 
@@ -61,7 +63,8 @@ export function Experiments2Client() {
 
   const allColumns = [
     { type: 'welcome' as const },
-    ...filteredExperiments.map((exp, idx) => ({ type: 'experiment' as const, experiment: exp, index: idx + 1 }))
+    ...filteredExperiments.map((exp, idx) => ({ type: 'experiment' as const, experiment: exp, index: idx + 1 })),
+    { type: 'exit' as const }
   ]
 
   // Mobile view
@@ -164,6 +167,17 @@ export function Experiments2Client() {
                     mobile={true}
                   />
                 </motion.div>
+              ) : allColumns[currentColumnIndex]?.type === 'exit' ? (
+                <motion.div
+                  key="exit"
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  exit={{ opacity: 0 }}
+                  transition={{ duration: 0.3 }}
+                  style={{ width: '100%' }}
+                >
+                  <ExitColumn mobile={true} />
+                </motion.div>
               ) : null}
             </AnimatePresence>
           </div>
@@ -198,6 +212,9 @@ export function Experiments2Client() {
                 index={index + 1}
               />
             ))}
+            
+            {/* Exit Column */}
+            <ExitColumn />
           </div>
         </div>
       </div>
@@ -264,6 +281,420 @@ function WelcomeColumn({ mobile = false }: WelcomeColumnProps) {
         }}
         unoptimized
       />
+    </motion.div>
+  )
+}
+
+// Animated Pixel Art Component (similar to ListView)
+function AnimatedPixelArt() {
+  const rows = 13
+  const cols = 40
+  const [pixels, setPixels] = useState<boolean[][]>([])
+
+  useEffect(() => {
+    const createPattern = (seed: number) => {
+      return Array(rows).fill(null).map((_, i) =>
+        Array(cols).fill(null).map((_, j) => {
+          const distanceFromTopLeft = Math.sqrt(i * i + j * j)
+          const maxDistance = Math.sqrt(rows * rows + cols * cols)
+          const normalizedDistance = distanceFromTopLeft / maxDistance
+          
+          const irregularEdge = 0.15 + (Math.sin(i * 0.8) * Math.cos(j * 0.6) * 0.08) + (Math.random() * 0.1)
+          const shouldHide = normalizedDistance < irregularEdge
+          
+          if (shouldHide) {
+            return false
+          }
+          
+          const wave1 = Math.sin((i + seed) * 0.5) * Math.cos((j + seed) * 0.3)
+          const wave2 = Math.cos((i + seed) * 0.4) * Math.sin((j + seed) * 0.5)
+          const combined = (wave1 + wave2) / 2
+          
+          const positionHash = ((i * 17 + j * 23 + seed * 7) % 100) / 100
+          const value = (combined * 0.5) + (positionHash * 0.5)
+          const threshold = 0.4
+          
+          return value > threshold
+        })
+      )
+    }
+
+    setPixels(createPattern(0))
+    let seed = 0
+    const interval = setInterval(() => {
+      seed += 0.5 + Math.random() * 0.3
+      setPixels(createPattern(seed))
+    }, 80)
+
+    return () => clearInterval(interval)
+  }, [])
+
+  return (
+    <div className="flex items-center justify-end">
+      <div className="grid gap-0.5" style={{ gridTemplateColumns: `repeat(${cols}, 1fr)` }}>
+        {pixels.map((row, i) =>
+          row.map((isBlack, j) => (
+            <motion.div
+              key={`${i}-${j}`}
+              className="w-1.5 h-1.5"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: isBlack ? 1 : 0 }}
+              transition={{ duration: 0.1, ease: 'easeOut' }}
+            >
+              {isBlack && (
+                <div className="w-full h-full bg-black rounded-sm" />
+              )}
+            </motion.div>
+          ))
+        )}
+      </div>
+    </div>
+  )
+}
+
+interface ExitColumnProps {
+  mobile?: boolean
+}
+
+function ExitColumn({ mobile = false }: ExitColumnProps) {
+  const [idea, setIdea] = useState('')
+  const [email, setEmail] = useState('')
+  const [ideaStatus, setIdeaStatus] = useState<'idle' | 'loading' | 'success' | 'error'>('idle')
+  const [emailStatus, setEmailStatus] = useState<'idle' | 'loading' | 'success' | 'error'>('idle')
+  const [ideaError, setIdeaError] = useState('')
+  const [emailError, setEmailError] = useState('')
+
+  // Work in progress projects
+  const workInProgress = [
+    'Exploring new AI-powered design tools for creative workflows.',
+    'Building an interactive visualization platform for data storytelling.',
+    'Developing a collaborative workspace for remote teams.',
+    'Creating a generative art tool with machine learning.',
+    'Designing a new approach to digital product prototyping.'
+  ]
+
+  const handleIdeaSubmit = async (e: FormEvent) => {
+    e.preventDefault()
+    
+    if (!idea.trim()) {
+      setIdeaError('Please enter your idea')
+      setIdeaStatus('error')
+      return
+    }
+
+    setIdeaStatus('loading')
+    setIdeaError('')
+
+    try {
+      // Save idea to Firestore 'ideas' collection
+      await addDoc(collection(db, 'ideas'), {
+        idea: idea.trim(),
+        submittedAt: serverTimestamp()
+      })
+      setIdeaStatus('success')
+      setIdea('')
+      setTimeout(() => setIdeaStatus('idle'), 3000)
+    } catch (error: any) {
+      console.error('Error submitting idea:', error)
+      
+      // Provide more specific error messages
+      let errorMsg = 'Failed to submit idea. Please try again.'
+      
+      if (error?.code === 'permission-denied') {
+        errorMsg = 'Permission denied. Please check Firestore security rules.'
+      } else if (error?.code === 'unavailable') {
+        errorMsg = 'Firestore is unavailable. Please check your internet connection.'
+      } else if (error?.message) {
+        errorMsg = `Error: ${error.message}`
+      }
+      
+      setIdeaError(errorMsg)
+      setIdeaStatus('error')
+    }
+  }
+
+  const handleEmailSubmit = async (e: FormEvent) => {
+    e.preventDefault()
+    
+    if (!email.trim()) {
+      setEmailError('Please enter your email address')
+      setEmailStatus('error')
+      return
+    }
+
+    setEmailStatus('loading')
+    setEmailError('')
+
+    try {
+      const normalizedEmail = email.toLowerCase().trim()
+      const emailsRef = collection(db, 'subscribers')
+      const q = query(emailsRef, where('email', '==', normalizedEmail))
+      const querySnapshot = await getDocs(q)
+
+      if (!querySnapshot.empty) {
+        setEmailError('This email is already subscribed')
+        setEmailStatus('error')
+        return
+      }
+
+      // Add email to Firestore (same collection as home page)
+      await addDoc(emailsRef, {
+        email: normalizedEmail,
+        subscribedAt: serverTimestamp()
+      })
+
+      setEmailStatus('success')
+      setEmail('')
+      setTimeout(() => setEmailStatus('idle'), 3000)
+    } catch (error: any) {
+      console.error('Error adding subscriber:', error)
+      
+      // Provide more specific error messages (matching EmailModal)
+      let errorMsg = 'Failed to subscribe. Please try again.'
+      
+      if (error?.code === 'permission-denied') {
+        errorMsg = 'Permission denied. Please check Firestore security rules.'
+      } else if (error?.code === 'unavailable') {
+        errorMsg = 'Firestore is unavailable. Please check your internet connection.'
+      } else if (error?.message) {
+        errorMsg = `Error: ${error.message}`
+      }
+      
+      setEmailError(errorMsg)
+      setEmailStatus('error')
+    }
+  }
+
+  if (mobile) {
+    return (
+      <div className="bg-white flex flex-col" style={{ width: '100%', minHeight: '100%' }}>
+        {/* Thank You Section */}
+        <div className="mb-8">
+          <div className="mb-6">
+            <div className="text-xs text-black/70 leading-relaxed mb-4 uppercase font-ibm-plex-mono">
+              Thank you for exploring my digital experiment gallery. This journey of 52 weeks, 52 apps continues to evolve.
+            </div>
+            <div className="flex-shrink-0">
+              <AnimatedPixelArt />
+            </div>
+          </div>
+        </div>
+
+        {/* Work in Progress */}
+        <div className="mb-8">
+          <div className="text-xs text-black/70 leading-relaxed mb-4 uppercase font-ibm-plex-mono">
+            Ideas that are work in progress
+          </div>
+          <div className="space-y-4">
+            {workInProgress.map((text, idx) => (
+              <div key={idx} className="border-b border-black/20 pb-4 text-sm text-black/60 font-gilda-display" style={{ marginBottom: idx < workInProgress.length - 1 ? '20px' : '0' }}>
+                {text}
+              </div>
+            ))}
+          </div>
+        </div>
+
+        {/* Submit an Idea */}
+        <div className="mb-8">
+          <form onSubmit={handleIdeaSubmit}>
+            <textarea
+              value={idea}
+              onChange={(e) => setIdea(e.target.value)}
+              placeholder="Share your idea for a future experiment..."
+              className="w-full p-3 border border-black/30 rounded-sm font-ibm-plex-mono text-sm mb-3"
+              style={{ minHeight: '100px', resize: 'vertical' }}
+            />
+            <button
+              type="submit"
+              disabled={ideaStatus === 'loading'}
+              className="w-full h-10 font-ibm-plex-mono text-sm uppercase transition-colors disabled:opacity-50"
+              style={{
+                border: '1px dashed #000000',
+                backgroundColor: '#ffffff',
+                color: '#000000'
+              }}
+            >
+              {ideaStatus === 'loading' ? 'Submitting...' : ideaStatus === 'success' ? 'Submitted!' : 'Submit Idea'}
+            </button>
+            {ideaError && <div className="text-xs text-red-600 mt-2 font-ibm-plex-mono">{ideaError}</div>}
+          </form>
+        </div>
+
+        {/* Email Notification */}
+        <div className="mb-8">
+          <div className="text-xs text-black/70 leading-relaxed mb-4 uppercase font-ibm-plex-mono">
+            Get notified when new projects are released. Enter your email below to stay updated.
+          </div>
+          <form onSubmit={handleEmailSubmit}>
+            <input
+              type="email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              placeholder="Enter your email"
+              className="w-full p-3 border border-black/30 rounded-sm font-ibm-plex-mono text-sm mb-3"
+            />
+            <button
+              type="submit"
+              disabled={emailStatus === 'loading'}
+              className="w-full h-10 font-ibm-plex-mono text-sm uppercase transition-colors disabled:opacity-50"
+              style={{
+                border: '1px dashed #000000',
+                backgroundColor: '#ffffff',
+                color: '#000000'
+              }}
+            >
+              {emailStatus === 'loading' ? 'Subscribing...' : emailStatus === 'success' ? 'Subscribed!' : 'Subscribe'}
+            </button>
+            {emailError && <div className="text-xs text-red-600 mt-2 font-ibm-plex-mono">{emailError}</div>}
+          </form>
+        </div>
+
+        {/* Contact Links */}
+        <div>
+          <div className="text-xs text-black/70 leading-relaxed mb-4 uppercase font-ibm-plex-mono">
+            Connect with me on social media or reach out via email.
+          </div>
+          <div className="space-y-3">
+            <a href="https://twitter.com" target="_blank" rel="noopener noreferrer" className="flex items-center gap-2 text-black/70 hover:text-black transition-colors font-ibm-plex-mono text-sm uppercase">
+              <ExternalLink size={16} />
+              Twitter
+            </a>
+            <a href="https://linkedin.com" target="_blank" rel="noopener noreferrer" className="flex items-center gap-2 text-black/70 hover:text-black transition-colors font-ibm-plex-mono text-sm uppercase">
+              <ExternalLink size={16} />
+              LinkedIn
+            </a>
+            <a href="https://github.com" target="_blank" rel="noopener noreferrer" className="flex items-center gap-2 text-black/70 hover:text-black transition-colors font-ibm-plex-mono text-sm uppercase">
+              <ExternalLink size={16} />
+              GitHub
+            </a>
+            <a href="mailto:contact@example.com" className="flex items-center gap-2 text-black/70 hover:text-black transition-colors font-ibm-plex-mono text-sm uppercase">
+              <Mail size={16} />
+              Email
+            </a>
+          </div>
+        </div>
+      </div>
+    )
+  }
+
+  return (
+    <motion.div
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      transition={{ duration: 0.6, delay: 0.3 + 0.5 * (filteredExperiments.length + 1), ease: 'easeOut' }}
+      className="flex-shrink-0 bg-white h-full flex flex-col experiment-column-scroll"
+      style={{ 
+        width: '360px',
+        height: '100%',
+        overflowY: 'auto',
+        overflowX: 'hidden'
+      }}
+    >
+      {/* Thank You Section */}
+      <div className="mb-8">
+        <div className="mb-6">
+          <div className="text-xs text-black/70 leading-relaxed mb-4 uppercase font-ibm-plex-mono">
+            Thank you for exploring my digital experiment gallery. This journey of 52 weeks, 52 apps continues to evolve.
+          </div>
+          <div className="flex-shrink-0">
+            <AnimatedPixelArt />
+          </div>
+        </div>
+      </div>
+
+      {/* Work in Progress */}
+      <div className="mb-8">
+        <div className="text-xs text-black/70 leading-relaxed mb-4 uppercase font-ibm-plex-mono">
+          Ideas that are work in progress
+        </div>
+        <div className="space-y-4">
+          {workInProgress.map((text, idx) => (
+            <div key={idx} className="border-b border-black/20 pb-4 text-sm text-black/60 font-gilda-display" style={{ marginBottom: idx < workInProgress.length - 1 ? '20px' : '0' }}>
+              {text}
+            </div>
+          ))}
+        </div>
+      </div>
+
+      {/* Submit an Idea */}
+      <div className="mb-8">
+        <form onSubmit={handleIdeaSubmit}>
+          <textarea
+            value={idea}
+            onChange={(e) => setIdea(e.target.value)}
+            placeholder="Share your idea for a future experiment..."
+            className="w-full p-3 border border-black/30 rounded-sm font-ibm-plex-mono text-sm mb-3"
+            style={{ minHeight: '100px', resize: 'vertical' }}
+          />
+          <button
+            type="submit"
+            disabled={ideaStatus === 'loading'}
+            className="w-full h-10 font-ibm-plex-mono text-sm uppercase transition-colors disabled:opacity-50"
+            style={{
+              border: '1px dashed #000000',
+              backgroundColor: '#ffffff',
+              color: '#000000'
+            }}
+          >
+            {ideaStatus === 'loading' ? 'Submitting...' : ideaStatus === 'success' ? 'Submitted!' : 'Submit Idea'}
+          </button>
+          {ideaError && <div className="text-xs text-red-600 mt-2 font-ibm-plex-mono">{ideaError}</div>}
+        </form>
+      </div>
+
+      {/* Email Notification */}
+      <div className="mb-8">
+        <div className="text-xs text-black/70 leading-relaxed mb-4 uppercase font-ibm-plex-mono">
+          Get notified when new projects are released. Enter your email below to stay updated.
+        </div>
+        <form onSubmit={handleEmailSubmit}>
+          <input
+            type="email"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            placeholder="Enter your email"
+            className="w-full p-3 border border-black/30 rounded-sm font-ibm-plex-mono text-sm mb-3"
+          />
+          <button
+            type="submit"
+            disabled={emailStatus === 'loading'}
+            className="w-full h-10 font-ibm-plex-mono text-sm uppercase transition-colors disabled:opacity-50"
+            style={{
+              border: '1px dashed #000000',
+              backgroundColor: '#ffffff',
+              color: '#000000'
+            }}
+          >
+            {emailStatus === 'loading' ? 'Subscribing...' : emailStatus === 'success' ? 'Subscribed!' : 'Subscribe'}
+          </button>
+          {emailError && <div className="text-xs text-red-600 mt-2 font-ibm-plex-mono">{emailError}</div>}
+        </form>
+      </div>
+
+      {/* Contact Links */}
+      <div>
+        <div className="text-xs text-black/70 leading-relaxed mb-4 uppercase font-ibm-plex-mono">
+          Connect with me on social media or reach out via email.
+        </div>
+        <div className="space-y-3">
+          <a href="https://twitter.com" target="_blank" rel="noopener noreferrer" className="flex items-center gap-2 text-black/70 hover:text-black transition-colors font-ibm-plex-mono text-sm uppercase">
+            <ExternalLink size={16} />
+            Twitter
+          </a>
+          <a href="https://linkedin.com" target="_blank" rel="noopener noreferrer" className="flex items-center gap-2 text-black/70 hover:text-black transition-colors font-ibm-plex-mono text-sm uppercase">
+            <ExternalLink size={16} />
+            LinkedIn
+          </a>
+          <a href="https://github.com" target="_blank" rel="noopener noreferrer" className="flex items-center gap-2 text-black/70 hover:text-black transition-colors font-ibm-plex-mono text-sm uppercase">
+            <ExternalLink size={16} />
+            GitHub
+          </a>
+          <a href="mailto:contact@example.com" className="flex items-center gap-2 text-black/70 hover:text-black transition-colors font-ibm-plex-mono text-sm uppercase">
+            <Mail size={16} />
+            Email
+          </a>
+        </div>
+      </div>
     </motion.div>
   )
 }
