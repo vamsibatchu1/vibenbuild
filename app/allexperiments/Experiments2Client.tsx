@@ -81,7 +81,6 @@ export function Experiments2Client() {
           <div 
             className="flex justify-between items-center"
             style={{
-              position: '-webkit-sticky',
               position: 'sticky',
               top: '0',
               zIndex: 10,
