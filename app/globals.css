@@ -91,6 +91,27 @@ body {
   display: none;
 }
 
+/* Hide scrollbar on mobile */
+@media (max-width: 767px) {
+  body {
+    -ms-overflow-style: none; /* IE and Edge */
+    scrollbar-width: none; /* Firefox */
+  }
+  
+  body::-webkit-scrollbar {
+    display: none; /* Chrome, Safari, Opera*/
+  }
+  
+  html {
+    -ms-overflow-style: none; /* IE and Edge */
+    scrollbar-width: none; /* Firefox */
+  }
+  
+  html::-webkit-scrollbar {
+    display: none; /* Chrome, Safari, Opera*/
+  }
+}
+
 /* Typo Tokyo Style Speech Bubbles */
 .speech-bubble {
   background: white;

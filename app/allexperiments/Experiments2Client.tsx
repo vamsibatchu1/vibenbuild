@@ -1,8 +1,9 @@
 'use client'
 
-import { motion } from 'framer-motion'
-import { useEffect } from 'react'
+import { motion, AnimatePresence } from 'framer-motion'
+import { useEffect, useState } from 'react'
 import Image from 'next/image'
+import { ChevronLeft, ChevronRight } from 'lucide-react'
 import experimentsData from './experiments.json'
 
 interface Experiment {
@@ -17,17 +18,162 @@ interface Experiment {
 
 // Load experiments from JSON file
 const experiments: Experiment[] = experimentsData as Experiment[]
+const filteredExperiments = experiments.filter((experiment) => experiment.id !== 'exp-10')
 
 export function Experiments2Client() {
+  const [isMobile, setIsMobile] = useState(false)
+  const [currentColumnIndex, setCurrentColumnIndex] = useState(0)
+
   useEffect(() => {
-    // Prevent body scrolling
-    document.body.style.overflow = 'hidden'
+    // Check if mobile on mount and resize
+    const checkMobile = () => {
+      setIsMobile(window.innerWidth < 768) // 768px is typically the breakpoint for mobile
+    }
+    
+    checkMobile()
+    window.addEventListener('resize', checkMobile)
+    
     return () => {
-      // Restore body scrolling on unmount
-      document.body.style.overflow = ''
+      window.removeEventListener('resize', checkMobile)
     }
   }, [])
 
+  useEffect(() => {
+    // Prevent body scrolling only on desktop
+    if (!isMobile) {
+      document.body.style.overflow = 'hidden'
+    } else {
+      document.body.style.overflow = ''
+    }
+    return () => {
+      document.body.style.overflow = ''
+    }
+  }, [isMobile])
+
+  const handleNext = () => {
+    const totalColumns = filteredExperiments.length + 1 // +1 for welcome column
+    setCurrentColumnIndex((prev) => (prev < totalColumns - 1 ? prev + 1 : prev))
+  }
+
+  const handlePrevious = () => {
+    setCurrentColumnIndex((prev) => (prev > 0 ? prev - 1 : prev))
+  }
+
+  const allColumns = [
+    { type: 'welcome' as const },
+    ...filteredExperiments.map((exp, idx) => ({ type: 'experiment' as const, experiment: exp, index: idx + 1 }))
+  ]
+
+  // Mobile view
+  if (isMobile) {
+    return (
+      <div style={{ width: '100%', minHeight: '100vh' }}>
+        <main 
+          className="bg-white" 
+          style={{ 
+            width: '100%',
+            minHeight: '100vh',
+            boxSizing: 'border-box',
+            position: 'relative'
+          }}
+        >
+          {/* Navigation Arrows - Sticky */}
+          <div 
+            className="flex justify-between items-center"
+            style={{
+              position: '-webkit-sticky',
+              position: 'sticky',
+              top: '0',
+              zIndex: 10,
+              backgroundColor: '#ffffff',
+              padding: '20px 16px 16px 16px',
+              marginBottom: '0',
+              width: '100%',
+              boxSizing: 'border-box'
+            }}
+          >
+            <button
+              onClick={handlePrevious}
+              disabled={currentColumnIndex === 0}
+              className={currentColumnIndex === 0 ? 'opacity-30 cursor-not-allowed' : 'opacity-100'}
+              aria-label="Previous column"
+              style={{
+                width: '40px',
+                height: '40px',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                border: '1px dashed #000000',
+                backgroundColor: '#ffffff',
+                padding: 0
+              }}
+            >
+              <ChevronLeft size={24} className="text-black" />
+            </button>
+            <button
+              onClick={handleNext}
+              disabled={currentColumnIndex === allColumns.length - 1}
+              className={currentColumnIndex === allColumns.length - 1 ? 'opacity-30 cursor-not-allowed' : 'opacity-100'}
+              aria-label="Next column"
+              style={{
+                width: '40px',
+                height: '40px',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                border: '1px dashed #000000',
+                backgroundColor: '#ffffff',
+                padding: 0
+              }}
+            >
+              <ChevronRight size={24} className="text-black" />
+            </button>
+          </div>
+
+          {/* Column Container */}
+          <div 
+            style={{ 
+              padding: '0 16px 20px 16px',
+              width: '100%',
+              boxSizing: 'border-box'
+            }}
+          >
+            <AnimatePresence mode="wait">
+              {allColumns[currentColumnIndex]?.type === 'welcome' ? (
+                <motion.div
+                  key="welcome"
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  exit={{ opacity: 0 }}
+                  transition={{ duration: 0.3 }}
+                  style={{ width: '100%' }}
+                >
+                  <WelcomeColumn mobile={true} />
+                </motion.div>
+              ) : allColumns[currentColumnIndex]?.type === 'experiment' ? (
+                <motion.div
+                  key={allColumns[currentColumnIndex].experiment.id}
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  exit={{ opacity: 0 }}
+                  transition={{ duration: 0.3 }}
+                  style={{ width: '100%' }}
+                >
+                  <ExperimentColumn
+                    experiment={allColumns[currentColumnIndex].experiment}
+                    index={allColumns[currentColumnIndex].index}
+                    mobile={true}
+                  />
+                </motion.div>
+              ) : null}
+            </AnimatePresence>
+          </div>
+        </main>
+      </div>
+    )
+  }
+
+  // Desktop view (unchanged)
   return (
     <main 
       className="bg-white overflow-hidden" 
@@ -46,15 +192,13 @@ export function Experiments2Client() {
             <WelcomeColumn />
             
             {/* Experiment Columns */}
-            {experiments
-              .filter((experiment) => experiment.id !== 'exp-10')
-              .map((experiment, index) => (
-                <ExperimentColumn
-                  key={experiment.id}
-                  experiment={experiment}
-                  index={index + 1}
-                />
-              ))}
+            {filteredExperiments.map((experiment, index) => (
+              <ExperimentColumn
+                key={experiment.id}
+                experiment={experiment}
+                index={index + 1}
+              />
+            ))}
           </div>
         </div>
       </div>
@@ -62,7 +206,37 @@ export function Experiments2Client() {
   )
 }
 
-function WelcomeColumn() {
+interface WelcomeColumnProps {
+  mobile?: boolean
+}
+
+function WelcomeColumn({ mobile = false }: WelcomeColumnProps) {
+  if (mobile) {
+    return (
+      <div
+        style={{ 
+          width: '100%',
+          minHeight: '400px',
+          overflow: 'visible',
+          position: 'relative'
+        }}
+      >
+        <Image
+          src="/images/experiments2/welcome.webp"
+          alt="Welcome to my digital experiment gallery"
+          width={360}
+          height={800}
+          style={{
+            width: '100%',
+            height: 'auto',
+            objectFit: 'contain'
+          }}
+          unoptimized
+        />
+      </div>
+    )
+  }
+
   return (
     <motion.div
       initial={{ opacity: 0 }}
@@ -98,9 +272,10 @@ function WelcomeColumn() {
 interface ExperimentColumnProps {
   experiment: Experiment
   index: number
+  mobile?: boolean
 }
 
-function ExperimentColumn({ experiment, index }: ExperimentColumnProps) {
+function ExperimentColumn({ experiment, index, mobile = false }: ExperimentColumnProps) {
   // Helper function to get image path
   const getImagePath = (experimentId: string, imageIndex: number): string => {
     // Extract experiment number from ID (e.g., 'exp-01' -> '01')
@@ -246,6 +421,100 @@ function ExperimentColumn({ experiment, index }: ExperimentColumnProps) {
   }
 
   const contentBlocks = createContentBlocks(experiment.text, experiment.images)
+
+  if (mobile) {
+    return (
+      <div
+        className="bg-white flex flex-col"
+        style={{ 
+          width: '100%',
+          minHeight: '100%'
+        }}
+      >
+        {/* Content Blocks */}
+        <div>
+          {contentBlocks.map((block, blockIndex) => (
+            <div key={blockIndex} style={{ marginBottom: blockIndex < contentBlocks.length - 1 ? '20px' : '0' }}>
+              {block.type === 'header' ? (
+                <div>
+                  <div style={{ marginBottom: '8px' }}>
+                    <h2 className="text-black font-londrina-solid" style={{ fontSize: '40px', fontWeight: 400, marginTop: '0', marginBottom: '0', lineHeight: '1.1' }}>
+                      {experiment.title}
+                    </h2>
+                  </div>
+                  
+                  {/* Tags */}
+                  <div className="flex flex-wrap gap-2" style={{ marginBottom: '8px' }}>
+                    {experiment.tags.map((tag) => (
+                      <span
+                        key={tag}
+                        className="text-xs uppercase font-ibm-plex-mono"
+                        style={{
+                          padding: '4px 8px',
+                          border: '1px solid #d1d5db',
+                          backgroundColor: '#ffffff',
+                          color: '#374151',
+                          display: 'inline-block'
+                        }}
+                      >
+                        {tag}
+                      </span>
+                    ))}
+                  </div>
+                  
+                  {/* Metadata */}
+                  <div>
+                    {/* Tokens */}
+                    <div className="text-xs text-black/60 uppercase font-ibm-plex-mono">
+                      Tokens: {experiment.tokens.toLocaleString()}
+                    </div>
+                  </div>
+                </div>
+              ) : block.type === 'text' ? (
+                <p className="text-black/70 font-gilda-display" style={{ fontSize: '14px', textAlign: 'justify', lineHeight: '1.3', marginBottom: '0' }}>
+                  {block.content}
+                </p>
+              ) : (
+                <div className="w-full relative" style={{ aspectRatio: '16/9', minHeight: '200px' }}>
+                  {block.imageIndex !== undefined ? (
+                    <>
+                      <Image
+                        src={getImagePath(experiment.id, block.imageIndex)}
+                        alt={`${experiment.title} - Image ${block.imageIndex + 1}`}
+                        fill
+                        style={{ objectFit: 'cover' }}
+                        className="rounded-sm"
+                        unoptimized
+                        onError={(e) => {
+                          console.error('Image failed to load:', getImagePath(experiment.id, block.imageIndex!))
+                          const parent = e.currentTarget.parentElement
+                          if (parent) {
+                            parent.innerHTML = '<div class="w-full h-full bg-gray-200 flex items-center justify-center"><span class="text-xs text-black/40 uppercase font-ibm-plex-mono">Image not found</span></div>'
+                          }
+                        }}
+                      />
+                      {/* Fallback for empty/missing images */}
+                      <div className="absolute inset-0 bg-gray-200 flex items-center justify-center pointer-events-none" style={{ zIndex: -1 }}>
+                        <span className="text-xs text-black/40 uppercase font-ibm-plex-mono">
+                          Loading...
+                        </span>
+                      </div>
+                    </>
+                  ) : (
+                    <div className="w-full h-full bg-gray-200 flex items-center justify-center">
+                      <span className="text-xs text-black/40 uppercase font-ibm-plex-mono">
+                        Image not found
+                      </span>
+                    </div>
+                  )}
+                </div>
+              )}
+            </div>
+          ))}
+        </div>
+      </div>
+    )
+  }
 
   return (
     <motion.div
