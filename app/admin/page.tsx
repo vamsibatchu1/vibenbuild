@@ -1,14 +1,14 @@
 import { Metadata } from 'next'
 import { AdminClient } from './AdminClient'
-import { getProjects } from '@/data/projects'
+import { getExperiments } from '@/app/allexperiments/getExperiments'
 
 export const metadata: Metadata = {
   title: 'Vibe N Build - Admin',
 }
 
 export default async function AdminPage() {
-  // Load projects on the server side
-  const projects = await getProjects()
+  // Load experiments on the server side
+  const experiments = await getExperiments()
   
-  return <AdminClient initialProjects={projects} />
+  return <AdminClient initialExperiments={experiments} />
 }
