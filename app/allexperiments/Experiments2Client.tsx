@@ -3,10 +3,12 @@
 import { motion, AnimatePresence } from 'framer-motion'
 import { useEffect, useState, FormEvent } from 'react'
 import Image from 'next/image'
-import { ChevronLeft, ChevronRight, Mail, ExternalLink } from 'lucide-react'
+import { ChevronLeft, ChevronRight, Mail, ExternalLink, Menu, X } from 'lucide-react'
+import Link from 'next/link'
 import { collection, addDoc, serverTimestamp, query, where, getDocs } from 'firebase/firestore'
 import { db } from '@/lib/firebase'
 import experimentsData from './experiments.json'
+import wipIdeasData from './wip-ideas.json'
 
 interface Experiment {
   id: string
@@ -25,6 +27,7 @@ const filteredExperiments = experiments.filter((experiment) => experiment.id !==
 export function Experiments2Client() {
   const [isMobile, setIsMobile] = useState(false)
   const [currentColumnIndex, setCurrentColumnIndex] = useState(0)
+  const [isMenuOpen, setIsMenuOpen] = useState(false)
 
   useEffect(() => {
     // Check if mobile on mount and resize
@@ -43,7 +46,7 @@ export function Experiments2Client() {
   useEffect(() => {
     // Prevent body scrolling only on desktop
     if (!isMobile) {
-      document.body.style.overflow = 'hidden'
+    document.body.style.overflow = 'hidden'
     } else {
       document.body.style.overflow = ''
     }
@@ -80,7 +83,7 @@ export function Experiments2Client() {
             position: 'relative'
           }}
         >
-          {/* Navigation Arrows - Sticky */}
+          {/* Navigation Row - Sticky */}
           <div 
             className="flex justify-between items-center"
             style={{
@@ -94,11 +97,10 @@ export function Experiments2Client() {
               boxSizing: 'border-box'
             }}
           >
+            {/* Menu Icon - Left */}
             <button
-              onClick={handlePrevious}
-              disabled={currentColumnIndex === 0}
-              className={currentColumnIndex === 0 ? 'opacity-30 cursor-not-allowed' : 'opacity-100'}
-              aria-label="Previous column"
+              onClick={() => setIsMenuOpen(true)}
+              aria-label="Open menu"
               style={{
                 width: '40px',
                 height: '40px',
@@ -110,27 +112,145 @@ export function Experiments2Client() {
                 padding: 0
               }}
             >
-              <ChevronLeft size={24} className="text-black" />
+              <Menu size={24} className="text-black" />
             </button>
-            <button
-              onClick={handleNext}
-              disabled={currentColumnIndex === allColumns.length - 1}
-              className={currentColumnIndex === allColumns.length - 1 ? 'opacity-30 cursor-not-allowed' : 'opacity-100'}
-              aria-label="Next column"
-              style={{
-                width: '40px',
-                height: '40px',
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                border: '1px dashed #000000',
-                backgroundColor: '#ffffff',
-                padding: 0
-              }}
-            >
-              <ChevronRight size={24} className="text-black" />
-            </button>
+
+            {/* Navigation Arrows - Right */}
+            <div className="flex gap-2">
+              <button
+                onClick={handlePrevious}
+                disabled={currentColumnIndex === 0}
+                className={currentColumnIndex === 0 ? 'opacity-30 cursor-not-allowed' : 'opacity-100'}
+                aria-label="Previous column"
+                style={{
+                  width: '40px',
+                  height: '40px',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  border: '1px dashed #000000',
+                  backgroundColor: '#ffffff',
+                  padding: 0
+                }}
+              >
+                <ChevronLeft size={24} className="text-black" />
+              </button>
+              <button
+                onClick={handleNext}
+                disabled={currentColumnIndex === allColumns.length - 1}
+                className={currentColumnIndex === allColumns.length - 1 ? 'opacity-30 cursor-not-allowed' : 'opacity-100'}
+                aria-label="Next column"
+                style={{
+                  width: '40px',
+                  height: '40px',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  border: '1px dashed #000000',
+                  backgroundColor: '#ffffff',
+                  padding: 0
+                }}
+              >
+                <ChevronRight size={24} className="text-black" />
+              </button>
+            </div>
           </div>
+
+          {/* Menu Modal */}
+          <AnimatePresence>
+            {isMenuOpen && (
+              <>
+                {/* Backdrop */}
+                <motion.div
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  exit={{ opacity: 0 }}
+                  onClick={() => setIsMenuOpen(false)}
+                  style={{
+                    position: 'fixed',
+                    top: 0,
+                    left: 0,
+                    right: 0,
+                    bottom: 0,
+                    backgroundColor: 'rgba(0, 0, 0, 0.5)',
+                    zIndex: 20
+                  }}
+                />
+                {/* Modal */}
+                <motion.div
+                  initial={{ opacity: 0, y: -20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, y: -20 }}
+                  style={{
+                    position: 'fixed',
+                    top: '80px',
+                    left: '16px',
+                    right: '16px',
+                    backgroundColor: '#ffffff',
+                    border: '1px dashed #000000',
+                    zIndex: 21,
+                    padding: '20px'
+                  }}
+                >
+                  <div className="flex justify-between items-center mb-6">
+                    <div className="text-xs font-ibm-plex-mono uppercase text-black">Navigation</div>
+                    <button
+                      onClick={() => setIsMenuOpen(false)}
+                      aria-label="Close menu"
+                      style={{
+                        width: '32px',
+                        height: '32px',
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                        border: '1px dashed #000000',
+                        backgroundColor: '#ffffff',
+                        padding: 0
+                      }}
+                    >
+                      <X size={20} className="text-black" />
+                    </button>
+                  </div>
+                  <div className="space-y-3">
+                    <Link
+                      href="/"
+                      onClick={() => setIsMenuOpen(false)}
+                      className="block w-full text-left px-4 py-3 border border-black/30 hover:bg-black/5 transition-colors font-ibm-plex-mono text-sm uppercase text-black"
+                    >
+                      Home
+                    </Link>
+                    <Link
+                      href="/allexperiments"
+                      onClick={() => setIsMenuOpen(false)}
+                      className="block w-full text-left px-4 py-3 border border-black/30 hover:bg-black/5 transition-colors font-ibm-plex-mono text-sm uppercase text-black"
+                    >
+                      Experiments
+                    </Link>
+                    <button
+                      onClick={() => {
+                        setIsMenuOpen(false)
+                        // Navigate to exit column (last column)
+                        setCurrentColumnIndex(allColumns.length - 1)
+                        // Small delay to ensure column is rendered, then switch to About Me tab
+                        setTimeout(() => {
+                          const exitColumn = document.querySelector('[data-exit-column]')
+                          if (exitColumn) {
+                            const aboutMeButton = exitColumn.querySelector('[data-about-me-tab]') as HTMLButtonElement
+                            if (aboutMeButton) {
+                              aboutMeButton.click()
+                            }
+                          }
+                        }, 100)
+                      }}
+                      className="block w-full text-left px-4 py-3 border border-black/30 hover:bg-black/5 transition-colors font-ibm-plex-mono text-sm uppercase text-black"
+                    >
+                      About Me
+                    </button>
+                  </div>
+                </motion.div>
+              </>
+            )}
+          </AnimatePresence>
 
           {/* Column Container */}
           <div 
@@ -176,7 +296,9 @@ export function Experiments2Client() {
                   transition={{ duration: 0.3 }}
                   style={{ width: '100%' }}
                 >
-                  <ExitColumn mobile={true} />
+                  <div data-exit-column>
+                    <ExitColumn mobile={true} />
+                  </div>
                 </motion.div>
               ) : null}
             </AnimatePresence>
@@ -206,12 +328,12 @@ export function Experiments2Client() {
             
             {/* Experiment Columns */}
             {filteredExperiments.map((experiment, index) => (
-              <ExperimentColumn
-                key={experiment.id}
-                experiment={experiment}
-                index={index + 1}
-              />
-            ))}
+                <ExperimentColumn
+                  key={experiment.id}
+                  experiment={experiment}
+                  index={index + 1}
+                />
+              ))}
             
             {/* Exit Column */}
             <ExitColumn />
@@ -363,15 +485,10 @@ function ExitColumn({ mobile = false }: ExitColumnProps) {
   const [emailStatus, setEmailStatus] = useState<'idle' | 'loading' | 'success' | 'error'>('idle')
   const [ideaError, setIdeaError] = useState('')
   const [emailError, setEmailError] = useState('')
+  const [activeTab, setActiveTab] = useState<'keep-reading' | 'about-me'>('keep-reading')
 
-  // Work in progress projects
-  const workInProgress = [
-    'Exploring new AI-powered design tools for creative workflows.',
-    'Building an interactive visualization platform for data storytelling.',
-    'Developing a collaborative workspace for remote teams.',
-    'Creating a generative art tool with machine learning.',
-    'Designing a new approach to digital product prototyping.'
-  ]
+  // Work in progress projects - loaded from JSON file
+  const workInProgress: string[] = wipIdeasData as string[]
 
   const handleIdeaSubmit = async (e: FormEvent) => {
     e.preventDefault()
@@ -493,99 +610,160 @@ function ExitColumn({ mobile = false }: ExitColumnProps) {
           </div>
         </div>
 
-        {/* Work in Progress */}
-        <div className="mb-8">
-          <div className="text-xs text-black/70 leading-relaxed mb-4 uppercase font-ibm-plex-mono">
-            Ideas that are work in progress
+        {/* Tabs */}
+        <div className="mb-6 border-b-2 border-black">
+          <div className="flex gap-2">
+            <button
+              onClick={() => setActiveTab('keep-reading')}
+              className={`px-4 py-2 text-xs font-ibm-plex-mono uppercase transition-colors ${
+                activeTab === 'keep-reading'
+                  ? 'bg-black text-white'
+                  : 'bg-transparent text-black hover:bg-black/5'
+              }`}
+            >
+              Keep Reading
+            </button>
+            <button
+              onClick={() => setActiveTab('about-me')}
+              data-about-me-tab
+              className={`px-4 py-2 text-xs font-ibm-plex-mono uppercase transition-colors ${
+                activeTab === 'about-me'
+                  ? 'bg-black text-white'
+                  : 'bg-transparent text-black hover:bg-black/5'
+              }`}
+            >
+              About Me
+            </button>
           </div>
-          <div className="space-y-4">
-            {workInProgress.map((text, idx) => (
-              <div key={idx} className="border-b border-black/20 pb-4 text-sm text-black/60 font-gilda-display" style={{ marginBottom: idx < workInProgress.length - 1 ? '20px' : '0' }}>
-                {text}
+        </div>
+
+        {/* Keep Reading Tab */}
+        {activeTab === 'keep-reading' && (
+          <>
+            {/* Work in Progress */}
+            <div className="mb-8">
+              <div className="text-xs text-black/70 leading-relaxed mb-4 uppercase font-ibm-plex-mono">
+                Ideas that are work in progress
               </div>
-            ))}
-          </div>
-        </div>
+              <div className="space-y-4">
+                {workInProgress.map((text, idx) => (
+                  <div key={idx} className="border-b border-black/20 pb-4 text-sm text-black/60 font-gilda-display" style={{ marginBottom: idx < workInProgress.length - 1 ? '20px' : '0' }}>
+                    {text}
+                  </div>
+                ))}
+              </div>
+            </div>
 
-        {/* Submit an Idea */}
-        <div className="mb-8">
-          <form onSubmit={handleIdeaSubmit}>
-            <textarea
-              value={idea}
-              onChange={(e) => setIdea(e.target.value)}
-              placeholder="Share your idea for a future experiment..."
-              className="w-full p-3 border border-black/30 rounded-sm font-ibm-plex-mono text-sm mb-3"
-              style={{ minHeight: '100px', resize: 'vertical' }}
-            />
-            <button
-              type="submit"
-              disabled={ideaStatus === 'loading'}
-              className="w-full h-10 font-ibm-plex-mono text-sm uppercase transition-colors disabled:opacity-50"
-              style={{
-                border: '1px dashed #000000',
-                backgroundColor: '#ffffff',
-                color: '#000000'
-              }}
-            >
-              {ideaStatus === 'loading' ? 'Submitting...' : ideaStatus === 'success' ? 'Submitted!' : 'Submit Idea'}
-            </button>
-            {ideaError && <div className="text-xs text-red-600 mt-2 font-ibm-plex-mono">{ideaError}</div>}
-          </form>
-        </div>
+            {/* Submit an Idea */}
+            <div className="mb-8">
+              <form onSubmit={handleIdeaSubmit}>
+                <textarea
+                  value={idea}
+                  onChange={(e) => setIdea(e.target.value)}
+                  placeholder="Share your idea for a future experiment..."
+                  className="w-full p-3 border border-black/30 rounded-sm font-ibm-plex-mono text-sm mb-3 focus:outline-none focus:ring-2 focus:ring-black focus:border-black"
+                  style={{ minHeight: '100px', resize: 'vertical' }}
+                />
+                <button
+                  type="submit"
+                  disabled={ideaStatus === 'loading'}
+                  className="w-full h-10 font-ibm-plex-mono text-sm uppercase transition-colors disabled:opacity-50"
+                  style={{
+                    border: '1px dashed #000000',
+                    backgroundColor: '#ffffff',
+                    color: '#000000'
+                  }}
+                >
+                  {ideaStatus === 'loading' ? 'Submitting...' : ideaStatus === 'success' ? 'Submitted!' : 'Submit Idea'}
+                </button>
+                {ideaError && <div className="text-xs text-red-600 mt-2 font-ibm-plex-mono">{ideaError}</div>}
+              </form>
+            </div>
 
-        {/* Email Notification */}
-        <div className="mb-8">
-          <div className="text-xs text-black/70 leading-relaxed mb-4 uppercase font-ibm-plex-mono">
-            Get notified when new projects are released. Enter your email below to stay updated.
-          </div>
-          <form onSubmit={handleEmailSubmit}>
-            <input
-              type="email"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              placeholder="Enter your email"
-              className="w-full p-3 border border-black/30 rounded-sm font-ibm-plex-mono text-sm mb-3"
-            />
-            <button
-              type="submit"
-              disabled={emailStatus === 'loading'}
-              className="w-full h-10 font-ibm-plex-mono text-sm uppercase transition-colors disabled:opacity-50"
-              style={{
-                border: '1px dashed #000000',
-                backgroundColor: '#ffffff',
-                color: '#000000'
-              }}
-            >
-              {emailStatus === 'loading' ? 'Subscribing...' : emailStatus === 'success' ? 'Subscribed!' : 'Subscribe'}
-            </button>
-            {emailError && <div className="text-xs text-red-600 mt-2 font-ibm-plex-mono">{emailError}</div>}
-          </form>
-        </div>
+            {/* Email Notification */}
+            <div className="mb-8">
+              <div className="text-xs text-black/70 leading-relaxed mb-4 uppercase font-ibm-plex-mono">
+                Get notified when new projects are released. Enter your email below to stay updated.
+              </div>
+              <form onSubmit={handleEmailSubmit}>
+                <input
+                  type="email"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  placeholder="Enter your email"
+                  className="w-full p-3 border border-black/30 rounded-sm font-ibm-plex-mono text-sm mb-3 focus:outline-none focus:ring-2 focus:ring-black focus:border-black"
+                />
+                <button
+                  type="submit"
+                  disabled={emailStatus === 'loading'}
+                  className="w-full h-10 font-ibm-plex-mono text-sm uppercase transition-colors disabled:opacity-50"
+                  style={{
+                    border: '1px dashed #000000',
+                    backgroundColor: '#ffffff',
+                    color: '#000000'
+                  }}
+                >
+                  {emailStatus === 'loading' ? 'Subscribing...' : emailStatus === 'success' ? 'Subscribed!' : 'Subscribe'}
+                </button>
+                {emailError && <div className="text-xs text-red-600 mt-2 font-ibm-plex-mono">{emailError}</div>}
+              </form>
+            </div>
 
-        {/* Contact Links */}
-        <div>
-          <div className="text-xs text-black/70 leading-relaxed mb-4 uppercase font-ibm-plex-mono">
-            Connect with me on social media or reach out via email.
+            {/* Contact Links */}
+            <div>
+              <div className="text-xs text-black/70 leading-relaxed mb-4 uppercase font-ibm-plex-mono">
+                Connect with me on social media or reach out via email.
+              </div>
+              <div className="space-y-3">
+                <a href="https://twitter.com" target="_blank" rel="noopener noreferrer" className="flex items-center gap-2 text-black/70 hover:text-black transition-colors font-ibm-plex-mono text-sm uppercase">
+                  <ExternalLink size={16} />
+                  Twitter
+                </a>
+                <a href="https://linkedin.com" target="_blank" rel="noopener noreferrer" className="flex items-center gap-2 text-black/70 hover:text-black transition-colors font-ibm-plex-mono text-sm uppercase">
+                  <ExternalLink size={16} />
+                  LinkedIn
+                </a>
+                <a href="https://github.com" target="_blank" rel="noopener noreferrer" className="flex items-center gap-2 text-black/70 hover:text-black transition-colors font-ibm-plex-mono text-sm uppercase">
+                  <ExternalLink size={16} />
+                  GitHub
+                </a>
+                <a href="mailto:contact@example.com" className="flex items-center gap-2 text-black/70 hover:text-black transition-colors font-ibm-plex-mono text-sm uppercase">
+                  <Mail size={16} />
+                  Email
+                </a>
+              </div>
+            </div>
+          </>
+        )}
+
+        {/* About Me Tab */}
+        {activeTab === 'about-me' && (
+          <div className="space-y-6">
+            {/* Profile Image with Glitch Effect */}
+            <div className="glitch-image-container">
+              <Image
+                src="/images/vamsi.webp"
+                alt="Vamsi"
+                width={200}
+                height={200}
+                className="glitch-image rounded-sm"
+                style={{ objectFit: 'cover' }}
+              />
+            </div>
+            
+            <div className="text-sm text-black/60 font-gilda-display">
+              <p className="mb-4">
+                Originally from India, I am a designer currently living in Atlanta with my wife and dog. I like to call myself a <strong>product builder</strong> and a <strong>software tinkerer</strong>. With a background in computer science, I found my calling in it's intersection with art and curiosity.
+              </p>
+              <p className="mb-4">
+                With a proven track record leading cross-functional initiatives to shape product strategy, I specialize in defining the vision for <strong>zero-to-one</strong>, <strong>AI-native</strong> products and evolving <strong>data-informed design systems</strong>. I thrive on collaborating with product and business partners to drive innovation and deliver measurable impact.
+              </p>
+              <p>
+                Beyond designing products, I'm actively advancing AI fluency at Rocket through multiple initiatives and serving on the <strong>AI Leadership Council</strong> to shape tool strategy, training programs, and adoption.
+              </p>
+            </div>
           </div>
-          <div className="space-y-3">
-            <a href="https://twitter.com" target="_blank" rel="noopener noreferrer" className="flex items-center gap-2 text-black/70 hover:text-black transition-colors font-ibm-plex-mono text-sm uppercase">
-              <ExternalLink size={16} />
-              Twitter
-            </a>
-            <a href="https://linkedin.com" target="_blank" rel="noopener noreferrer" className="flex items-center gap-2 text-black/70 hover:text-black transition-colors font-ibm-plex-mono text-sm uppercase">
-              <ExternalLink size={16} />
-              LinkedIn
-            </a>
-            <a href="https://github.com" target="_blank" rel="noopener noreferrer" className="flex items-center gap-2 text-black/70 hover:text-black transition-colors font-ibm-plex-mono text-sm uppercase">
-              <ExternalLink size={16} />
-              GitHub
-            </a>
-            <a href="mailto:contact@example.com" className="flex items-center gap-2 text-black/70 hover:text-black transition-colors font-ibm-plex-mono text-sm uppercase">
-              <Mail size={16} />
-              Email
-            </a>
-          </div>
-        </div>
+        )}
       </div>
     )
   }
@@ -615,99 +793,159 @@ function ExitColumn({ mobile = false }: ExitColumnProps) {
         </div>
       </div>
 
-      {/* Work in Progress */}
-      <div className="mb-8">
-        <div className="text-xs text-black/70 leading-relaxed mb-4 uppercase font-ibm-plex-mono">
-          Ideas that are work in progress
+      {/* Tabs */}
+      <div className="mb-6 border-b-2 border-black">
+        <div className="flex gap-2">
+          <button
+            onClick={() => setActiveTab('keep-reading')}
+            className={`px-4 py-2 text-xs font-ibm-plex-mono uppercase transition-colors ${
+              activeTab === 'keep-reading'
+                ? 'bg-black text-white'
+                : 'bg-transparent text-black hover:bg-black/5'
+            }`}
+          >
+            Keep Reading
+          </button>
+          <button
+            onClick={() => setActiveTab('about-me')}
+            className={`px-4 py-2 text-xs font-ibm-plex-mono uppercase transition-colors ${
+              activeTab === 'about-me'
+                ? 'bg-black text-white'
+                : 'bg-transparent text-black hover:bg-black/5'
+            }`}
+          >
+            About Me
+          </button>
         </div>
-        <div className="space-y-4">
-          {workInProgress.map((text, idx) => (
-            <div key={idx} className="border-b border-black/20 pb-4 text-sm text-black/60 font-gilda-display" style={{ marginBottom: idx < workInProgress.length - 1 ? '20px' : '0' }}>
-              {text}
+      </div>
+
+      {/* Keep Reading Tab */}
+      {activeTab === 'keep-reading' && (
+        <>
+          {/* Work in Progress */}
+          <div className="mb-8">
+            <div className="text-xs text-black/70 leading-relaxed mb-4 uppercase font-ibm-plex-mono">
+              Ideas that are work in progress
             </div>
-          ))}
-        </div>
-      </div>
+            <div className="space-y-4">
+              {workInProgress.map((text, idx) => (
+                <div key={idx} className="border-b border-black/20 pb-4 text-sm text-black/60 font-gilda-display" style={{ marginBottom: idx < workInProgress.length - 1 ? '20px' : '0' }}>
+                  {text}
+                </div>
+              ))}
+            </div>
+          </div>
 
-      {/* Submit an Idea */}
-      <div className="mb-8">
-        <form onSubmit={handleIdeaSubmit}>
-          <textarea
-            value={idea}
-            onChange={(e) => setIdea(e.target.value)}
-            placeholder="Share your idea for a future experiment..."
-            className="w-full p-3 border border-black/30 rounded-sm font-ibm-plex-mono text-sm mb-3"
-            style={{ minHeight: '100px', resize: 'vertical' }}
-          />
-          <button
-            type="submit"
-            disabled={ideaStatus === 'loading'}
-            className="w-full h-10 font-ibm-plex-mono text-sm uppercase transition-colors disabled:opacity-50"
-            style={{
-              border: '1px dashed #000000',
-              backgroundColor: '#ffffff',
-              color: '#000000'
-            }}
-          >
-            {ideaStatus === 'loading' ? 'Submitting...' : ideaStatus === 'success' ? 'Submitted!' : 'Submit Idea'}
-          </button>
-          {ideaError && <div className="text-xs text-red-600 mt-2 font-ibm-plex-mono">{ideaError}</div>}
-        </form>
-      </div>
+          {/* Submit an Idea */}
+          <div className="mb-8">
+            <form onSubmit={handleIdeaSubmit}>
+              <textarea
+                value={idea}
+                onChange={(e) => setIdea(e.target.value)}
+                placeholder="Share your idea for a future experiment..."
+                className="w-full p-3 border border-black/30 rounded-sm font-ibm-plex-mono text-sm mb-3 focus:outline-none focus:ring-2 focus:ring-black focus:border-black"
+                style={{ minHeight: '100px', resize: 'vertical' }}
+              />
+              <button
+                type="submit"
+                disabled={ideaStatus === 'loading'}
+                className="w-full h-10 font-ibm-plex-mono text-sm uppercase transition-colors disabled:opacity-50"
+                style={{
+                  border: '1px dashed #000000',
+                  backgroundColor: '#ffffff',
+                  color: '#000000'
+                }}
+              >
+                {ideaStatus === 'loading' ? 'Submitting...' : ideaStatus === 'success' ? 'Submitted!' : 'Submit Idea'}
+              </button>
+              {ideaError && <div className="text-xs text-red-600 mt-2 font-ibm-plex-mono">{ideaError}</div>}
+            </form>
+          </div>
 
-      {/* Email Notification */}
-      <div className="mb-8">
-        <div className="text-xs text-black/70 leading-relaxed mb-4 uppercase font-ibm-plex-mono">
-          Get notified when new projects are released. Enter your email below to stay updated.
-        </div>
-        <form onSubmit={handleEmailSubmit}>
-          <input
-            type="email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            placeholder="Enter your email"
-            className="w-full p-3 border border-black/30 rounded-sm font-ibm-plex-mono text-sm mb-3"
-          />
-          <button
-            type="submit"
-            disabled={emailStatus === 'loading'}
-            className="w-full h-10 font-ibm-plex-mono text-sm uppercase transition-colors disabled:opacity-50"
-            style={{
-              border: '1px dashed #000000',
-              backgroundColor: '#ffffff',
-              color: '#000000'
-            }}
-          >
-            {emailStatus === 'loading' ? 'Subscribing...' : emailStatus === 'success' ? 'Subscribed!' : 'Subscribe'}
-          </button>
-          {emailError && <div className="text-xs text-red-600 mt-2 font-ibm-plex-mono">{emailError}</div>}
-        </form>
-      </div>
+          {/* Email Notification */}
+          <div className="mb-8">
+            <div className="text-xs text-black/70 leading-relaxed mb-4 uppercase font-ibm-plex-mono">
+              Get notified when new projects are released. Enter your email below to stay updated.
+            </div>
+            <form onSubmit={handleEmailSubmit}>
+              <input
+                type="email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                placeholder="Enter your email"
+                className="w-full p-3 border border-black/30 rounded-sm font-ibm-plex-mono text-sm mb-3 focus:outline-none focus:ring-2 focus:ring-black focus:border-black"
+              />
+              <button
+                type="submit"
+                disabled={emailStatus === 'loading'}
+                className="w-full h-10 font-ibm-plex-mono text-sm uppercase transition-colors disabled:opacity-50"
+                style={{
+                  border: '1px dashed #000000',
+                  backgroundColor: '#ffffff',
+                  color: '#000000'
+                }}
+              >
+                {emailStatus === 'loading' ? 'Subscribing...' : emailStatus === 'success' ? 'Subscribed!' : 'Subscribe'}
+              </button>
+              {emailError && <div className="text-xs text-red-600 mt-2 font-ibm-plex-mono">{emailError}</div>}
+            </form>
+          </div>
 
-      {/* Contact Links */}
-      <div>
-        <div className="text-xs text-black/70 leading-relaxed mb-4 uppercase font-ibm-plex-mono">
-          Connect with me on social media or reach out via email.
+          {/* Contact Links */}
+          <div>
+            <div className="text-xs text-black/70 leading-relaxed mb-4 uppercase font-ibm-plex-mono">
+              Connect with me on social media or reach out via email.
+            </div>
+            <div className="space-y-3">
+              <a href="https://twitter.com" target="_blank" rel="noopener noreferrer" className="flex items-center gap-2 text-black/70 hover:text-black transition-colors font-ibm-plex-mono text-sm uppercase">
+                <ExternalLink size={16} />
+                Twitter
+              </a>
+              <a href="https://linkedin.com" target="_blank" rel="noopener noreferrer" className="flex items-center gap-2 text-black/70 hover:text-black transition-colors font-ibm-plex-mono text-sm uppercase">
+                <ExternalLink size={16} />
+                LinkedIn
+              </a>
+              <a href="https://github.com" target="_blank" rel="noopener noreferrer" className="flex items-center gap-2 text-black/70 hover:text-black transition-colors font-ibm-plex-mono text-sm uppercase">
+                <ExternalLink size={16} />
+                GitHub
+              </a>
+              <a href="mailto:contact@example.com" className="flex items-center gap-2 text-black/70 hover:text-black transition-colors font-ibm-plex-mono text-sm uppercase">
+                <Mail size={16} />
+                Email
+              </a>
+            </div>
+          </div>
+        </>
+      )}
+
+      {/* About Me Tab */}
+      {activeTab === 'about-me' && (
+        <div className="space-y-6">
+          {/* Profile Image with Glitch Effect */}
+          <div className="glitch-image-container">
+            <Image
+              src="/images/vamsi.webp"
+              alt="Vamsi"
+              width={200}
+              height={200}
+              className="glitch-image rounded-sm"
+              style={{ objectFit: 'cover' }}
+            />
+          </div>
+          
+          <div className="text-sm text-black/80 leading-relaxed font-gilda-display">
+            <p className="mb-4">
+              Originally from India, I am a designer currently living in Atlanta with my wife and dog. I like to call myself a <strong>product builder</strong> and a <strong>software tinkerer</strong>. With a background in computer science, I found my calling in it's intersection with art and curiosity.
+            </p>
+            <p className="mb-4">
+              With a proven track record leading cross-functional initiatives to shape product strategy, I specialize in defining the vision for <strong>zero-to-one</strong>, <strong>AI-native</strong> products and evolving <strong>data-informed design systems</strong>. I thrive on collaborating with product and business partners to drive innovation and deliver measurable impact.
+            </p>
+            <p>
+              Beyond designing products, I'm actively advancing AI fluency at Rocket through multiple initiatives and serving on the <strong>AI Leadership Council</strong> to shape tool strategy, training programs, and adoption.
+            </p>
+          </div>
         </div>
-        <div className="space-y-3">
-          <a href="https://twitter.com" target="_blank" rel="noopener noreferrer" className="flex items-center gap-2 text-black/70 hover:text-black transition-colors font-ibm-plex-mono text-sm uppercase">
-            <ExternalLink size={16} />
-            Twitter
-          </a>
-          <a href="https://linkedin.com" target="_blank" rel="noopener noreferrer" className="flex items-center gap-2 text-black/70 hover:text-black transition-colors font-ibm-plex-mono text-sm uppercase">
-            <ExternalLink size={16} />
-            LinkedIn
-          </a>
-          <a href="https://github.com" target="_blank" rel="noopener noreferrer" className="flex items-center gap-2 text-black/70 hover:text-black transition-colors font-ibm-plex-mono text-sm uppercase">
-            <ExternalLink size={16} />
-            GitHub
-          </a>
-          <a href="mailto:contact@example.com" className="flex items-center gap-2 text-black/70 hover:text-black transition-colors font-ibm-plex-mono text-sm uppercase">
-            <Mail size={16} />
-            Email
-          </a>
-        </div>
-      </div>
+      )}
     </motion.div>
   )
 }

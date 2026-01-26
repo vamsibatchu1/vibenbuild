@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useCallback } from 'react'
+import React, { useState, useCallback, useEffect } from 'react'
 import Image from 'next/image'
 import { Experiment } from '@/app/allexperiments/getExperiments'
 import { Lock, Save, X, Plus, Trash2, Upload, Eye, Edit } from 'lucide-react'
@@ -8,16 +8,19 @@ import { motion } from 'framer-motion'
 
 interface AdminClientProps {
   initialExperiments: Experiment[]
+  initialWipIdeas: string[]
 }
 
-export function AdminClient({ initialExperiments }: AdminClientProps) {
+export function AdminClient({ initialExperiments, initialWipIdeas }: AdminClientProps) {
   const [isAuthenticated, setIsAuthenticated] = useState(false)
   const [password, setPassword] = useState('')
   const [error, setError] = useState('')
   const [experiments, setExperiments] = useState<Experiment[]>(initialExperiments)
+  const [wipIdeas, setWipIdeas] = useState<string[]>(initialWipIdeas)
   const [isSaving, setIsSaving] = useState(false)
   const [saveMessage, setSaveMessage] = useState('')
   const [editingId, setEditingId] = useState<string | null>(null)
+  const [activeTab, setActiveTab] = useState<'experiments' | 'wip'>('experiments')
 
   const handleLogin = useCallback(async () => {
     setError('')
@@ -43,26 +46,34 @@ export function AdminClient({ initialExperiments }: AdminClientProps) {
     setSaveMessage('')
     
     try {
-      const response = await fetch('/api/admin/save-experiments', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ experiments }),
-      })
+      // Save experiments and WIP ideas in parallel
+      const [experimentsResponse, wipIdeasResponse] = await Promise.all([
+        fetch('/api/admin/save-experiments', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ experiments }),
+        }),
+        fetch('/api/admin/save-wip-ideas', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ ideas: wipIdeas }),
+        })
+      ])
 
-      if (response.ok) {
-        setSaveMessage('Experiments saved successfully!')
+      if (experimentsResponse.ok && wipIdeasResponse.ok) {
+        setSaveMessage('All changes saved successfully!')
         setTimeout(() => setSaveMessage(''), 3000)
       } else {
-        setSaveMessage('Failed to save experiments')
+        setSaveMessage('Failed to save some changes')
         setTimeout(() => setSaveMessage(''), 3000)
       }
     } catch (err) {
-      setSaveMessage('Error saving experiments')
+      setSaveMessage('Error saving changes')
       setTimeout(() => setSaveMessage(''), 3000)
     } finally {
       setIsSaving(false)
     }
-  }, [experiments])
+  }, [experiments, wipIdeas])
 
   const updateExperiment = useCallback((id: string, updates: Partial<Experiment>) => {
     setExperiments(prev => prev.map(e => e.id === id ? { ...e, ...updates } : e))
@@ -192,6 +203,22 @@ export function AdminClient({ initialExperiments }: AdminClientProps) {
     }
   }, [editingId])
 
+  const handleWipIdeaChange = useCallback((index: number, value: string) => {
+    setWipIdeas(prev => {
+      const updated = [...prev]
+      updated[index] = value
+      return updated
+    })
+  }, [])
+
+  const handleAddWipIdea = useCallback(() => {
+    setWipIdeas(prev => [...prev, ''])
+  }, [])
+
+  const handleRemoveWipIdea = useCallback((index: number) => {
+    setWipIdeas(prev => prev.filter((_, i) => i !== index))
+  }, [])
+
   if (!isAuthenticated) {
     return (
       <div className="min-h-screen flex items-center justify-center bg-white">
@@ -249,57 +276,127 @@ export function AdminClient({ initialExperiments }: AdminClientProps) {
                   {saveMessage}
                 </span>
               )}
-              <button
-                onClick={handleAddExperiment}
-                className="flex items-center gap-2 border-2 border-black bg-white text-black px-4 py-2 hover:bg-black/5 transition-colors text-xs font-ibm-plex-mono uppercase"
-              >
-                <Plus className="w-3 h-3" />
-                Add Experiment
-              </button>
+              {activeTab === 'experiments' && (
+                <button
+                  onClick={handleAddExperiment}
+                  className="flex items-center gap-2 border-2 border-black bg-white text-black px-4 py-2 hover:bg-black/5 transition-colors text-xs font-ibm-plex-mono uppercase"
+                >
+                  <Plus className="w-3 h-3" />
+                  <span className="hidden md:inline">Add Experiment</span>
+                  <span className="md:hidden">Add</span>
+                </button>
+              )}
               <button
                 onClick={handleSave}
                 disabled={isSaving}
                 className="flex items-center gap-2 bg-black text-white px-4 py-2 hover:bg-black/80 transition-colors disabled:opacity-50 disabled:cursor-not-allowed text-xs font-ibm-plex-mono uppercase"
               >
                 <Save className="w-3 h-3" />
-                {isSaving ? 'Saving...' : 'Save All'}
+                {isSaving ? 'Saving...' : <><span className="hidden md:inline">Save All</span><span className="md:hidden">Save</span></>}
               </button>
             </div>
           </div>
-          <div className="text-xs text-black/70 leading-relaxed max-w-md mb-4 uppercase font-ibm-plex-mono">
-            Edit experiment information below. Click &quot;Edit&quot; on any row to modify details.
+        </div>
+
+        {/* Tabs */}
+        <div className="mb-6 border-b-2 border-black">
+          <div className="flex gap-2">
+            <button
+              onClick={() => setActiveTab('experiments')}
+              className={`px-4 py-2 text-xs font-ibm-plex-mono uppercase transition-colors ${
+                activeTab === 'experiments'
+                  ? 'bg-black text-white'
+                  : 'bg-transparent text-black hover:bg-black/5'
+              }`}
+            >
+              Experiment Data
+            </button>
+            <button
+              onClick={() => setActiveTab('wip')}
+              className={`px-4 py-2 text-xs font-ibm-plex-mono uppercase transition-colors ${
+                activeTab === 'wip'
+                  ? 'bg-black text-white'
+                  : 'bg-transparent text-black hover:bg-black/5'
+              }`}
+            >
+              Work in Progress Ideas
+            </button>
           </div>
         </div>
 
-        {/* Column Headers - Hidden on mobile */}
-        <div className="mb-2 hidden md:block">
-          <div className="flex gap-4 text-xs text-black/80 uppercase tracking-wide items-start border-t-2 border-b-2 border-solid border-black py-2 font-ibm-plex-mono">
-            <div className="w-24 flex-shrink-0 text-left">ID</div>
-            <div className="w-24 flex-shrink-0 text-left">Title</div>
-            <div className="w-24 flex-shrink-0 text-left">Tags</div>
-            <div className="flex-1 min-w-[300px] text-left">Text</div>
-            <div className="w-20 md:w-24 flex-shrink-0 text-right">Actions</div>
-          </div>
-        </div>
+        {/* Experiment Data Tab */}
+        {activeTab === 'experiments' && (
+          <>
+            <div className="text-xs text-black/70 leading-relaxed max-w-md mb-4 uppercase font-ibm-plex-mono">
+              Edit experiment information below. Click &quot;Edit&quot; on any row to modify details.
+            </div>
 
-        {/* Experiments List */}
-        <div className="mb-12 font-ibm-plex-mono">
-          {experiments.map((experiment, index) => (
-            <ExperimentRow
-              key={experiment.id}
-              experiment={experiment}
-              index={index}
-              isEditing={editingId === experiment.id}
-              onToggleEdit={() => setEditingId(editingId === experiment.id ? null : experiment.id)}
-              onDelete={() => handleDeleteExperiment(experiment.id)}
-              onUpdate={(updates) => updateExperiment(experiment.id, updates)}
-              onImageUpload={(file) => handleImageUpload(experiment.id, file)}
-              onRemoveImage={(imageIndex) => removeImage(experiment.id, imageIndex)}
-              onAddTag={(tag) => addTag(experiment.id, tag)}
-              onRemoveTag={(tag) => removeTag(experiment.id, tag)}
-            />
-          ))}
-        </div>
+            {/* Column Headers - Hidden on mobile */}
+            <div className="mb-2 hidden md:block">
+              <div className="flex gap-4 text-xs text-black/80 uppercase tracking-wide items-start border-t-2 border-b-2 border-solid border-black py-2 font-ibm-plex-mono">
+                <div className="w-24 flex-shrink-0 text-left">ID</div>
+                <div className="w-24 flex-shrink-0 text-left">Title</div>
+                <div className="w-24 flex-shrink-0 text-left">Tags</div>
+                <div className="flex-1 min-w-[300px] text-left">Text</div>
+                <div className="w-20 md:w-24 flex-shrink-0 text-right">Actions</div>
+              </div>
+            </div>
+
+            {/* Experiments List */}
+            <div className="mb-12 font-ibm-plex-mono">
+              {experiments.map((experiment, index) => (
+                <ExperimentRow
+                  key={experiment.id}
+                  experiment={experiment}
+                  index={index}
+                  isEditing={editingId === experiment.id}
+                  onToggleEdit={() => setEditingId(editingId === experiment.id ? null : experiment.id)}
+                  onDelete={() => handleDeleteExperiment(experiment.id)}
+                  onUpdate={(updates) => updateExperiment(experiment.id, updates)}
+                  onImageUpload={(file) => handleImageUpload(experiment.id, file)}
+                  onRemoveImage={(imageIndex) => removeImage(experiment.id, imageIndex)}
+                  onAddTag={(tag) => addTag(experiment.id, tag)}
+                  onRemoveTag={(tag) => removeTag(experiment.id, tag)}
+                />
+              ))}
+            </div>
+          </>
+        )}
+
+        {/* Work in Progress Ideas Tab */}
+        {activeTab === 'wip' && (
+          <div className="mb-12">
+            <div className="text-xs text-black/70 leading-relaxed max-w-md mb-6 uppercase font-ibm-plex-mono">
+              Edit work in progress ideas below. These will appear in the exit column of the experiments page.
+            </div>
+            <div className="space-y-4">
+              {wipIdeas.map((idea, idx) => (
+                <div key={idx} className="flex gap-2 items-start">
+                  <textarea
+                    value={idea}
+                    onChange={(e) => handleWipIdeaChange(idx, e.target.value)}
+                    rows={2}
+                    className="flex-1 px-3 py-2 border-2 border-black text-xs font-ibm-plex-mono bg-white focus:outline-none focus:ring-2 focus:ring-black leading-relaxed"
+                    placeholder={`Idea ${idx + 1}`}
+                  />
+                  <button
+                    onClick={() => handleRemoveWipIdea(idx)}
+                    className="px-3 py-2 border-2 border-black bg-white text-black hover:bg-red-600 hover:text-white hover:border-red-600 transition-colors text-xs font-ibm-plex-mono uppercase"
+                  >
+                    <Trash2 className="w-3 h-3" />
+                  </button>
+                </div>
+              ))}
+              <button
+                onClick={handleAddWipIdea}
+                className="w-full px-4 py-2 border-2 border-black bg-white text-black hover:bg-black/5 transition-colors text-xs font-ibm-plex-mono uppercase flex items-center justify-center gap-2"
+              >
+                <Plus className="w-3 h-3" />
+                Add Idea
+              </button>
+            </div>
+          </div>
+        )}
       </div>
     </div>
   )
