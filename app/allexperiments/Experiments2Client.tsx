@@ -935,13 +935,13 @@ function ExitColumn({ mobile = false }: ExitColumnProps) {
           
           <div className="text-sm text-black/80 leading-relaxed font-gilda-display">
             <p className="mb-4">
-              Originally from India, I am a designer currently living in Atlanta with my wife and dog. I like to call myself a <strong>product builder</strong> and a <strong>software tinkerer</strong>. With a background in computer science, I found my calling in it's intersection with art and curiosity.
+              Originally from India, I am a designer currently living in Atlanta with my wife and dog. I like to call myself a <strong>product builder</strong> and a <strong>software tinkerer</strong>. With a background in computer science, I found my calling in it&apos;s intersection with art and curiosity.
             </p>
             <p className="mb-4">
               With a proven track record leading cross-functional initiatives to shape product strategy, I specialize in defining the vision for <strong>zero-to-one</strong>, <strong>AI-native</strong> products and evolving <strong>data-informed design systems</strong>. I thrive on collaborating with product and business partners to drive innovation and deliver measurable impact.
             </p>
             <p>
-              Beyond designing products, I'm actively advancing AI fluency at Rocket through multiple initiatives and serving on the <strong>AI Leadership Council</strong> to shape tool strategy, training programs, and adoption.
+              Beyond designing products, I&apos;m actively advancing AI fluency at Rocket through multiple initiatives and serving on the <strong>AI Leadership Council</strong> to shape tool strategy, training programs, and adoption.
             </p>
           </div>
         </div>
