@@ -66,31 +66,29 @@ function WelcomeColumn() {
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.3, delay: 0 }}
-      className="flex-shrink-0 experiment-column-scroll welcome-column-container"
+      className="flex-shrink-0"
       style={{ 
         width: '360px',
         height: '100%',
-        overflowY: 'auto',
-        overflowX: 'hidden'
+        overflow: 'hidden',
+        position: 'relative'
       }}
     >
-      {/* Irregular Light Sky Blue Shape */}
-      <div className="welcome-irregular-shape"></div>
-
-      {/* Welcome Text at Bottom */}
-      <div className="welcome-text-container">
-        <p 
-          className="font-londrina-solid" 
-          style={{ 
-            fontSize: '36px', 
-            lineHeight: '1.1',
-            color: '#000000',
-            fontWeight: 400
-          }}
-        >
-          Welcome to my digital experiment gallery. All apps featured here are part of the 2026 product suite built with Google AI Studio. Scroll horizontally to explore experiments.
-        </p>
-      </div>
+      <Image
+        src="/images/experiments2/welcome.webp"
+        alt="Welcome to my digital experiment gallery"
+        width={360}
+        height={800}
+        style={{
+          width: '100%',
+          height: 'auto',
+          position: 'absolute',
+          bottom: 0,
+          left: 0,
+          objectFit: 'cover'
+        }}
+        unoptimized
+      />
     </motion.div>
   )
 }
@@ -127,16 +125,22 @@ function ExperimentColumn({ experiment, index }: ExperimentColumnProps) {
     // Determine number of text chunks (2-4 chunks)
     const numChunks = 2 + seededRandom(3) // 2, 3, or 4 chunks
     
-    // Split text into roughly equal chunks
-    const words = text.split(' ')
+    // Split text into roughly equal chunks, ensuring all words are included
+    const words = text.split(' ').filter(word => word.length > 0) // Remove empty strings
     const wordsPerChunk = Math.ceil(words.length / numChunks)
     const textChunks: string[] = []
     
     for (let i = 0; i < numChunks; i++) {
       const start = i * wordsPerChunk
       const end = Math.min(start + wordsPerChunk, words.length)
-      textChunks.push(words.slice(start, end).join(' '))
+      const chunk = words.slice(start, end).join(' ')
+      if (chunk.trim().length > 0) {
+        textChunks.push(chunk)
+      }
     }
+    
+    // Track which text chunks have been used
+    const usedChunks = new Set<number>()
     
     // Determine layout pattern based on experiment index
     const pattern = seededRandom(5) // 0-4 different patterns
@@ -144,41 +148,91 @@ function ExperimentColumn({ experiment, index }: ExperimentColumnProps) {
     if (pattern === 0) {
       // Pattern: Text, Image, Text, Image, Text, Image
       for (let i = 0; i < images.length; i++) {
-        if (textChunks[i]) blocks.push({ type: 'text', content: textChunks[i] })
+        if (textChunks[i] && !usedChunks.has(i)) {
+          blocks.push({ type: 'text', content: textChunks[i] })
+          usedChunks.add(i)
+        }
         blocks.push({ type: 'image', imageIndex: images[i] })
       }
-      if (textChunks[images.length]) blocks.push({ type: 'text', content: textChunks[images.length] })
+      // Add remaining text chunks
+      for (let i = images.length; i < textChunks.length; i++) {
+        if (textChunks[i] && !usedChunks.has(i)) {
+          blocks.push({ type: 'text', content: textChunks[i] })
+          usedChunks.add(i)
+        }
+      }
     } else if (pattern === 1) {
       // Pattern: Image, Image, Text, Image
       blocks.push({ type: 'image', imageIndex: images[0] })
       blocks.push({ type: 'image', imageIndex: images[1] })
-      if (textChunks[0]) blocks.push({ type: 'text', content: textChunks[0] })
+      if (textChunks[0] && !usedChunks.has(0)) {
+        blocks.push({ type: 'text', content: textChunks[0] })
+        usedChunks.add(0)
+      }
       blocks.push({ type: 'image', imageIndex: images[2] })
-      if (textChunks[1]) blocks.push({ type: 'text', content: textChunks[1] })
+      if (textChunks[1] && !usedChunks.has(1)) {
+        blocks.push({ type: 'text', content: textChunks[1] })
+        usedChunks.add(1)
+      }
     } else if (pattern === 2) {
       // Pattern: Text, Image, Image, Text, Image
-      if (textChunks[0]) blocks.push({ type: 'text', content: textChunks[0] })
+      if (textChunks[0] && !usedChunks.has(0)) {
+        blocks.push({ type: 'text', content: textChunks[0] })
+        usedChunks.add(0)
+      }
       blocks.push({ type: 'image', imageIndex: images[0] })
       blocks.push({ type: 'image', imageIndex: images[1] })
-      if (textChunks[1]) blocks.push({ type: 'text', content: textChunks[1] })
+      if (textChunks[1] && !usedChunks.has(1)) {
+        blocks.push({ type: 'text', content: textChunks[1] })
+        usedChunks.add(1)
+      }
       blocks.push({ type: 'image', imageIndex: images[2] })
-      if (textChunks[2]) blocks.push({ type: 'text', content: textChunks[2] })
+      if (textChunks[2] && !usedChunks.has(2)) {
+        blocks.push({ type: 'text', content: textChunks[2] })
+        usedChunks.add(2)
+      }
     } else if (pattern === 3) {
       // Pattern: Image, Text, Image, Text, Image
       blocks.push({ type: 'image', imageIndex: images[0] })
-      if (textChunks[0]) blocks.push({ type: 'text', content: textChunks[0] })
+      if (textChunks[0] && !usedChunks.has(0)) {
+        blocks.push({ type: 'text', content: textChunks[0] })
+        usedChunks.add(0)
+      }
       blocks.push({ type: 'image', imageIndex: images[1] })
-      if (textChunks[1]) blocks.push({ type: 'text', content: textChunks[1] })
+      if (textChunks[1] && !usedChunks.has(1)) {
+        blocks.push({ type: 'text', content: textChunks[1] })
+        usedChunks.add(1)
+      }
       blocks.push({ type: 'image', imageIndex: images[2] })
-      if (textChunks[2]) blocks.push({ type: 'text', content: textChunks[2] })
+      if (textChunks[2] && !usedChunks.has(2)) {
+        blocks.push({ type: 'text', content: textChunks[2] })
+        usedChunks.add(2)
+      }
     } else {
       // Pattern: Text, Image, Text, Image, Image
-      if (textChunks[0]) blocks.push({ type: 'text', content: textChunks[0] })
+      if (textChunks[0] && !usedChunks.has(0)) {
+        blocks.push({ type: 'text', content: textChunks[0] })
+        usedChunks.add(0)
+      }
       blocks.push({ type: 'image', imageIndex: images[0] })
-      if (textChunks[1]) blocks.push({ type: 'text', content: textChunks[1] })
+      if (textChunks[1] && !usedChunks.has(1)) {
+        blocks.push({ type: 'text', content: textChunks[1] })
+        usedChunks.add(1)
+      }
       blocks.push({ type: 'image', imageIndex: images[1] })
       blocks.push({ type: 'image', imageIndex: images[2] })
-      if (textChunks[2]) blocks.push({ type: 'text', content: textChunks[2] })
+      if (textChunks[2] && !usedChunks.has(2)) {
+        blocks.push({ type: 'text', content: textChunks[2] })
+        usedChunks.add(2)
+      }
+    }
+    
+    // Add any remaining unused text chunks at the end
+    for (let i = 0; i < textChunks.length; i++) {
+      if (!usedChunks.has(i) && textChunks[i]) {
+        blocks.push({ type: 'text', content: textChunks[i] })
+        usedChunks.add(i)
+      }
     }
     
     // Add header block and randomly position it
