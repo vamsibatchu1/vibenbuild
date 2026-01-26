@@ -1,12 +1,26 @@
 rules_version = '2';
 service cloud.firestore {
   match /databases/{database}/documents {
-    // Subscribers collection - allow anyone to create (write), but not read or update
+    // Subscribers collection - allow anyone to create and read (for duplicate checking)
     match /subscribers/{subscriberId} {
       // Allow anyone to create a new subscriber document
       allow create: if request.resource.data.keys().hasOnly(['email', 'subscribedAt']) 
                      && request.resource.data.email is string
                      && request.resource.data.subscribedAt is timestamp;
+      
+      // Allow read for duplicate email checking
+      allow read: if true;
+      
+      // Deny updates and deletes (only you can update via Firebase console or Admin SDK)
+      allow update, delete: if false;
+    }
+    
+    // Ideas collection - allow anyone to create (write), but not read or update
+    match /ideas/{ideaId} {
+      // Allow anyone to create a new idea document
+      allow create: if request.resource.data.keys().hasOnly(['idea', 'submittedAt']) 
+                     && request.resource.data.idea is string
+                     && request.resource.data.submittedAt is timestamp;
       
       // Deny all reads and updates (only you can read via Firebase console or Admin SDK)
       allow read, update, delete: if false;

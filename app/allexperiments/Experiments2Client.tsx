@@ -396,6 +396,8 @@ function ExitColumn({ mobile = false }: ExitColumnProps) {
       setTimeout(() => setIdeaStatus('idle'), 3000)
     } catch (error: any) {
       console.error('Error submitting idea:', error)
+      console.error('Error code:', error?.code)
+      console.error('Error message:', error?.message)
       
       // Provide more specific error messages
       let errorMsg = 'Failed to submit idea. Please try again.'
@@ -404,12 +406,16 @@ function ExitColumn({ mobile = false }: ExitColumnProps) {
         errorMsg = 'Permission denied. Please check Firestore security rules.'
       } else if (error?.code === 'unavailable') {
         errorMsg = 'Firestore is unavailable. Please check your internet connection.'
+      } else if (error?.code === 'failed-precondition') {
+        errorMsg = 'Firestore is not available. Please check your Firebase configuration.'
       } else if (error?.message) {
         errorMsg = `Error: ${error.message}`
       }
       
       setIdeaError(errorMsg)
       setIdeaStatus('error')
+      // Reset loading state after showing error
+      setTimeout(() => setIdeaStatus('idle'), 5000)
     }
   }
 
@@ -434,6 +440,7 @@ function ExitColumn({ mobile = false }: ExitColumnProps) {
       if (!querySnapshot.empty) {
         setEmailError('This email is already subscribed')
         setEmailStatus('error')
+        setTimeout(() => setEmailStatus('idle'), 5000)
         return
       }
 
@@ -448,6 +455,8 @@ function ExitColumn({ mobile = false }: ExitColumnProps) {
       setTimeout(() => setEmailStatus('idle'), 3000)
     } catch (error: any) {
       console.error('Error adding subscriber:', error)
+      console.error('Error code:', error?.code)
+      console.error('Error message:', error?.message)
       
       // Provide more specific error messages (matching EmailModal)
       let errorMsg = 'Failed to subscribe. Please try again.'
@@ -456,12 +465,16 @@ function ExitColumn({ mobile = false }: ExitColumnProps) {
         errorMsg = 'Permission denied. Please check Firestore security rules.'
       } else if (error?.code === 'unavailable') {
         errorMsg = 'Firestore is unavailable. Please check your internet connection.'
+      } else if (error?.code === 'failed-precondition') {
+        errorMsg = 'Firestore is not available. Please check your Firebase configuration.'
       } else if (error?.message) {
         errorMsg = `Error: ${error.message}`
       }
       
       setEmailError(errorMsg)
       setEmailStatus('error')
+      // Reset loading state after showing error
+      setTimeout(() => setEmailStatus('idle'), 5000)
     }
   }
 
