@@ -61,7 +61,7 @@ export function LandingPage() {
           className="mb-4 md:mb-5"
         >
           <div className="flex gap-3">
-            <Link href="/experiments" className="flex-1">
+            <Link href="/allexperiments" className="flex-1">
               <button className="w-full h-11 border-2 border-white bg-white font-ibm-plex-mono text-base text-black hover:bg-transparent hover:text-white transition-colors">
                 Enter
               </button>

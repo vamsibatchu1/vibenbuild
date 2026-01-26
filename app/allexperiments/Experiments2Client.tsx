@@ -65,9 +65,9 @@ export function Experiments2Client() {
 function WelcomeColumn() {
   return (
     <motion.div
-      initial={{ opacity: 0, y: 20 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.3, delay: 0 }}
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      transition={{ duration: 0.6, delay: 0.3, ease: 'easeOut' }}
       className="flex-shrink-0"
       style={{ 
         width: '360px',
@@ -249,9 +249,9 @@ function ExperimentColumn({ experiment, index }: ExperimentColumnProps) {
 
   return (
     <motion.div
-      initial={{ opacity: 0, y: 20 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.3, delay: index * 0.1 }}
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      transition={{ duration: 0.6, delay: 0.3 + 0.5 * index, ease: 'easeOut' }}
       className="flex-shrink-0 bg-white h-full flex flex-col experiment-column-scroll"
       style={{ 
         width: '360px',
