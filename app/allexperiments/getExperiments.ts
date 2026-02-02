@@ -9,6 +9,7 @@ export interface Experiment {
   link: string
   text: string
   images: number[]
+  video?: string
 }
 
 /**

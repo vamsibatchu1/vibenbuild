@@ -3,7 +3,7 @@
 import { motion, AnimatePresence } from 'framer-motion'
 import { useEffect, useState, FormEvent } from 'react'
 import Image from 'next/image'
-import { ChevronLeft, ChevronRight, Mail, ExternalLink, Menu, X } from 'lucide-react'
+import { ChevronLeft, ChevronRight, Mail, ExternalLink, Menu, X, Globe, Play } from 'lucide-react'
 import Link from 'next/link'
 import { collection, addDoc, serverTimestamp, query, where, getDocs } from 'firebase/firestore'
 import { db } from '@/lib/firebase'
@@ -18,6 +18,7 @@ interface Experiment {
   link: string
   text: string
   images: number[]
+  video?: string
 }
 
 // Load experiments from JSON file
@@ -28,6 +29,7 @@ export function Experiments2Client() {
   const [isMobile, setIsMobile] = useState(false)
   const [currentColumnIndex, setCurrentColumnIndex] = useState(0)
   const [isMenuOpen, setIsMenuOpen] = useState(false)
+  const [videoModalUrl, setVideoModalUrl] = useState<string | null>(null)
 
   useEffect(() => {
     // Check if mobile on mount and resize
@@ -285,6 +287,7 @@ export function Experiments2Client() {
                     experiment={allColumns[currentColumnIndex].experiment}
                     index={allColumns[currentColumnIndex].index}
                     mobile={true}
+                    onVideoClick={(url) => setVideoModalUrl(url)}
                   />
                 </motion.div>
               ) : allColumns[currentColumnIndex]?.type === 'exit' ? (
@@ -304,43 +307,122 @@ export function Experiments2Client() {
             </AnimatePresence>
           </div>
         </main>
+
+        {/* Video Modal */}
+        <AnimatePresence>
+          {videoModalUrl && (
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              onClick={() => setVideoModalUrl(null)}
+              className="fixed inset-0 bg-black/80 z-50 flex items-center justify-center"
+              style={{ padding: '20px' }}
+            >
+              <motion.div
+                initial={{ scale: 0.9, opacity: 0 }}
+                animate={{ scale: 1, opacity: 1 }}
+                exit={{ scale: 0.9, opacity: 0 }}
+                onClick={(e) => e.stopPropagation()}
+                className="relative"
+                style={{ width: '70%' }}
+              >
+                <button
+                  onClick={() => setVideoModalUrl(null)}
+                  className="absolute -top-10 right-0 text-white hover:text-white/80 transition-colors"
+                  style={{ zIndex: 10 }}
+                >
+                  <X size={24} />
+                </button>
+                <video
+                  src={videoModalUrl}
+                  controls
+                  autoPlay
+                  className="w-full h-auto"
+                  style={{ maxHeight: '90vh' }}
+                />
+              </motion.div>
+            </motion.div>
+          )}
+        </AnimatePresence>
       </div>
     )
   }
 
   // Desktop view (unchanged)
   return (
-    <main 
-      className="bg-white overflow-hidden" 
-      style={{ 
-        padding: '20px',
-        height: '100vh',
-        width: '100vw',
-        boxSizing: 'border-box'
-      }}
-    >
-      {/* Horizontal Scroll Container */}
-      <div className="relative h-full">
-        <div className="overflow-x-auto h-full experiments-horizontal-scroll">
-          <div className="flex gap-6 h-full items-stretch" style={{ width: 'max-content' }}>
-            {/* Welcome Column */}
-            <WelcomeColumn />
-            
-            {/* Experiment Columns */}
+    <>
+      <main 
+        className="bg-white overflow-hidden" 
+        style={{ 
+          padding: '20px',
+          height: '100vh',
+          width: '100vw',
+          boxSizing: 'border-box'
+        }}
+      >
+        {/* Horizontal Scroll Container */}
+        <div className="relative h-full">
+          <div className="overflow-x-auto h-full experiments-horizontal-scroll">
+            <div className="flex gap-6 h-full items-stretch" style={{ width: 'max-content' }}>
+              {/* Welcome Column */}
+              <WelcomeColumn />
+              
+              {/* Experiment Columns */}
             {filteredExperiments.map((experiment, index) => (
                 <ExperimentColumn
                   key={experiment.id}
                   experiment={experiment}
                   index={index + 1}
+                  onVideoClick={(url) => setVideoModalUrl(url)}
                 />
               ))}
-            
-            {/* Exit Column */}
-            <ExitColumn />
+              
+              {/* Exit Column */}
+              <ExitColumn />
+            </div>
           </div>
         </div>
-      </div>
-    </main>
+      </main>
+
+      {/* Video Modal */}
+      <AnimatePresence>
+        {videoModalUrl && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            onClick={() => setVideoModalUrl(null)}
+            className="fixed inset-0 bg-black/80 z-50 flex items-center justify-center"
+            style={{ padding: '20px' }}
+          >
+            <motion.div
+              initial={{ scale: 0.9, opacity: 0 }}
+              animate={{ scale: 1, opacity: 1 }}
+              exit={{ scale: 0.9, opacity: 0 }}
+              onClick={(e) => e.stopPropagation()}
+              className="relative"
+              style={{ width: '70%' }}
+            >
+              <button
+                onClick={() => setVideoModalUrl(null)}
+                className="absolute -top-10 right-0 text-white hover:text-white/80 transition-colors"
+                style={{ zIndex: 10 }}
+              >
+                <X size={24} />
+              </button>
+              <video
+                src={videoModalUrl}
+                controls
+                autoPlay
+                className="w-full h-auto"
+                style={{ maxHeight: '90vh' }}
+              />
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+    </>
   )
 }
 
@@ -954,9 +1036,10 @@ interface ExperimentColumnProps {
   experiment: Experiment
   index: number
   mobile?: boolean
+  onVideoClick?: (videoUrl: string) => void
 }
 
-function ExperimentColumn({ experiment, index, mobile = false }: ExperimentColumnProps) {
+function ExperimentColumn({ experiment, index, mobile = false, onVideoClick }: ExperimentColumnProps) {
   // Helper function to get image path
   const getImagePath = (experimentId: string, imageIndex: number): string => {
     // Extract experiment number from ID (e.g., 'exp-01' -> '01')
@@ -1146,8 +1229,45 @@ function ExperimentColumn({ experiment, index, mobile = false }: ExperimentColum
                   {/* Metadata */}
                   <div>
                     {/* Tokens */}
-                    <div className="text-xs text-black/60 uppercase font-ibm-plex-mono">
+                    <div className="text-xs text-black/60 uppercase font-ibm-plex-mono" style={{ marginBottom: '12px' }}>
                       Tokens: {experiment.tokens.toLocaleString()}
+                    </div>
+                    
+                    {/* Action Buttons */}
+                    <div className="flex gap-2">
+                      <a
+                        href={experiment.link}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="flex-1 h-10 font-ibm-plex-mono text-sm uppercase transition-colors flex items-center justify-center gap-1.5"
+                        style={{
+                          border: '1px dashed #000000',
+                          backgroundColor: '#ffffff',
+                          color: '#000000'
+                        }}
+                      >
+                        <Globe size={14} />
+                        View Experiment
+                      </a>
+                      <button
+                        onClick={() => {
+                          if (experiment.video && onVideoClick) {
+                            onVideoClick(`/videos/experiments2/${experiment.video}`)
+                          }
+                        }}
+                        disabled={!experiment.video}
+                        className="flex-1 h-10 font-ibm-plex-mono text-sm uppercase transition-colors flex items-center justify-center gap-1.5"
+                        style={{
+                          border: '1px dashed #000000',
+                          backgroundColor: '#ffffff',
+                          color: experiment.video ? '#000000' : '#00000040',
+                          cursor: experiment.video ? 'pointer' : 'not-allowed',
+                          opacity: experiment.video ? 1 : 0.5
+                        }}
+                      >
+                        <Play size={14} />
+                        Watch Video
+                      </button>
                     </div>
                   </div>
                 </div>
@@ -1244,8 +1364,45 @@ function ExperimentColumn({ experiment, index, mobile = false }: ExperimentColum
                 {/* Metadata */}
                 <div>
                   {/* Tokens */}
-                  <div className="text-xs text-black/60 uppercase font-ibm-plex-mono">
+                  <div className="text-xs text-black/60 uppercase font-ibm-plex-mono" style={{ marginBottom: '12px' }}>
                     Tokens: {experiment.tokens.toLocaleString()}
+                  </div>
+                  
+                  {/* Action Buttons */}
+                  <div className="flex gap-2">
+                    <a
+                      href={experiment.link}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="flex-1 h-10 font-ibm-plex-mono text-sm uppercase transition-colors flex items-center justify-center gap-1.5"
+                      style={{
+                        border: '1px dashed #000000',
+                        backgroundColor: '#ffffff',
+                        color: '#000000'
+                      }}
+                    >
+                      <Globe size={14} />
+                      View Experiment
+                    </a>
+                    <button
+                      onClick={() => {
+                        if (experiment.video && onVideoClick) {
+                          onVideoClick(`/videos/experiments2/${experiment.video}`)
+                        }
+                      }}
+                      disabled={!experiment.video}
+                      className="flex-1 h-10 font-ibm-plex-mono text-sm uppercase transition-colors flex items-center justify-center gap-1.5"
+                      style={{
+                        border: '1px dashed #000000',
+                        backgroundColor: '#ffffff',
+                        color: experiment.video ? '#000000' : '#00000040',
+                        cursor: experiment.video ? 'pointer' : 'not-allowed',
+                        opacity: experiment.video ? 1 : 0.5
+                      }}
+                    >
+                      <Play size={14} />
+                      Watch Video
+                    </button>
                   </div>
                 </div>
               </div>

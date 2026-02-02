@@ -105,6 +105,30 @@ export function AdminClient({ initialExperiments, initialWipIdeas }: AdminClient
     }
   }, [experiments, updateExperiment])
 
+  const handleVideoUpload = useCallback(async (experimentId: string, file: File) => {
+    try {
+      const formData = new FormData()
+      formData.append('video', file)
+      formData.append('experimentId', experimentId)
+
+      const response = await fetch('/api/admin/upload-experiment-video', {
+        method: 'POST',
+        body: formData,
+      })
+
+      if (response.ok) {
+        const data = await response.json()
+        if (data.fileName) {
+          updateExperiment(experimentId, {
+            video: data.fileName
+          })
+        }
+      }
+    } catch (err) {
+      console.error('Failed to upload video:', err)
+    }
+  }, [updateExperiment])
+
   const removeImage = useCallback(async (experimentId: string, imageIndex: number) => {
     try {
       const experiment = experiments.find(e => e.id === experimentId)
@@ -183,7 +207,8 @@ export function AdminClient({ initialExperiments, initialWipIdeas }: AdminClient
       tags: [],
       images: [],
       tokens: 0,
-      link: 'https://example.com'
+      link: 'https://example.com',
+      video: undefined
     }
     
     // Add to experiments array
@@ -355,6 +380,7 @@ export function AdminClient({ initialExperiments, initialWipIdeas }: AdminClient
                   onUpdate={(updates) => updateExperiment(experiment.id, updates)}
                   onImageUpload={(file) => handleImageUpload(experiment.id, file)}
                   onRemoveImage={(imageIndex) => removeImage(experiment.id, imageIndex)}
+                  onVideoUpload={(file) => handleVideoUpload(experiment.id, file)}
                   onAddTag={(tag) => addTag(experiment.id, tag)}
                   onRemoveTag={(tag) => removeTag(experiment.id, tag)}
                 />
@@ -411,6 +437,7 @@ interface ExperimentRowProps {
   onUpdate: (updates: Partial<Experiment>) => void
   onImageUpload: (file: File) => void
   onRemoveImage: (imageIndex: number) => void
+  onVideoUpload: (file: File) => void
   onAddTag: (tag: string) => void
   onRemoveTag: (tag: string) => void
 }
@@ -424,6 +451,7 @@ function ExperimentRow({
   onUpdate,
   onImageUpload,
   onRemoveImage,
+  onVideoUpload,
   onAddTag,
   onRemoveTag,
 }: ExperimentRowProps) {
@@ -592,6 +620,37 @@ function ExperimentRow({
               className="w-full px-3 py-2 border-2 border-black text-xs font-ibm-plex-mono bg-white focus:outline-none focus:ring-2 focus:ring-black"
             />
           </div>
+        </div>
+
+        <div>
+          <label className="block text-xs font-bold text-black mb-2 uppercase tracking-wide font-ibm-plex-mono">Video (optional)</label>
+          {experiment.video && (
+            <div className="mb-2 p-2 border-2 border-black bg-white">
+              <div className="text-xs font-ibm-plex-mono text-black/70 mb-1">Current video:</div>
+              <div className="text-xs font-ibm-plex-mono text-black">{experiment.video}</div>
+              <button
+                onClick={() => onUpdate({ video: undefined })}
+                className="mt-2 text-xs text-red-600 hover:text-red-800 font-ibm-plex-mono uppercase"
+              >
+                Remove Video
+              </button>
+            </div>
+          )}
+          <label className="inline-flex items-center gap-2 px-4 py-2 border-2 border-black bg-white cursor-pointer hover:bg-black/5 transition-colors text-xs font-ibm-plex-mono uppercase">
+            <Upload className="w-3 h-3" />
+            <span>{experiment.video ? 'Replace Video' : 'Upload Video'}</span>
+            <input
+              type="file"
+              accept="video/*"
+              onChange={(e) => {
+                const file = e.target.files?.[0]
+                if (file) {
+                  onVideoUpload(file)
+                }
+              }}
+              className="hidden"
+            />
+          </label>
         </div>
 
         <div>
