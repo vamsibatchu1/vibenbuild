@@ -133,7 +133,11 @@
       "Science",
       "Space"
     ],
-    "images": [],
+    "images": [
+      0,
+      1,
+      2
+    ],
     "tokens": 11677,
     "link": "https://starweave-696629161862.us-west1.run.app/",
     "video": "11.mp4"
@@ -179,9 +183,9 @@
       "History"
     ],
     "images": [
-      2,
-      3,
-      4
+      0,
+      1,
+      2
     ],
     "tokens": 15790,
     "link": "https://dino-draft-271967923745.us-west1.run.app/",
@@ -195,7 +199,11 @@
       "Simulation",
       "Visualization"
     ],
-    "images": [],
+    "images": [
+      0,
+      1,
+      2
+    ],
     "tokens": 13478,
     "link": "https://warp-field-1082422747084.us-west1.run.app/",
     "video": "15.mp4"
