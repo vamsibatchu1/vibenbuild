@@ -71,7 +71,7 @@
     "video": "04.mp4"
   },
   {
-    "id": "exp-06",
+    "id": "exp-05",
     "title": "canopy",
     "tags": [
       "Visualization",
@@ -89,7 +89,7 @@
     "video": "06.mp4"
   },
   {
-    "id": "exp-07",
+    "id": "exp-06",
     "title": "wanderword",
     "tags": [
       "Language",
@@ -107,7 +107,7 @@
     "video": "07.mp4"
   },
   {
-    "id": "exp-09",
+    "id": "exp-07",
     "title": "kickoff'26",
     "tags": [
       "Sports",
@@ -125,25 +125,7 @@
     "video": "09.mp4"
   },
   {
-    "id": "exp-10",
-    "title": "reverb",
-    "tags": [
-      "Music",
-      "Visualization",
-      "Data"
-    ],
-    "tokens": 9600,
-    "link": "https://example.com/exp-10",
-    "text": "Reverb is a specialized visualization engine designed to reveal the hidden structural patterns within musical compositions. By deconstructing song lyrics into discrete color-coded blocks, the application transforms a linear text into a high-density data mosaic. This approach allows listeners to see the rhythmic architecture of a track and observe how verses and choruses physically manifest as repeating patterns of light and color. The project aims to provide a new lens for musical analysis where repetition is not just heard but visually mapped as a unique digital fingerprint.\n\nThe underlying technology leverages advanced processing to calculate real-time metrics such as the unique lexicon and the cumulative echo rate. Using a deterministic masking algorithm, each word block receives a distinct visual texture that remains stable across different viewing sessions. Color plays a vital role in this experience as it denotes the specific point in time when a word first entered the song vocabulary. This temporal mapping makes it easy to distinguish between the introductory building blocks of a track and the later sections that rely on established lyrical themes.\n\nBeyond raw data analysis, the interface encourages deep exploration through interactive elements that spotlight specific word frequencies and origins. Users can engage with a dynamic subject monitor that tracks every movement across the lyric grid while the system generates high-quality visual signatures. The final experience culminates in a shareable poster that summarizes the entire song as a single artistic artifact. This blend of technical rigorousness and aesthetic beauty turns standard metadata into a permanent visual record of a song's creative DNA.",
-    "images": [
-      0,
-      1,
-      2
-    ],
-    "video": "10.mp4"
-  },
-  {
-    "id": "exp-11",
+    "id": "exp-08",
     "title": "starweave",
     "text": "Starweave is an interactive data visualization experience that maps the history of exoplanet discovery as a living, DNA-like strand. Built to transform raw scientific data into a kinetic timeline, it traces the chronological path of human discovery from the first pulsar planets of 1992 to the recent atmospheric studies by the James Webb Space Telescope. Every node on the strand represents a real, confirmed world found beyond our solar system, creating a continuous \"geometric signature\" of our unfolding knowledge of the Milky Way.\n\nThe interface invites users to explore the galaxy's history through distinct visual data points. Vertical bars extend from the timeline to indicate a planet's distance from Earth in parsecs, while a color-coded system identifies the detection method used—whether by Transit, Radial Velocity, or Direct Imaging. Interactive filters allow users to isolate specific categories of celestial bodies, such as \"Habitable Zone\" candidates, massive \"Cosmic Giants,\" or complex multi-planet systems described as \"Alien Archipelagos.\"\n\nBeneath the primary visualization lies a sophisticated procedural design engine. A generative background field flows like a topographic map to create depth, while the application’s footer dynamically renders the \"Planetary Architecture\" of any selected system. Using a custom wireframe rendering technique, Starweave generates unique, scale-appropriate visualizations of planetary orbits and ring systems on the fly, offering a high-fidelity window into the structural diversity of our galactic neighborhood.",
     "tags": [
@@ -153,23 +135,28 @@
     ],
     "images": [],
     "tokens": 11677,
-    "link": "https://starweave-696629161862.us-west1.run.app/"
+    "link": "https://starweave-696629161862.us-west1.run.app/",
+    "video": "11.mp4"
   },
   {
-    "id": "exp-12",
+    "id": "exp-09",
     "title": "brewprint",
     "text": "Brewprint is an interactive design application that reimagines beverage exploration by blending a raw, industrial aesthetic with advanced generative AI. It transforms simple drink queries into beautifully detailed, \"artisanal\" product labels that look like vintage specification sheets. The interface opens with a unique \"scrapbook\" style landing page, featuring a masonry grid of curated drink inspirations and category filters, all set against a backdrop of clean typography, high-contrast design elements, and a stark, brutalist visual language.\n\nBeyond standard recipes, Brewprint generates a comprehensive \"identity\" for every drink using Google's Gemini models. Each generated label includes a rich narrative with a handwritten-style process description, a fascinating origin story, and a precise ingredient specification table. It visually analyzes the drink's character through a dynamic radar chart representing its flavor profile and provides a \"Pairing Matrix\" that suggests specific audio tracks, foods, and occasions to curate the perfect atmosphere for consumption.\n\nThe user experience is designed to feel like discovering a page from a master distiller's secret logbook. From the educational trivia displayed during the \"brewing\" phase to the final reveal, the app is fluid and immersive. It culminates in a generated card complete with a custom AI-generated continuous line drawing, \"verified batch\" stamps, and decorative textures, offering mixology enthusiasts and design lovers a visually stunning way to discover the science and soul behind their favorite spirits, beers, and cocktails.",
     "tags": [
       "Generative",
       "Entertainment"
     ],
-    "images": [],
+    "images": [
+      0,
+      1,
+      2
+    ],
     "tokens": 17829,
     "link": "https://brewprint-1053595248236.us-west1.run.app/",
     "video": "12.mp4"
   },
   {
-    "id": "exp-13",
+    "id": "exp-10",
     "title": "goodflix",
     "text": "Goodflix is an immersive movie discovery platform designed to combat decision fatigue through a visually stunning 3D interface. Instead of the traditional 2D grid found on most streaming services, the application presents movie posters on an interactive, infinite cylindrical carousel rendered with Three.js and custom WebGL shaders. This tactile browsing experience allows users to effortlessly spin through popular, top-rated, and upcoming titles sourced from The Movie Database (TMDB), all wrapped in a sleek, dark-mode aesthetic with high-contrast, editorial-style typography.\nAt the heart of the application is a powerful \"vibe-based\" search engine driven by the Google Gemini API. Rather than just searching by title or genre, users can input natural language queries or select from curated mood chips—such as \"Neon Noir,\" \"Dystopian Future,\" or \"Just had a breakup.\" The AI interprets these abstract concepts to generate a tailored list of 48 relevant movie titles, dynamically repopulating the 3D cylinder. To further engage the user during data fetching, Gemini generates and displays obscure, fascinating trivia facts related to the specific search context in real-time.",
     "tags": [
@@ -183,7 +170,7 @@
     "video": "13.mp4"
   },
   {
-    "id": "exp-14",
+    "id": "exp-11",
     "title": "dinodraft",
     "text": "Dino-Draft is an immersive, technical visualization tool designed to simulate a high-tech paleontological field survey. It aggregates global fossil data into a stylized \"blueprint\" interface, allowing users to explore the prehistoric world through the lens of a researcher. The application transforms raw data into a cohesive dossier, presenting detailed records of dinosaur species—ranging from the Tyrannosaurus Rex to the Microraptor—in a distinctively tactical, manila-folder aesthetic.\n\nAt the heart of the experience is an interactive, D3-powered global map that acts as a central command hub. Users navigate through geological formations—from the Hell Creek Formation to the Gobi Desert—using a responsive coordinate system. Selected sites pulse with a custom sonar-like ripple effect, visually anchoring the user to specific excavation points while providing immediate geographic context. The interface emphasizes technical precision, utilizing typewriter fonts and vector-style iconography to maintain the atmosphere of a classified scientific archive.\n\nThe application leverages the power of the Google Gemini API to dynamically generate high-fidelity, monochromatic scientific illustrations for each species, rendering them as \"schematic blueprints\" in real-time. Beyond visuals, the system breaks down complex paleontological data into digestible metrics, including threat levels, osteological completeness, and geological context. This combination of generative AI, rich datasets, and atmospheric UI creates a unique educational platform that feels less like a textbook and more like a field operative's terminal.",
     "tags": [
@@ -191,12 +178,17 @@
       "Visualization",
       "History"
     ],
-    "images": [],
+    "images": [
+      2,
+      3,
+      4
+    ],
     "tokens": 15790,
-    "link": "https://dino-draft-271967923745.us-west1.run.app/"
+    "link": "https://dino-draft-271967923745.us-west1.run.app/",
+    "video": "14.mp4"
   },
   {
-    "id": "exp-15",
+    "id": "exp-12",
     "title": "warpfield",
     "text": "Warp Field is an interactive particle simulation that transforms static grids into fluid, reactive geometry. Built with React and p5.js, the application renders a field of thousands of individual points—customizable as simple dots, ASCII characters, or binary code—that respond dynamically to cursor movement. Users can manipulate a distortion lens that ripples through the grid, creating organic, topographic patterns that mimic physical displacement forces in real-time.\n\nThe experience is elevated through a sophisticated audio-reactive engine powered by the Web Audio API. By analyzing frequency data, the grid visualizes sound as physical force: sub-bass frequencies generate a rotating vortex and propagating sine waves from the center, while high-frequency transients introduce jitter and kinetic energy. During intense musical moments, a dynamic \"constellation\" algorithm activates, drawing transient wireframe connections between neighboring particles to create complex, pulsing geometric structures synchronized to the beat.\n\nDesigned with a brutalist, high-contrast aesthetic, the interface provides deep control over the simulation's physics. Users can fine-tune the damping factor to switch between rigid, snappy motion and liquid, viscous flows, adjust the chaos level of the distortion, and select from curated color palettes to tint the particle field. Whether used as a meditative visualizer or a high-energy graphics experiment, Warp Field offers a playground for exploring the intersection of code, math, and music.\n",
     "tags": [
