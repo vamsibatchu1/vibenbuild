@@ -797,19 +797,15 @@ function ExitColumn({ mobile = false }: ExitColumnProps) {
                 Connect with me on social media or reach out via email.
               </div>
               <div className="space-y-3">
-                <a href="https://twitter.com" target="_blank" rel="noopener noreferrer" className="flex items-center gap-2 text-black/70 hover:text-black transition-colors font-ibm-plex-mono text-sm uppercase">
-                  <ExternalLink size={16} />
-                  Twitter
-                </a>
-                <a href="https://linkedin.com" target="_blank" rel="noopener noreferrer" className="flex items-center gap-2 text-black/70 hover:text-black transition-colors font-ibm-plex-mono text-sm uppercase">
+                <a href="https://www.linkedin.com/in/vamsikbatchu/" target="_blank" rel="noopener noreferrer" className="flex items-center gap-2 text-black/70 hover:text-black transition-colors font-ibm-plex-mono text-sm uppercase">
                   <ExternalLink size={16} />
                   LinkedIn
                 </a>
-                <a href="https://github.com" target="_blank" rel="noopener noreferrer" className="flex items-center gap-2 text-black/70 hover:text-black transition-colors font-ibm-plex-mono text-sm uppercase">
+                <a href="https://x.com/vamsibatchuk" target="_blank" rel="noopener noreferrer" className="flex items-center gap-2 text-black/70 hover:text-black transition-colors font-ibm-plex-mono text-sm uppercase">
                   <ExternalLink size={16} />
-                  GitHub
+                  X
                 </a>
-                <a href="mailto:contact@example.com" className="flex items-center gap-2 text-black/70 hover:text-black transition-colors font-ibm-plex-mono text-sm uppercase">
+                <a href="mailto:vamsibatchuk@gmail.com" className="flex items-center gap-2 text-black/70 hover:text-black transition-colors font-ibm-plex-mono text-sm uppercase">
                   <Mail size={16} />
                   Email
                 </a>
@@ -979,19 +975,15 @@ function ExitColumn({ mobile = false }: ExitColumnProps) {
               Connect with me on social media or reach out via email.
             </div>
             <div className="space-y-3">
-              <a href="https://twitter.com" target="_blank" rel="noopener noreferrer" className="flex items-center gap-2 text-black/70 hover:text-black transition-colors font-ibm-plex-mono text-sm uppercase">
-                <ExternalLink size={16} />
-                Twitter
-              </a>
-              <a href="https://linkedin.com" target="_blank" rel="noopener noreferrer" className="flex items-center gap-2 text-black/70 hover:text-black transition-colors font-ibm-plex-mono text-sm uppercase">
+              <a href="https://www.linkedin.com/in/vamsikbatchu/" target="_blank" rel="noopener noreferrer" className="flex items-center gap-2 text-black/70 hover:text-black transition-colors font-ibm-plex-mono text-sm uppercase">
                 <ExternalLink size={16} />
                 LinkedIn
               </a>
-              <a href="https://github.com" target="_blank" rel="noopener noreferrer" className="flex items-center gap-2 text-black/70 hover:text-black transition-colors font-ibm-plex-mono text-sm uppercase">
+              <a href="https://x.com/vamsibatchuk" target="_blank" rel="noopener noreferrer" className="flex items-center gap-2 text-black/70 hover:text-black transition-colors font-ibm-plex-mono text-sm uppercase">
                 <ExternalLink size={16} />
-                GitHub
+                X
               </a>
-              <a href="mailto:contact@example.com" className="flex items-center gap-2 text-black/70 hover:text-black transition-colors font-ibm-plex-mono text-sm uppercase">
+              <a href="mailto:vamsibatchuk@gmail.com" className="flex items-center gap-2 text-black/70 hover:text-black transition-colors font-ibm-plex-mono text-sm uppercase">
                 <Mail size={16} />
                 Email
               </a>
