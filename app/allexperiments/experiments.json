@@ -71,23 +71,6 @@
     "video": "04.mp4"
   },
   {
-    "id": "exp-05",
-    "title": "stemwise",
-    "tags": [
-      "AI",
-      "Creative",
-      "Journal"
-    ],
-    "tokens": 8700,
-    "link": "https://example.com/exp-05",
-    "text": "Stemwise is a journaling app that speaks back in plants instead of words. You write what's on your mind and AI finds a botanical match for your emotional state. A moment of resilience might become a fern. A breakthrough could bloom into something flowering. Each reflection generates a unique Victorian-style botanical illustration, hand-drawn and imperfect, like something from a naturalist's field journal.\n\nOver time, your entries grow into a digital garden that accumulates left to right, chronologically. Hover over any plant and the memory returns. The app doesn't analyze or advise. It just listens and gives you something living in return. Growth becomes something you can actually see, not as metrics or streaks, but as an organic landscape shaped by your own inner weather.\n\nThe idea came from wanting a different relationship with journaling. Less productivity tool, more quiet ritual. A place where thoughts don't need to be optimized or resolved. They just get planted, and you move on. Sometimes the right metaphor says more than any analysis could.",
-    "images": [
-      0,
-      1,
-      2
-    ]
-  },
-  {
     "id": "exp-06",
     "title": "canopy",
     "tags": [
@@ -96,7 +79,7 @@
       "TV"
     ],
     "tokens": 13400,
-    "link": "https://example.com/exp-06",
+    "link": "https://canopy-271967923745.us-west1.run.app/",
     "text": "Canopy is an interactive visualization that maps the hidden architecture of cinema. Enter any actor, director, composer, or film title and watch as a procedural tree grows from your query, its branches tracing the web of collaborations and creative connections that define the industry. Each node represents a person or a film, and clicking any node reveals its metadata while letting you re-root the entire tree from that new perspective.\n\nThe visual language borrows from data art and generative design. A left panel exposes the underlying parameters that control how the tree grows: branch angles, length variance, scale reduction, node sizing. You can manipulate these in real time, watching the structure reorganize itself. The aesthetic is deliberately monochromatic and technical, treating film industry data with the same visual rigor as a botanical diagram.\n\nWhat emerges is something like a family tree for cinema. Search for Christopher Nolan and see his filmography branch outward, each film spawning clusters of collaborators who connect to their other works. The tree makes visible what we intuitively know but rarely see mapped: that cinema is a dense network of relationships, and every film exists within a living ecosystem of creative partnerships.",
     "images": [
       0,
@@ -114,7 +97,7 @@
       "Visualization"
     ],
     "tokens": 15600,
-    "link": "https://example.com/exp-07",
+    "link": "https://wanderword-141284551734.us-west1.run.app/",
     "text": "Every word you speak is a traveler. Wanderword visualizes the hidden migrations of language, tracing how words journeyed across continents through trade routes, conquests, and cultural exchange. Type any word and watch its path unfold on an interactive world map. The tea in your cup tells two stories: one that traveled by Dutch ships from Fujian province, becoming \"tea\" across maritime Europe, and another that moved overland through the Silk Road, transforming into \"chai\" across Persia and India.\n\nPowered by Gemini, the app reconstructs the linguistic archaeology of everyday words. Each query returns precise coordinates, century markers, and phonetic transformations as words morphed through dozens of languages. Words like \"orange\" show their scars: the missing \"n\" that dropped somewhere between Arabic \"naranj\" and French \"orange.\" Coffee remembers the Ethiopian highlands. Algorithm carries the name of a 9th century Persian mathematician in its very syllables.\n\nLanguage becomes landscape, and every word becomes a map of human connection across time and space.",
     "images": [
       0,
@@ -122,24 +105,6 @@
       2
     ],
     "video": "07.mp4"
-  },
-  {
-    "id": "exp-08",
-    "title": "lexoscope",
-    "tags": [
-      "Writing",
-      "Visualization",
-      "Data"
-    ],
-    "tokens": 11800,
-    "link": "https://example.com/exp-08",
-    "text": "Lexoscope functions as a digital laboratory designed to reveal the invisible structures buried within written language. It moves beyond simple word counts and readability scores by using advanced heuristics and algorithmic visualization to treat text as a physical specimen. By pasting an article or a note into the clean interface, writers and researchers can observe the soul of their work through multiple scientific lenses that highlight patterns often missed by the human eye during the normal process of reading.\n\nOne of the most distinctive features is the Ancestry Forest, which maps the etymological origins of a writer's vocabulary in a stunning radial display. This visualization categorizes words into their linguistic roots such as Germanic, Latin, or Greek and arranges them across historical rings of data. This capability allows creators to understand the inherent density of their prose and see whether they are relying on the blunt force of ancient roots or the intricate precision of more modern classical derivations.",
-    "images": [
-      0,
-      1,
-      2
-    ],
-    "video": "08.mp4"
   },
   {
     "id": "exp-09",
@@ -150,7 +115,7 @@
       "Data"
     ],
     "tokens": 14200,
-    "link": "https://example.com/exp-09",
+    "link": "https://kickoff-26-1082422747084.us-west1.run.app/",
     "text": "Kickoff’26 acts as a comprehensive digital repository for World Cup history. It uses a visual language of vintage cartography to present global football statistics through an interactive map interface. By marrying classic archival aesthetics with modern data processing, the platform offers a unique way to traverse nearly a century of tournament records from 1930 to the present day.\n\nThe interface provides specialized viewing modes to explore distinct aspects of the sport, including championship distributions and squad demographics. Users navigate a responsive map to access specific national records or view historical stadium locations across the globe. An integrated intelligence layer processes natural language queries to surface specific facts or narrative summaries from the extensive database instantly based on user intent.\n\nA central feature of the experience is the generation of period accurate stadium blueprints that appear as technical drafting sketches on aged paper. Beyond simple numbers, the application offers tactical matrices that visualize team performance through high density data stacks and historical goal yield analysis. This combination of historical storytelling and technical analysis establishes the platform as a definitive digital atlas for the evolution of the global game.",
     "images": [
       0,
@@ -180,27 +145,38 @@
   {
     "id": "exp-11",
     "title": "starweave",
-    "text": "Enter experiment description here...",
-    "tags": [],
+    "text": "Starweave is an interactive data visualization experience that maps the history of exoplanet discovery as a living, DNA-like strand. Built to transform raw scientific data into a kinetic timeline, it traces the chronological path of human discovery from the first pulsar planets of 1992 to the recent atmospheric studies by the James Webb Space Telescope. Every node on the strand represents a real, confirmed world found beyond our solar system, creating a continuous \"geometric signature\" of our unfolding knowledge of the Milky Way.\n\nThe interface invites users to explore the galaxy's history through distinct visual data points. Vertical bars extend from the timeline to indicate a planet's distance from Earth in parsecs, while a color-coded system identifies the detection method used—whether by Transit, Radial Velocity, or Direct Imaging. Interactive filters allow users to isolate specific categories of celestial bodies, such as \"Habitable Zone\" candidates, massive \"Cosmic Giants,\" or complex multi-planet systems described as \"Alien Archipelagos.\"\n\nBeneath the primary visualization lies a sophisticated procedural design engine. A generative background field flows like a topographic map to create depth, while the application’s footer dynamically renders the \"Planetary Architecture\" of any selected system. Using a custom wireframe rendering technique, Starweave generates unique, scale-appropriate visualizations of planetary orbits and ring systems on the fly, offering a high-fidelity window into the structural diversity of our galactic neighborhood.",
+    "tags": [
+      "Visualization",
+      "Science",
+      "Space"
+    ],
     "images": [],
-    "tokens": 0,
-    "link": "https://example.com"
+    "tokens": 11677,
+    "link": "https://starweave-696629161862.us-west1.run.app/"
   },
   {
     "id": "exp-12",
     "title": "brewprint",
-    "text": "Enter experiment description here...",
-    "tags": [],
+    "text": "Brewprint is an interactive design application that reimagines beverage exploration by blending a raw, industrial aesthetic with advanced generative AI. It transforms simple drink queries into beautifully detailed, \"artisanal\" product labels that look like vintage specification sheets. The interface opens with a unique \"scrapbook\" style landing page, featuring a masonry grid of curated drink inspirations and category filters, all set against a backdrop of clean typography, high-contrast design elements, and a stark, brutalist visual language.\n\nBeyond standard recipes, Brewprint generates a comprehensive \"identity\" for every drink using Google's Gemini models. Each generated label includes a rich narrative with a handwritten-style process description, a fascinating origin story, and a precise ingredient specification table. It visually analyzes the drink's character through a dynamic radar chart representing its flavor profile and provides a \"Pairing Matrix\" that suggests specific audio tracks, foods, and occasions to curate the perfect atmosphere for consumption.\n\nThe user experience is designed to feel like discovering a page from a master distiller's secret logbook. From the educational trivia displayed during the \"brewing\" phase to the final reveal, the app is fluid and immersive. It culminates in a generated card complete with a custom AI-generated continuous line drawing, \"verified batch\" stamps, and decorative textures, offering mixology enthusiasts and design lovers a visually stunning way to discover the science and soul behind their favorite spirits, beers, and cocktails.",
+    "tags": [
+      "Generative",
+      "Entertainment"
+    ],
     "images": [],
-    "tokens": 0,
+    "tokens": 17829,
     "link": "https://brewprint-1053595248236.us-west1.run.app/",
     "video": "12.mp4"
   },
   {
     "id": "exp-13",
     "title": "goodflix",
-    "text": "Enter experiment description here...",
-    "tags": [],
+    "text": "Goodflix is an immersive movie discovery platform designed to combat decision fatigue through a visually stunning 3D interface. Instead of the traditional 2D grid found on most streaming services, the application presents movie posters on an interactive, infinite cylindrical carousel rendered with Three.js and custom WebGL shaders. This tactile browsing experience allows users to effortlessly spin through popular, top-rated, and upcoming titles sourced from The Movie Database (TMDB), all wrapped in a sleek, dark-mode aesthetic with high-contrast, editorial-style typography.\nAt the heart of the application is a powerful \"vibe-based\" search engine driven by the Google Gemini API. Rather than just searching by title or genre, users can input natural language queries or select from curated mood chips—such as \"Neon Noir,\" \"Dystopian Future,\" or \"Just had a breakup.\" The AI interprets these abstract concepts to generate a tailored list of 48 relevant movie titles, dynamically repopulating the 3D cylinder. To further engage the user during data fetching, Gemini generates and displays obscure, fascinating trivia facts related to the specific search context in real-time.",
+    "tags": [
+      "Entertainment",
+      "Gallery",
+      "Visualization"
+    ],
     "images": [],
     "tokens": 0,
     "link": "https://goodflix-613508367596.us-west1.run.app/",
@@ -209,19 +185,26 @@
   {
     "id": "exp-14",
     "title": "dinodraft",
-    "text": "Enter experiment description here...",
-    "tags": [],
+    "text": "Dino-Draft is an immersive, technical visualization tool designed to simulate a high-tech paleontological field survey. It aggregates global fossil data into a stylized \"blueprint\" interface, allowing users to explore the prehistoric world through the lens of a researcher. The application transforms raw data into a cohesive dossier, presenting detailed records of dinosaur species—ranging from the Tyrannosaurus Rex to the Microraptor—in a distinctively tactical, manila-folder aesthetic.\n\nAt the heart of the experience is an interactive, D3-powered global map that acts as a central command hub. Users navigate through geological formations—from the Hell Creek Formation to the Gobi Desert—using a responsive coordinate system. Selected sites pulse with a custom sonar-like ripple effect, visually anchoring the user to specific excavation points while providing immediate geographic context. The interface emphasizes technical precision, utilizing typewriter fonts and vector-style iconography to maintain the atmosphere of a classified scientific archive.\n\nThe application leverages the power of the Google Gemini API to dynamically generate high-fidelity, monochromatic scientific illustrations for each species, rendering them as \"schematic blueprints\" in real-time. Beyond visuals, the system breaks down complex paleontological data into digestible metrics, including threat levels, osteological completeness, and geological context. This combination of generative AI, rich datasets, and atmospheric UI creates a unique educational platform that feels less like a textbook and more like a field operative's terminal.",
+    "tags": [
+      "Maps",
+      "Visualization",
+      "History"
+    ],
     "images": [],
-    "tokens": 0,
+    "tokens": 15790,
     "link": "https://dino-draft-271967923745.us-west1.run.app/"
   },
   {
     "id": "exp-15",
     "title": "warpfield",
-    "text": "Enter experiment description here...",
-    "tags": [],
+    "text": "Warp Field is an interactive particle simulation that transforms static grids into fluid, reactive geometry. Built with React and p5.js, the application renders a field of thousands of individual points—customizable as simple dots, ASCII characters, or binary code—that respond dynamically to cursor movement. Users can manipulate a distortion lens that ripples through the grid, creating organic, topographic patterns that mimic physical displacement forces in real-time.\n\nThe experience is elevated through a sophisticated audio-reactive engine powered by the Web Audio API. By analyzing frequency data, the grid visualizes sound as physical force: sub-bass frequencies generate a rotating vortex and propagating sine waves from the center, while high-frequency transients introduce jitter and kinetic energy. During intense musical moments, a dynamic \"constellation\" algorithm activates, drawing transient wireframe connections between neighboring particles to create complex, pulsing geometric structures synchronized to the beat.\n\nDesigned with a brutalist, high-contrast aesthetic, the interface provides deep control over the simulation's physics. Users can fine-tune the damping factor to switch between rigid, snappy motion and liquid, viscous flows, adjust the chaos level of the distortion, and select from curated color palettes to tint the particle field. Whether used as a meditative visualizer or a high-energy graphics experiment, Warp Field offers a playground for exploring the intersection of code, math, and music.\n",
+    "tags": [
+      "Simulation",
+      "Visualization"
+    ],
     "images": [],
-    "tokens": 0,
+    "tokens": 13478,
     "link": "https://warp-field-1082422747084.us-west1.run.app/",
     "video": "15.mp4"
   }
