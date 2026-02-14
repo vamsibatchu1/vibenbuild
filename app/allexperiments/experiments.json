@@ -207,5 +207,22 @@
     "tokens": 13478,
     "link": "https://warp-field-1082422747084.us-west1.run.app/",
     "video": "15.mp4"
+  },
+  {
+    "id": "exp-13",
+    "title": "shape of you",
+    "text": "\"The Shape of You\" is an immersive typographic video mirror designed to transform personal connections into digital art for Valentine's Day. By utilizing real-time webcam processing, the application deconstructs the user’s silhouette and reconstructs it using dynamic text characters, creating a \"living letter\" effect. The minimalist, high-contrast aesthetic—driven by elegant typography like Londrina Solid and Gilda Display—allows users to see themselves rendered through the very words they wish to convey, turning a standard video feed into a poetic visual performance.\n\nThe app offers deep customization through four distinct text modes, enabling users to choose between romantic heart symbols, custom typed messages, or song lyrics. A standout feature is the integration of the Gemini AI API, which allows users to search for any song and instantly fetch its lyrics to serve as the visual \"ink\" for their silhouette. Users can further fine-tune the visualization using a \"Light Threshold\" slider, which adjusts the density and sensitivity of the typographic rendering based on the environment's lighting, ensuring a crisp and personalized aesthetic.\n\nBuilt on a robust technical foundation of React and p5.js, the application captures the ephemeral nature of these interactions with an integrated recording system. Beyond just a visual mirror, it functions as a creative production tool where users can record their typographic transformations along with synchronized audio. ",
+    "tags": [
+      "Visualization",
+      "Media"
+    ],
+    "images": [
+      0,
+      1,
+      2
+    ],
+    "tokens": 15600,
+    "link": "https://the-shape-of-you-247949494736.us-west1.run.app/",
+    "video": "13.mp4"
   }
 ]
