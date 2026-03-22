@@ -1,6 +1,13 @@
-import { LandingPage } from '@/components/LandingPage'
+import { Metadata } from 'next'
+import { NewLayoutClient } from './NewLayoutClient'
+import { getExperiments } from '@/app/allexperiments/getExperiments'
 
-export default function Home() {
-  return <LandingPage />
+export const metadata: Metadata = {
+  title: 'Vibe N Build',
 }
 
+export default async function Home() {
+  const experiments = await getExperiments()
+  
+  return <NewLayoutClient initialExperiments={experiments} />
+}
