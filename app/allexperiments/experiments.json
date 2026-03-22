@@ -15,7 +15,8 @@
       1,
       2
     ],
-    "video": "01.mp4"
+    "video": "01.mp4",
+    "thumbnailVideo": "/videos/thumbnails/01_thumb.mp4"
   },
   {
     "id": "exp-02",
@@ -33,7 +34,8 @@
       1,
       2
     ],
-    "video": "02.mp4"
+    "video": "02.mp4",
+    "thumbnailVideo": "/videos/thumbnails/02_thumb.mp4"
   },
   {
     "id": "exp-03",
@@ -68,7 +70,8 @@
       1,
       2
     ],
-    "video": "04.mp4"
+    "video": "04.mp4",
+    "thumbnailVideo": "/videos/thumbnails/04_thumb.mp4"
   },
   {
     "id": "exp-05",
@@ -104,7 +107,8 @@
       1,
       2
     ],
-    "video": "07.mp4"
+    "video": "07.mp4",
+    "thumbnailVideo": "/videos/thumbnails/06_thumb.mp4"
   },
   {
     "id": "exp-07",
@@ -171,7 +175,8 @@
     "images": [],
     "tokens": 0,
     "link": "https://goodflix-613508367596.us-west1.run.app/",
-    "video": "13.mp4"
+    "video": "13.mp4",
+    "thumbnailVideo": "/videos/thumbnails/10_thumb.mp4"
   },
   {
     "id": "exp-11",
@@ -206,7 +211,8 @@
     ],
     "tokens": 13478,
     "link": "https://warp-field-1082422747084.us-west1.run.app/",
-    "video": "15.mp4"
+    "video": "15.mp4",
+    "thumbnailVideo": "/videos/thumbnails/12_thumb.mp4"
   },
   {
     "id": "exp-13",
@@ -224,5 +230,75 @@
     "tokens": 15600,
     "link": "https://the-shape-of-you-247949494736.us-west1.run.app/",
     "video": "13.mp4"
+  },
+  {
+    "id": "exp-14",
+    "title": "lens watch",
+    "text": "a geo-guessing game where you hunt for locations using Google Street View Image hints. Built with maps API & gave it Assassin’s Creed aesthetics using a JSON.",
+    "tags": [],
+    "images": [],
+    "tokens": 0,
+    "link": "https://example.com",
+    "thumbnailVideo": "/videos/thumbnails/14_thumb.mp4"
+  },
+  {
+    "id": "exp-15",
+    "title": "type.effects",
+    "text": "for my next experiment in the text effects series, went all in with computer vision based interactions with dynamic text layouts & hand tracking.you can use pinch/drag gestures to manipulate the workspace directly using your hands that makes the interface feel like a physical object. ",
+    "tags": [],
+    "images": [],
+    "tokens": 0,
+    "link": "https://example.com",
+    "thumbnailVideo": "/videos/thumbnails/15_thumb.mp4"
+  },
+  {
+    "id": "exp-16",
+    "title": "text reveal",
+    "text": "another text effect - where clicking on keywords gracefully expands relevant imagery by shifting the entire text layout. powered by spring physics and modular CSS grids.",
+    "tags": [],
+    "images": [],
+    "tokens": 0,
+    "link": "https://example.com",
+    "thumbnailVideo": "/videos/thumbnails/16_thumb.mp4"
+  },
+  {
+    "id": "exp-17",
+    "title": "tree pop",
+    "text": "kept seeing a lot of beautiful digital gardens & got inspired to code my own. 🪴 added a fun spin: procedural generation with physics! you can grow trees, change their height/leaves, and add wind. ",
+    "tags": [],
+    "images": [],
+    "tokens": 0,
+    "link": "https://example.com",
+    "thumbnailVideo": "/videos/thumbnails/17_thumb.mp4"
+  },
+  {
+    "id": "exp-18",
+    "title": "text hover",
+    "text": "Enter experiment description here...",
+    "tags": [],
+    "images": [],
+    "tokens": 0,
+    "link": "https://example.com",
+    "thumbnailVideo": "/videos/thumbnails/18_thumb.mp4"
+  },
+  {
+    "id": "exp-19",
+    "title": "newyorkover",
+    "text": "Enter experiment description here...",
+    "tags": [],
+    "images": [],
+    "tokens": 0,
+    "link": "https://example.com",
+    "thumbnailVideo": "/videos/thumbnails/19_thumb.mp4"
+  },
+  {
+    "id": "exp-20",
+    "title": "dinodex",
+    "text": "Enter experiment description here...",
+    "tags": [],
+    "images": [],
+    "tokens": 0,
+    "link": "https://example.com",
+    "thumbnailVideo": "/videos/thumbnails/20_thumb.mp4"
   }
 ]

@@ -3,7 +3,7 @@
 import React, { useState, useCallback, useEffect } from 'react'
 import Image from 'next/image'
 import { Experiment } from '@/app/allexperiments/getExperiments'
-import { Lock, Save, X, Plus, Trash2, Upload, Eye, Edit } from 'lucide-react'
+import { Lock, Save, X, Plus, Trash2, Upload, Eye, Edit, Video } from 'lucide-react'
 import { motion } from 'framer-motion'
 
 interface AdminClientProps {
@@ -129,6 +129,31 @@ export function AdminClient({ initialExperiments, initialWipIdeas }: AdminClient
     }
   }, [updateExperiment])
 
+  const handleThumbUpload = useCallback(async (experimentId: string, file: File) => {
+    try {
+      const formData = new FormData()
+      formData.append('thumb', file)
+      formData.append('experimentId', experimentId)
+
+      const response = await fetch('/api/admin/upload-experiment-thumb', {
+        method: 'POST',
+        body: formData,
+      })
+
+      if (response.ok) {
+        const data = await response.json()
+        if (data.fileName) {
+          // Store the path to the thumbnail video specifically
+          updateExperiment(experimentId, {
+            thumbnailVideo: `/videos/thumbnails/${data.fileName}`
+          })
+        }
+      }
+    } catch (err) {
+      console.error('Failed to upload thumbnail video:', err)
+    }
+  }, [updateExperiment])
+
   const removeImage = useCallback(async (experimentId: string, imageIndex: number) => {
     try {
       const experiment = experiments.find(e => e.id === experimentId)
@@ -196,7 +221,7 @@ export function AdminClient({ initialExperiments, initialWipIdeas }: AdminClient
       }
     }
     
-    // Generate new experiment ID
+    // Generate new experiment ID background
     const nextId = `exp-${String(nextNumber).padStart(2, '0')}`
     
     // Create new experiment with default values
@@ -208,7 +233,8 @@ export function AdminClient({ initialExperiments, initialWipIdeas }: AdminClient
       images: [],
       tokens: 0,
       link: 'https://example.com',
-      video: undefined
+      video: undefined,
+      thumbnailVideo: undefined
     }
     
     // Add to experiments array
@@ -353,16 +379,15 @@ export function AdminClient({ initialExperiments, initialWipIdeas }: AdminClient
         {activeTab === 'experiments' && (
           <>
             <div className="text-xs text-black/70 leading-relaxed max-w-md mb-4 uppercase font-ibm-plex-mono">
-              Edit experiment information below. Click &quot;Edit&quot; on any row to modify details.
+              Edit experiment information below. Use the &quot;Edit&quot; icon to modify details.
             </div>
 
-            {/* Column Headers - Hidden on mobile */}
+            {/* Column Headers */}
             <div className="mb-2 hidden md:block">
               <div className="flex gap-4 text-xs text-black/80 uppercase tracking-wide items-start border-t-2 border-b-2 border-solid border-black py-2 font-ibm-plex-mono">
-                <div className="w-24 flex-shrink-0 text-left">ID</div>
-                <div className="w-24 flex-shrink-0 text-left">Title</div>
-                <div className="w-24 flex-shrink-0 text-left">Tags</div>
-                <div className="flex-1 min-w-[300px] text-left">Text</div>
+                <div className="w-48 flex-shrink-0 text-left">Title</div>
+                <div className="w-32 flex-shrink-0 text-left">Tags</div>
+                <div className="flex-1 text-left">Description Snippet</div>
                 <div className="w-20 md:w-24 flex-shrink-0 text-right">Actions</div>
               </div>
             </div>
@@ -381,6 +406,7 @@ export function AdminClient({ initialExperiments, initialWipIdeas }: AdminClient
                   onImageUpload={(file) => handleImageUpload(experiment.id, file)}
                   onRemoveImage={(imageIndex) => removeImage(experiment.id, imageIndex)}
                   onVideoUpload={(file) => handleVideoUpload(experiment.id, file)}
+                  onThumbUpload={(file) => handleThumbUpload(experiment.id, file)}
                   onAddTag={(tag) => addTag(experiment.id, tag)}
                   onRemoveTag={(tag) => removeTag(experiment.id, tag)}
                 />
@@ -438,6 +464,7 @@ interface ExperimentRowProps {
   onImageUpload: (file: File) => void
   onRemoveImage: (imageIndex: number) => void
   onVideoUpload: (file: File) => void
+  onThumbUpload: (file: File) => void
   onAddTag: (tag: string) => void
   onRemoveTag: (tag: string) => void
 }
@@ -452,6 +479,7 @@ function ExperimentRow({
   onImageUpload,
   onRemoveImage,
   onVideoUpload,
+  onThumbUpload,
   onAddTag,
   onRemoveTag,
 }: ExperimentRowProps) {
@@ -475,24 +503,19 @@ function ExperimentRow({
           className={`block transition-colors ${index === 0 ? '-mt-2 pt-2' : '-mt-4 pt-4'} hover:bg-black/5`}
         >
           <div className="flex gap-2 md:gap-4 text-xs text-black items-start border-b-2 border-solid border-black pb-4">
-            {/* Experiment ID */}
-            <div className="w-20 md:w-24 flex-shrink-0 text-black/80 text-left font-plus-jakarta-sans font-bold text-base tracking-tighter">
-              {experiment.id}
-            </div>
-
-            {/* Experiment Title */}
-            <div className="w-20 md:w-24 flex-shrink-0 text-black text-left font-plus-jakarta-sans font-bold text-base tracking-tighter">
+            {/* Title */}
+            <div className="w-48 flex-shrink-0 text-black text-left font-plus-jakarta-sans font-bold text-base tracking-tighter">
               {experiment.title}
             </div>
 
-            {/* Tags - Hidden on mobile */}
-            <div className="hidden md:block w-24 flex-shrink-0 text-black/70 text-left">
+            {/* Tags */}
+            <div className="hidden md:block w-32 flex-shrink-0 text-black/70 text-left text-[10px] uppercase truncate">
               {experiment.tags.join(', ')}
             </div>
 
             {/* Text */}
-            <div className="flex-1 min-w-0 md:min-w-[300px] text-black/70 leading-relaxed text-left">
-              {experiment.text.substring(0, 100)}...
+            <div className="flex-1 min-w-0 text-black/70 leading-relaxed text-left line-clamp-2">
+              {experiment.text}
             </div>
 
             {/* Actions */}
@@ -525,26 +548,15 @@ function ExperimentRow({
       transition={{ duration: 0.2 }}
       className={`bg-black/5 ${index === 0 ? '-mt-2 pt-2' : '-mt-4 pt-4'} border-b-2 border-solid border-black pb-6`}
     >
-      <div className="space-y-4 pt-4">
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-          <div>
-            <label className="block text-xs font-bold text-black mb-1 uppercase tracking-wide font-ibm-plex-mono">ID</label>
-            <input
-              type="text"
-              value={experiment.id}
-              onChange={(e) => onUpdate({ id: e.target.value })}
-              className="w-full px-3 py-2 border-2 border-black text-xs font-ibm-plex-mono bg-white focus:outline-none focus:ring-2 focus:ring-black"
-            />
-          </div>
-          <div>
-            <label className="block text-xs font-bold text-black mb-1 uppercase tracking-wide font-ibm-plex-mono">Title</label>
-            <input
-              type="text"
-              value={experiment.title}
-              onChange={(e) => onUpdate({ title: e.target.value })}
-              className="w-full px-3 py-2 border-2 border-black text-xs font-ibm-plex-mono bg-white focus:outline-none focus:ring-2 focus:ring-black"
-            />
-          </div>
+      <div className="space-y-4 pt-4 px-4 pb-4">
+        <div>
+          <label className="block text-xs font-bold text-black mb-1 uppercase tracking-wide font-ibm-plex-mono">Title</label>
+          <input
+            type="text"
+            value={experiment.title}
+            onChange={(e) => onUpdate({ title: e.target.value })}
+            className="w-full px-3 py-2 border-2 border-black text-xs font-ibm-plex-mono bg-white focus:outline-none focus:ring-2 focus:ring-black"
+          />
         </div>
 
         <div>
@@ -622,39 +634,52 @@ function ExperimentRow({
           </div>
         </div>
 
-        <div>
-          <label className="block text-xs font-bold text-black mb-2 uppercase tracking-wide font-ibm-plex-mono">Video (optional)</label>
-          {experiment.video && (
-            <div className="mb-2 p-2 border-2 border-black bg-white">
-              <div className="text-xs font-ibm-plex-mono text-black/70 mb-1">Current video:</div>
-              <div className="text-xs font-ibm-plex-mono text-black">{experiment.video}</div>
-              <button
-                onClick={() => onUpdate({ video: undefined })}
-                className="mt-2 text-xs text-red-600 hover:text-red-800 font-ibm-plex-mono uppercase"
-              >
-                Remove Video
-              </button>
-            </div>
-          )}
-          <label className="inline-flex items-center gap-2 px-4 py-2 border-2 border-black bg-white cursor-pointer hover:bg-black/5 transition-colors text-xs font-ibm-plex-mono uppercase">
-            <Upload className="w-3 h-3" />
-            <span>{experiment.video ? 'Replace Video' : 'Upload Video'}</span>
-            <input
-              type="file"
-              accept="video/*"
-              onChange={(e) => {
-                const file = e.target.files?.[0]
-                if (file) {
-                  onVideoUpload(file)
-                }
-              }}
-              className="hidden"
-            />
-          </label>
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 p-4 border-2 border-black/10 bg-black/[0.02] rounded-lg">
+          <div>
+            <label className="block text-[10px] font-bold text-black/50 mb-2 uppercase tracking-[0.2em] font-ibm-plex-mono">Showcase Video (Full)</label>
+            {experiment.video && (
+              <div className="mb-2 p-2 border border-black/10 bg-white shadow-sm flex flex-col gap-1">
+                <div className="text-[10px] font-ibm-plex-mono text-black/30">Filename:</div>
+                <div className="text-[11px] font-ibm-plex-mono text-black font-bold uppercase truncate">{experiment.video}</div>
+                <button
+                  onClick={() => onUpdate({ video: undefined })}
+                  className="mt-1 text-[10px] text-red-600 hover:text-red-800 font-ibm-plex-mono uppercase underline underline-offset-2"
+                >
+                  Remove
+                </button>
+              </div>
+            )}
+            <label className="w-full flex items-center justify-center gap-2 px-4 py-2 border-2 border-black border-dashed bg-white cursor-pointer hover:bg-black/5 transition-colors text-[10px] font-ibm-plex-mono uppercase tracking-widest font-bold">
+              <Video className="w-3 h-3" />
+              <span>{experiment.video ? 'Replace Showcase' : 'Upload Showcase'}</span>
+              <input type="file" accept="video/*" onChange={(e) => e.target.files?.[0] && onVideoUpload(e.target.files[0])} className="hidden" />
+            </label>
+          </div>
+
+          <div>
+            <label className="block text-[10px] font-bold text-black/50 mb-2 uppercase tracking-[0.2em] font-ibm-plex-mono">Thumbnail Video (Loop)</label>
+            {experiment.thumbnailVideo && (
+              <div className="mb-2 p-2 border border-black/10 bg-white shadow-sm flex flex-col gap-1">
+                <div className="text-[10px] font-ibm-plex-mono text-black/30">Filename:</div>
+                <div className="text-[11px] font-ibm-plex-mono text-black font-bold uppercase truncate">{experiment.thumbnailVideo.split('/').pop()}</div>
+                <button
+                  onClick={() => onUpdate({ thumbnailVideo: undefined })}
+                  className="mt-1 text-[10px] text-red-600 hover:text-red-800 font-ibm-plex-mono uppercase underline underline-offset-2"
+                >
+                  Remove
+                </button>
+              </div>
+            )}
+            <label className="w-full flex items-center justify-center gap-2 px-4 py-2 border-2 border-black border-dashed bg-white cursor-pointer hover:bg-black/5 transition-colors text-[10px] font-ibm-plex-mono uppercase tracking-widest font-bold">
+              <Upload className="w-3 h-3" />
+              <span>{experiment.thumbnailVideo ? 'Replace Thumbnail' : 'Upload Thumbnail'}</span>
+              <input type="file" accept="video/*" onChange={(e) => e.target.files?.[0] && onThumbUpload(e.target.files[0])} className="hidden" />
+            </label>
+          </div>
         </div>
 
         <div>
-          <label className="block text-xs font-bold text-black mb-2 uppercase tracking-wide font-ibm-plex-mono">Images</label>
+          <label className="block text-xs font-bold text-black mb-2 uppercase tracking-wide font-ibm-plex-mono">Static Images</label>
           <div className="space-y-2">
             <div className="flex flex-wrap gap-2 mb-2">
               {experiment.images.map((imageIndex, idx) => {
@@ -703,16 +728,16 @@ function ExperimentRow({
           </div>
         </div>
 
-        <div className="flex justify-end gap-2 pt-2 border-t-2 border-black">
+        <div className="flex justify-end gap-2 pt-4 border-t-2 border-black">
           <button
             onClick={onToggleEdit}
-            className="px-4 py-2 border-2 border-black bg-white text-black hover:bg-black/5 text-xs font-ibm-plex-mono uppercase transition-colors"
+            className="px-4 py-2 border-2 border-black bg-white text-black hover:bg-black/5 text-xs font-ibm-plex-mono uppercase transition-colors font-bold"
           >
             Cancel
           </button>
           <button
             onClick={onToggleEdit}
-            className="px-4 py-2 bg-black text-white hover:bg-black/80 text-xs font-ibm-plex-mono uppercase transition-colors"
+            className="px-4 py-2 bg-black text-white hover:bg-black/80 text-xs font-ibm-plex-mono uppercase transition-colors font-bold"
           >
             Done Editing
           </button>

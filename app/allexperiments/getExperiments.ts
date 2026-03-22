@@ -10,6 +10,7 @@ export interface Experiment {
   text: string
   images: number[]
   video?: string
+  thumbnailVideo?: string
 }
 
 /**
