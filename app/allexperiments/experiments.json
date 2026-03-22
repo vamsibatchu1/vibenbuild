@@ -247,7 +247,7 @@
   },
   {
     "id": "exp-15",
-    "title": "type.effects",
+    "title": "type_effects",
     "text": "for my next experiment in the text effects series, went all in with computer vision based interactions with dynamic text layouts & hand tracking.you can use pinch/drag gestures to manipulate the workspace directly using your hands that makes the interface feel like a physical object. ",
     "tags": [],
     "images": [],
