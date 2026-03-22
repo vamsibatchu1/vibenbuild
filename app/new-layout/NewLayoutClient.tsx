@@ -4,7 +4,6 @@ import { useState, useEffect } from 'react'
 import Image from 'next/image'
 import { motion, AnimatePresence } from 'framer-motion'
 import { Experiment } from '@/app/allexperiments/getExperiments'
-import { TypingAnimation } from '@/components/TypingAnimation'
 import { LayoutGrid, List, Maximize, Layers, ExternalLink, Play } from 'lucide-react'
 
 interface NewLayoutClientProps {
@@ -117,10 +116,8 @@ export function NewLayoutClient({ initialExperiments }: NewLayoutClientProps) {
     setPlacedImages(newPlaced)
   }
 
-  // Helper to extract first 5 sentences from a text string
   const getFirstFiveSentences = (text: string) => {
     if (!text) return "";
-    // Regex matches sentences ending in . ! or ?
     const sentences = text.match(/[^.!?]+[.!?]+/g);
     if (!sentences) return text;
     return sentences.slice(0, 5).join(' ');
@@ -134,7 +131,8 @@ export function NewLayoutClient({ initialExperiments }: NewLayoutClientProps) {
       />
 
       {/* Left Side Panel */}
-      <aside className="w-[30%] h-screen p-12 py-16 flex flex-col justify-start border-r border-white/10 z-20 relative bg-black/50 backdrop-blur-sm shadow-[20px_0_50px_rgba(0,0,0,0.5)] overflow-y-auto">
+      <aside className="w-[30%] h-screen p-12 py-16 flex flex-col border-r border-white/10 z-20 relative bg-black/50 backdrop-blur-sm shadow-[20px_0_50px_rgba(0,0,0,0.5)]">
+        {/* Top Section */}
         <div className="space-y-12">
            <motion.div 
              initial={{ opacity: 0, x: -20 }}
@@ -152,10 +150,13 @@ export function NewLayoutClient({ initialExperiments }: NewLayoutClientProps) {
            </motion.div>
 
            <div className="text-[16px] md:text-[18px] text-white leading-relaxed max-w-[400px]">
-             <TypingAnimation text={mainText} speed={20} />
+             {mainText}
            </div>
+        </div>
 
-           <div className="flex gap-4 pt-4">
+        {/* Bottom Section: Buttons and Credit */}
+        <div className="mt-auto space-y-6">
+           <div className="flex gap-4">
               <button 
                 onClick={() => setViewMode('grid')}
                 className={`w-12 h-12 flex items-center justify-center border-2 border-white transition-all duration-300 ${viewMode === 'grid' ? 'bg-white text-black' : 'bg-transparent text-white hover:bg-white/10'}`}
@@ -180,6 +181,10 @@ export function NewLayoutClient({ initialExperiments }: NewLayoutClientProps) {
               >
                 <Layers size={20} />
               </button>
+           </div>
+           
+           <div className="text-[10px] uppercase font-bold tracking-[0.2em] opacity-30 text-white">
+             an experimental universe by <a href="https://x.com/vamsibatchuk" target="_blank" rel="noopener noreferrer" className="underline hover:opacity-100 transition-opacity">vamsi batchu</a>
            </div>
         </div>
       </aside>

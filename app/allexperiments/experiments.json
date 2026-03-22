@@ -89,7 +89,8 @@
       1,
       2
     ],
-    "video": "06.mp4"
+    "video": "06.mp4",
+    "thumbnailVideo": "/videos/thumbnails/05_thumb.mp4"
   },
   {
     "id": "exp-06",
@@ -126,7 +127,8 @@
       1,
       2
     ],
-    "video": "09.mp4"
+    "video": "09.mp4",
+    "thumbnailVideo": "/videos/thumbnails/07_thumb.mp4"
   },
   {
     "id": "exp-08",
@@ -161,7 +163,8 @@
     ],
     "tokens": 17829,
     "link": "https://brewprint-1053595248236.us-west1.run.app/",
-    "video": "12.mp4"
+    "video": "12.mp4",
+    "thumbnailVideo": "/videos/thumbnails/09_thumb.mp4"
   },
   {
     "id": "exp-10",
@@ -194,7 +197,8 @@
     ],
     "tokens": 15790,
     "link": "https://dino-draft-271967923745.us-west1.run.app/",
-    "video": "14.mp4"
+    "video": "14.mp4",
+    "thumbnailVideo": "/videos/thumbnails/11_thumb.mp4"
   },
   {
     "id": "exp-12",
@@ -300,5 +304,25 @@
     "tokens": 0,
     "link": "https://example.com",
     "thumbnailVideo": "/videos/thumbnails/20_thumb.mp4"
+  },
+  {
+    "id": "exp-21",
+    "title": "summit scout",
+    "text": "Enter experiment description here...",
+    "tags": [],
+    "images": [],
+    "tokens": 0,
+    "link": "https://example.com",
+    "thumbnailVideo": "/videos/thumbnails/21_thumb.mp4"
+  },
+  {
+    "id": "exp-22",
+    "title": "net runner",
+    "text": "Enter experiment description here...",
+    "tags": [],
+    "images": [],
+    "tokens": 0,
+    "link": "https://example.com",
+    "thumbnailVideo": "/videos/thumbnails/22_thumb.mp4"
   }
 ]
