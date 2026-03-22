@@ -38,7 +38,7 @@ export function NewLayoutClient({ initialExperiments }: NewLayoutClientProps) {
   const [placedImages, setPlacedImages] = useState<PlacedImage[]>([])
   const [viewMode, setViewMode] = useState<ViewMode>('list') // Default changed to 'list'
 
-  const mainText = "One app per week. Every week. All year. A creative challenge exploring what's possible when you ship consistently with Google AI Studio. 52 weeks. 52 apps. 52 learning opportunities."
+  const mainText = "Most vibe-coded apps look the same. I wanted to see what happens when you bring real design thinking to AI tools and ship relentlessly. This is that collection: games, maps, and data viz built to be played with."
 
   useEffect(() => {
     const allImages: PlacedImage[] = []
