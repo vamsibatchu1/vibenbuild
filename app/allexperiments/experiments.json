@@ -102,7 +102,7 @@
     ],
     "tokens": 15600,
     "link": "https://wanderword-141284551734.us-west1.run.app/",
-    "text": "Every word you speak is a traveler. Wanderword visualizes the hidden migrations of language, tracing how words journeyed across continents through trade routes, conquests, and cultural exchange. Type any word and watch its path unfold on an interactive world map. The tea in your cup tells two stories: one that traveled by Dutch ships from Fujian province, becoming \"tea\" across maritime Europe, and another that moved overland through the Silk Road, transforming into \"chai\" across Persia and India.\n\nPowered by Gemini, the app reconstructs the linguistic archaeology of everyday words. Each query returns precise coordinates, century markers, and phonetic transformations as words morphed through dozens of languages. Words like \"orange\" show their scars: the missing \"n\" that dropped somewhere between Arabic \"naranj\" and French \"orange.\" Coffee remembers the Ethiopian highlands. Algorithm carries the name of a 9th century Persian mathematician in its very syllables.\n\nLanguage becomes landscape, and every word becomes a map of human connection across time and space.",
+    "text": "every word you speak is a traveler. wanderword visualizes the hidden migrations of language, tracing how words journeyed across continents through trade routes, conquests, and cultural exchange. Type any word and watch its path unfold on an interactive world map. The tea in your cup tells two stories: one that traveled by Dutch ships from Fujian province, becoming \"tea\" across maritime Europe, and another that moved overland through the Silk Road, transforming into \"chai\" across Persia and India. Powered by Gemini, the app reconstructs the linguistic archaeology of everyday words.",
     "images": [
       0,
       1,
@@ -121,7 +121,7 @@
     ],
     "tokens": 14200,
     "link": "https://kickoff-26-1082422747084.us-west1.run.app/",
-    "text": "Kickoff’26 acts as a comprehensive digital repository for World Cup history. It uses a visual language of vintage cartography to present global football statistics through an interactive map interface. By marrying classic archival aesthetics with modern data processing, the platform offers a unique way to traverse nearly a century of tournament records from 1930 to the present day.\n\nThe interface provides specialized viewing modes to explore distinct aspects of the sport, including championship distributions and squad demographics. Users navigate a responsive map to access specific national records or view historical stadium locations across the globe. An integrated intelligence layer processes natural language queries to surface specific facts or narrative summaries from the extensive database instantly based on user intent.\n\nA central feature of the experience is the generation of period accurate stadium blueprints that appear as technical drafting sketches on aged paper. Beyond simple numbers, the application offers tactical matrices that visualize team performance through high density data stacks and historical goal yield analysis. This combination of historical storytelling and technical analysis establishes the platform as a definitive digital atlas for the evolution of the global game.",
+    "text": "kickoff’26 acts as a comprehensive digital repository for World Cup history. It uses a visual language of vintage cartography to present global football statistics through an interactive map interface. By marrying classic archival aesthetics with modern data processing, the platform offers a unique way to traverse nearly a century of tournament records from 1930 to the present day.The interface provides specialized viewing modes to explore distinct aspects of the sport, including championship distributions and squad demographics. ",
     "images": [
       0,
       1,
@@ -133,7 +133,7 @@
   {
     "id": "exp-08",
     "title": "starweave",
-    "text": "Starweave is an interactive data visualization experience that maps the history of exoplanet discovery as a living, DNA-like strand. Built to transform raw scientific data into a kinetic timeline, it traces the chronological path of human discovery from the first pulsar planets of 1992 to the recent atmospheric studies by the James Webb Space Telescope. Every node on the strand represents a real, confirmed world found beyond our solar system, creating a continuous \"geometric signature\" of our unfolding knowledge of the Milky Way.\n\nThe interface invites users to explore the galaxy's history through distinct visual data points. Vertical bars extend from the timeline to indicate a planet's distance from Earth in parsecs, while a color-coded system identifies the detection method used—whether by Transit, Radial Velocity, or Direct Imaging. Interactive filters allow users to isolate specific categories of celestial bodies, such as \"Habitable Zone\" candidates, massive \"Cosmic Giants,\" or complex multi-planet systems described as \"Alien Archipelagos.\"\n\nBeneath the primary visualization lies a sophisticated procedural design engine. A generative background field flows like a topographic map to create depth, while the application’s footer dynamically renders the \"Planetary Architecture\" of any selected system. Using a custom wireframe rendering technique, Starweave generates unique, scale-appropriate visualizations of planetary orbits and ring systems on the fly, offering a high-fidelity window into the structural diversity of our galactic neighborhood.",
+    "text": "Starweave is an interactive data visualization experience that maps the history of exoplanet discovery as a living, DNA-like strand. Built to transform raw scientific data into a kinetic timeline, it traces the chronological path of human discovery from the first pulsar planets of 1992 to the recent atmospheric studies by the James Webb Space Telescope. Every node on the strand represents a real, confirmed world found beyond our solar system, creating a continuous \"geometric signature\".",
     "tags": [
       "Visualization",
       "Science",
@@ -151,7 +151,7 @@
   {
     "id": "exp-09",
     "title": "brewprint",
-    "text": "Brewprint is an interactive design application that reimagines beverage exploration by blending a raw, industrial aesthetic with advanced generative AI. It transforms simple drink queries into beautifully detailed, \"artisanal\" product labels that look like vintage specification sheets. The interface opens with a unique \"scrapbook\" style landing page, featuring a masonry grid of curated drink inspirations and category filters, all set against a backdrop of clean typography, high-contrast design elements, and a stark, brutalist visual language.\n\nBeyond standard recipes, Brewprint generates a comprehensive \"identity\" for every drink using Google's Gemini models. Each generated label includes a rich narrative with a handwritten-style process description, a fascinating origin story, and a precise ingredient specification table. It visually analyzes the drink's character through a dynamic radar chart representing its flavor profile and provides a \"Pairing Matrix\" that suggests specific audio tracks, foods, and occasions to curate the perfect atmosphere for consumption.\n\nThe user experience is designed to feel like discovering a page from a master distiller's secret logbook. From the educational trivia displayed during the \"brewing\" phase to the final reveal, the app is fluid and immersive. It culminates in a generated card complete with a custom AI-generated continuous line drawing, \"verified batch\" stamps, and decorative textures, offering mixology enthusiasts and design lovers a visually stunning way to discover the science and soul behind their favorite spirits, beers, and cocktails.",
+    "text": "brewprint is an interactive design application that reimagines beverage exploration by blending a raw, industrial aesthetic with advanced generative AI. It transforms simple drink queries into beautifully detailed, \"artisanal\" product labels that look like vintage specification sheets. The interface opens with a unique \"scrapbook\" style landing page, featuring a masonry grid of curated drink inspirations and category filters, all set against a backdrop of clean typography, high-contrast design elements, and a stark, brutalist visual language.\n\nBeyond standard recipes, Brewprint generates a comprehensive \"identity\" for every drink using Google's Gemini models. ",
     "tags": [
       "Generative",
       "Entertainment"
@@ -184,7 +184,7 @@
   {
     "id": "exp-11",
     "title": "dinodraft",
-    "text": "Dino-Draft is an immersive, technical visualization tool designed to simulate a high-tech paleontological field survey. It aggregates global fossil data into a stylized \"blueprint\" interface, allowing users to explore the prehistoric world through the lens of a researcher. The application transforms raw data into a cohesive dossier, presenting detailed records of dinosaur species—ranging from the Tyrannosaurus Rex to the Microraptor—in a distinctively tactical, manila-folder aesthetic.\n\nAt the heart of the experience is an interactive, D3-powered global map that acts as a central command hub. Users navigate through geological formations—from the Hell Creek Formation to the Gobi Desert—using a responsive coordinate system. Selected sites pulse with a custom sonar-like ripple effect, visually anchoring the user to specific excavation points while providing immediate geographic context. The interface emphasizes technical precision, utilizing typewriter fonts and vector-style iconography to maintain the atmosphere of a classified scientific archive.\n\nThe application leverages the power of the Google Gemini API to dynamically generate high-fidelity, monochromatic scientific illustrations for each species, rendering them as \"schematic blueprints\" in real-time. Beyond visuals, the system breaks down complex paleontological data into digestible metrics, including threat levels, osteological completeness, and geological context. This combination of generative AI, rich datasets, and atmospheric UI creates a unique educational platform that feels less like a textbook and more like a field operative's terminal.",
+    "text": "dino draft is an immersive, technical visualization tool designed to simulate a high-tech paleontological field survey. It aggregates global fossil data into a stylized \"blueprint\" interface, allowing users to explore the prehistoric world through the lens of a researcher. The application transforms raw data into a cohesive dossier, presenting detailed records of dinosaur species—ranging from the Tyrannosaurus Rex to the Microraptor—in a distinctively tactical, manila-folder aesthetic.\n\nAt the heart of the experience is an interactive, D3-powered global map that acts as a central command hub. Users navigate through geological formations—from the Hell Creek Formation to the Gobi Desert—using a responsive coordinate system. Selected sites pulse with a custom sonar-like ripple effect, visually anchoring the user to specific excavation points while providing immediate geographic context. The interface emphasizes technical precision, utilizing typewriter fonts and vector-style iconography to maintain the atmosphere of a classified scientific archive.\n\nThe application leverages the power of the Google Gemini API to dynamically generate high-fidelity, monochromatic scientific illustrations for each species, rendering them as \"schematic blueprints\" in real-time. Beyond visuals, the system breaks down complex paleontological data into digestible metrics, including threat levels, osteological completeness, and geological context. This combination of generative AI, rich datasets, and atmospheric UI creates a unique educational platform that feels less like a textbook and more like a field operative's terminal.",
     "tags": [
       "Maps",
       "Visualization",
@@ -221,7 +221,7 @@
   {
     "id": "exp-13",
     "title": "shape of you",
-    "text": "\"The Shape of You\" is an immersive typographic video mirror designed to transform personal connections into digital art for Valentine's Day. By utilizing real-time webcam processing, the application deconstructs the user’s silhouette and reconstructs it using dynamic text characters, creating a \"living letter\" effect. The minimalist, high-contrast aesthetic—driven by elegant typography like Londrina Solid and Gilda Display—allows users to see themselves rendered through the very words they wish to convey, turning a standard video feed into a poetic visual performance.\n\nThe app offers deep customization through four distinct text modes, enabling users to choose between romantic heart symbols, custom typed messages, or song lyrics. A standout feature is the integration of the Gemini AI API, which allows users to search for any song and instantly fetch its lyrics to serve as the visual \"ink\" for their silhouette. Users can further fine-tune the visualization using a \"Light Threshold\" slider, which adjusts the density and sensitivity of the typographic rendering based on the environment's lighting, ensuring a crisp and personalized aesthetic.\n\nBuilt on a robust technical foundation of React and p5.js, the application captures the ephemeral nature of these interactions with an integrated recording system. Beyond just a visual mirror, it functions as a creative production tool where users can record their typographic transformations along with synchronized audio. ",
+    "text": "The Shape of You is a typographic video mirror that transforms your silhouette into digital art for Valentine's Day. Using real-time webcam processing, it reconstructs your image with dynamic text to create a \"living letter\" effect. The minimalist, high-contrast aesthetic—driven by elegant typography—allows users to see themselves rendered through the very words they wish to convey. With four text modes, users can choose from heart symbols, custom messages, or Gemini-powered song lyrics to serve as the visual \"ink\" for their silhouette in a poetic visual performance",
     "tags": [
       "Visualization",
       "Media"
@@ -238,7 +238,7 @@
   {
     "id": "exp-14",
     "title": "lens watch",
-    "text": "a geo-guessing game where you hunt for locations using Google Street View Image hints. Built with maps API & gave it Assassin’s Creed aesthetics using a JSON.",
+    "text": "lens watch is a a geo-guessing game where you hunt for locations using Google Street View Image hints. As a player of the game, you will have to solve the location based on the image hence within a set time by selecting an area of the map and guessing that it is the right location, you will have 5 chances to discover the right location using the images provided. Built with maps API & gave it Assassin’s Creed aesthetics using a JSON.",
     "tags": [],
     "images": [],
     "tokens": 0,
@@ -257,8 +257,8 @@
   },
   {
     "id": "exp-16",
-    "title": "text reveal",
-    "text": "another text effect - where clicking on keywords gracefully expands relevant imagery by shifting the entire text layout. powered by spring physics and modular CSS grids.",
+    "title": "push flow",
+    "text": "push flow introduces a tactile, editorial interaction where clicking highlighted words slides the text body to reveal inline imagery. Set against a vibrant yellow background, the layout maintains a classic document structure while integrating modern, responsive animations. This interaction style allows users to explore supplemental content, such as Tolkien-inspired maps and photos, without losing their place in the narrative. The \"push\" mechanic ensures that every transition feels smooth and physically grounded within the digital space.",
     "tags": [],
     "images": [],
     "tokens": 0,
@@ -268,7 +268,7 @@
   {
     "id": "exp-17",
     "title": "tree pop",
-    "text": "kept seeing a lot of beautiful digital gardens & got inspired to code my own. 🪴 added a fun spin: procedural generation with physics! you can grow trees, change their height/leaves, and add wind. ",
+    "text": "Tree pop allows users to create and customize a procedural forest with hand-drawn aesthetic elements. Users can plant unique trees by dragging rectangles on the canvas, choosing from various leaf colors and adjusting structural parameters like branch length and height. The environment features a dynamic wind simulation that causes the trees to sway realistically, accompanied by birds that occasionally fly across the dark green landscape. A specialized building mode enables the placement of wobbly, jittered structures with randomized windows to create a unique urban skyline behind the foliage. ",
     "tags": [],
     "images": [],
     "tokens": 0,
@@ -298,7 +298,7 @@
   {
     "id": "exp-20",
     "title": "dinodex",
-    "text": "Enter experiment description here...",
+    "text": "dinodex is a nano-app that lets you turn your favorite dinosaurs into '90s Pokémon-style trading cards. There are over 100 dinosaurs to collect through the platform. You can search for any species to view its trading card, which features a consistent Pokémon-inspired theme. Each card provides detailed information about the dinosaur's type, powers, and traits, as well as its discovery location. The app also maps every species on a world map based on where the dinosaur was originally located.",
     "tags": [],
     "images": [],
     "tokens": 0,
@@ -308,7 +308,7 @@
   {
     "id": "exp-21",
     "title": "summit scout",
-    "text": "Enter experiment description here...",
+    "text": "Summit Scout is an app built for national park adventures. While many of us love our national parks, there isn't a single app that visualizes all 63 U.S. national parks in a truly enjoyable way. This app allows you to explore every park by gathering comprehensive data and scoring them on factors like remoteness and scenery. It combines logistics, directions, camping information, ratings, and community intel into one seamless experience. You can also switch between different interactive views to explore the national parks in unique ways.",
     "tags": [],
     "images": [],
     "tokens": 0,

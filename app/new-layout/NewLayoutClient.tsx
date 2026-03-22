@@ -36,7 +36,7 @@ const getImagePath = (experimentId: string, imageIndex: number): string => {
 
 export function NewLayoutClient({ initialExperiments }: NewLayoutClientProps) {
   const [placedImages, setPlacedImages] = useState<PlacedImage[]>([])
-  const [viewMode, setViewMode] = useState<ViewMode>('grid')
+  const [viewMode, setViewMode] = useState<ViewMode>('list') // Default changed to 'list'
 
   const mainText = "One app per week. Every week. All year. A creative challenge exploring what's possible when you ship consistently with Google AI Studio. 52 weeks. 52 apps. 52 learning opportunities."
 
@@ -131,7 +131,7 @@ export function NewLayoutClient({ initialExperiments }: NewLayoutClientProps) {
       />
 
       {/* Left Side Panel */}
-      <aside className="w-[30%] h-screen p-12 py-16 flex flex-col border-r border-white/10 z-20 relative bg-black/50 backdrop-blur-sm shadow-[20px_0_50px_rgba(0,0,0,0.5)]">
+      <aside className="w-[25%] h-screen px-[32px] py-16 flex flex-col border-r border-white/10 z-20 relative bg-black/50 backdrop-blur-sm shadow-[20px_0_50px_rgba(0,0,0,0.5)]">
         {/* Top Section */}
         <div className="space-y-12">
            <motion.div 
@@ -154,20 +154,20 @@ export function NewLayoutClient({ initialExperiments }: NewLayoutClientProps) {
            </div>
         </div>
 
-        {/* Bottom Section: Buttons and Credit */}
+        {/* Bottom Section: Buttons and Credit - List button made first and default */}
         <div className="mt-auto space-y-6">
            <div className="flex gap-4">
-              <button 
-                onClick={() => setViewMode('grid')}
-                className={`w-12 h-12 flex items-center justify-center border-2 border-white transition-all duration-300 ${viewMode === 'grid' ? 'bg-white text-black' : 'bg-transparent text-white hover:bg-white/10'}`}
-              >
-                <LayoutGrid size={20} />
-              </button>
               <button 
                 onClick={() => setViewMode('list')}
                 className={`w-12 h-12 flex items-center justify-center border-2 border-white transition-all duration-300 ${viewMode === 'list' ? 'bg-white text-black' : 'bg-transparent text-white hover:bg-white/10'}`}
               >
                 <List size={20} />
+              </button>
+              <button 
+                onClick={() => setViewMode('grid')}
+                className={`w-12 h-12 flex items-center justify-center border-2 border-white transition-all duration-300 ${viewMode === 'grid' ? 'bg-white text-black' : 'bg-transparent text-white hover:bg-white/10'}`}
+              >
+                <LayoutGrid size={20} />
               </button>
               <button 
                 onClick={() => setViewMode('focus')}
@@ -190,65 +190,9 @@ export function NewLayoutClient({ initialExperiments }: NewLayoutClientProps) {
       </aside>
 
       {/* Right Side Contents */}
-      <main className="w-[70%] h-screen flex items-center justify-center bg-black relative">
+      <main className="w-[75%] h-screen flex items-center justify-center bg-black relative">
         <AnimatePresence mode="wait">
-          {viewMode === 'grid' ? (
-            <motion.div 
-              key="grid-view" 
-              initial={{ opacity: 0 }} 
-              animate={{ opacity: 1 }} 
-              exit={{ opacity: 0 }}
-              className="w-full max-w-[1200px] h-full flex items-center justify-center p-12 pr-16"
-            >
-              <div className="w-full relative grid grid-cols-4 grid-rows-4" style={{ gap: `${GAP}px` }}>
-                {Array.from({ length: 16 }).map((_, i) => (
-                    <div key={`dot-placeholder-${i}`} className="relative w-full aspect-video bg-white/[0.005]">
-                        <div className="absolute -top-[2.5px] -left-[2.5px] w-[5px] h-[5px] bg-white rounded-full opacity-30" />
-                        <div className="absolute -top-[2.5px] -right-[2.5px] w-[5px] h-[5px] bg-white rounded-full opacity-30" />
-                        <div className="absolute -bottom-[2.5px] -left-[2.5px] w-[5px] h-[5px] bg-white rounded-full opacity-30" />
-                        <div className="absolute -bottom-[2.5px] -right-[2.5px] w-[5px] h-[5px] bg-white rounded-full opacity-30" />
-                    </div>
-                ))}
-                <div className="absolute inset-0 grid grid-cols-4 grid-rows-4 pointer-events-none" style={{ gap: `${GAP}px` }}>
-                  {placedImages.map((img, i) => {
-                      return (
-                        <motion.div 
-                            key={`${img.id}-${i}`}
-                            initial={{ opacity: 0, scale: 0.95 }}
-                            animate={{ opacity: 1, scale: 1 }}
-                            style={{
-                                gridRow: `${img.row + 1} / span ${img.rowSpan}`,
-                                gridColumn: `${img.col + 1} / span ${img.colSpan}`,
-                                padding: `${CELL_PADDING}px`
-                            }}
-                            className="relative w-full h-full pointer-events-auto"
-                        >
-                            <div className="w-full h-full relative group overflow-hidden bg-white/5 shadow-2xl">
-                                {img.thumbnailVideo ? (
-                                   <video 
-                                     src={img.thumbnailVideo} 
-                                     autoPlay 
-                                     loop 
-                                     muted 
-                                     playsInline 
-                                     className="w-full h-full object-cover"
-                                   />
-                                ) : (
-                                   <Image src={img.src} alt={img.title} fill className="object-cover transition-all duration-700 group-hover:scale-105" unoptimized />
-                                )}
-                                <div className="absolute inset-0 bg-black/0 group-hover:bg-black/40 transition-colors flex items-end p-4 opacity-0 group-hover:opacity-100">
-                                    <span className="text-[10px] font-bold text-white bg-black/40 px-3 py-1 uppercase tracking-widest border border-white/20">
-                                        {img.title}
-                                    </span>
-                                </div>
-                            </div>
-                        </motion.div>
-                      )
-                  })}
-                </div>
-              </div>
-            </motion.div>
-          ) : viewMode === 'list' ? (
+          {viewMode === 'list' ? (
             <motion.div 
               key="list-view" 
               initial={{ opacity: 0 }} 
@@ -314,6 +258,62 @@ export function NewLayoutClient({ initialExperiments }: NewLayoutClientProps) {
                     </motion.div>
                   )
                 })}
+              </div>
+            </motion.div>
+          ) : viewMode === 'grid' ? (
+            <motion.div 
+              key="grid-view" 
+              initial={{ opacity: 0 }} 
+              animate={{ opacity: 1 }} 
+              exit={{ opacity: 0 }}
+              className="w-full max-w-[1200px] h-full flex items-center justify-center p-12 pr-16"
+            >
+              <div className="w-full relative grid grid-cols-4 grid-rows-4" style={{ gap: `${GAP}px` }}>
+                {Array.from({ length: 16 }).map((_, i) => (
+                    <div key={`dot-placeholder-${i}`} className="relative w-full aspect-video bg-white/[0.005]">
+                        <div className="absolute -top-[2.5px] -left-[2.5px] w-[5px] h-[5px] bg-white rounded-full opacity-30" />
+                        <div className="absolute -top-[2.5px] -right-[2.5px] w-[5px] h-[5px] bg-white rounded-full opacity-30" />
+                        <div className="absolute -bottom-[2.5px] -left-[2.5px] w-[5px] h-[5px] bg-white rounded-full opacity-30" />
+                        <div className="absolute -bottom-[2.5px] -right-[2.5px] w-[5px] h-[5px] bg-white rounded-full opacity-30" />
+                    </div>
+                ))}
+                <div className="absolute inset-0 grid grid-cols-4 grid-rows-4 pointer-events-none" style={{ gap: `${GAP}px` }}>
+                  {placedImages.map((img, i) => {
+                      return (
+                        <motion.div 
+                            key={`${img.id}-${i}`}
+                            initial={{ opacity: 0, scale: 0.95 }}
+                            animate={{ opacity: 1, scale: 1 }}
+                            style={{
+                                gridRow: `${img.row + 1} / span ${img.rowSpan}`,
+                                gridColumn: `${img.col + 1} / span ${img.colSpan}`,
+                                padding: `${CELL_PADDING}px`
+                            }}
+                            className="relative w-full h-full pointer-events-auto"
+                        >
+                            <div className="w-full h-full relative group overflow-hidden bg-white/5 shadow-2xl">
+                                {img.thumbnailVideo ? (
+                                   <video 
+                                     src={img.thumbnailVideo} 
+                                     autoPlay 
+                                     loop 
+                                     muted 
+                                     playsInline 
+                                     className="w-full h-full object-cover"
+                                   />
+                                ) : (
+                                   <Image src={img.src} alt={img.title} fill className="object-cover transition-all duration-700 group-hover:scale-105" unoptimized />
+                                )}
+                                <div className="absolute inset-0 bg-black/0 group-hover:bg-black/40 transition-colors flex items-end p-4 opacity-0 group-hover:opacity-100">
+                                    <span className="text-[10px] font-bold text-white bg-black/40 px-3 py-1 uppercase tracking-widest border border-white/20">
+                                        {img.title}
+                                    </span>
+                                </div>
+                            </div>
+                        </motion.div>
+                      )
+                  })}
+                </div>
               </div>
             </motion.div>
           ) : (
