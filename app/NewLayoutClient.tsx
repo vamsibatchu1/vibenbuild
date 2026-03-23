@@ -4,7 +4,7 @@ import { useState, useEffect } from 'react'
 import Image from 'next/image'
 import { motion, AnimatePresence } from 'framer-motion'
 import { Experiment } from '@/app/allexperiments/getExperiments'
-import { LayoutGrid, List, Maximize, Layers, ExternalLink, Play } from 'lucide-react'
+import { LayoutGrid, List, Maximize, Layers, ExternalLink, Play, ArrowLeft } from 'lucide-react'
 
 interface NewLayoutClientProps {
   initialExperiments: Experiment[]
@@ -37,6 +37,7 @@ const getImagePath = (experimentId: string, imageIndex: number): string => {
 export function NewLayoutClient({ initialExperiments }: NewLayoutClientProps) {
   const [placedImages, setPlacedImages] = useState<PlacedImage[]>([])
   const [viewMode, setViewMode] = useState<ViewMode>('list') // Default changed to 'list'
+  const [activeMobileView, setActiveMobileView] = useState<'info' | 'experiments'>('info')
 
   const mainText = "Most vibe-coded apps look the same. I wanted to see what happens when you bring real design thinking to AI tools and ship relentlessly. This is that collection: games, maps, and data viz built to be played with."
 
@@ -124,14 +125,14 @@ export function NewLayoutClient({ initialExperiments }: NewLayoutClientProps) {
   };
 
   return (
-    <div className="min-h-screen bg-black overflow-hidden flex text-white relative font-ibm-plex-mono">
+    <div className="min-h-screen bg-black overflow-hidden flex flex-col md:flex-row text-white relative font-ibm-plex-mono">
       <div 
         className="fixed inset-0 pointer-events-none opacity-[0.2] z-50 mix-blend-screen" 
         style={{ backgroundImage: 'url("https://www.transparenttextures.com/patterns/natural-paper.png")' }} 
       />
 
       {/* Left Side Panel */}
-      <aside className="w-[25%] h-screen px-[32px] py-16 flex flex-col border-r border-white/10 z-20 relative bg-black/50 backdrop-blur-sm shadow-[20px_0_50px_rgba(0,0,0,0.5)]">
+      <aside className={`w-full md:w-[25%] h-screen px-[32px] py-12 md:py-16 flex-col border-r border-white/10 z-20 relative bg-black/50 backdrop-blur-sm shadow-[20px_0_50px_rgba(0,0,0,0.5)] ${activeMobileView === 'info' ? 'flex' : 'hidden md:flex'}`}>
         {/* Top Section */}
         <div className="space-y-12">
            <motion.div 
@@ -155,33 +156,47 @@ export function NewLayoutClient({ initialExperiments }: NewLayoutClientProps) {
         </div>
 
         {/* Bottom Section: Buttons and Credit - List button made first and default */}
-        <div className="mt-auto space-y-6">
-           <div className="flex gap-4">
-              <button 
-                onClick={() => setViewMode('list')}
-                className={`w-12 h-12 flex items-center justify-center border-2 border-white transition-all duration-300 ${viewMode === 'list' ? 'bg-white text-black' : 'bg-transparent text-white hover:bg-white/10'}`}
-              >
-                <List size={20} />
-              </button>
-              <button 
-                onClick={() => setViewMode('grid')}
-                className={`w-12 h-12 flex items-center justify-center border-2 border-white transition-all duration-300 ${viewMode === 'grid' ? 'bg-white text-black' : 'bg-transparent text-white hover:bg-white/10'}`}
-              >
-                <LayoutGrid size={20} />
-              </button>
-              <button 
-                onClick={() => setViewMode('focus')}
-                className={`w-12 h-12 flex items-center justify-center border-2 border-white transition-all duration-300 ${viewMode === 'focus' ? 'bg-white text-black' : 'bg-transparent text-white hover:bg-white/10'}`}
-              >
-                <Maximize size={20} />
-              </button>
-              <button 
-                onClick={() => setViewMode('stack')}
-                className={`w-12 h-12 flex items-center justify-center border-2 border-white transition-all duration-300 ${viewMode === 'stack' ? 'bg-white text-black' : 'bg-transparent text-white hover:bg-white/10'}`}
-              >
-                <Layers size={20} />
-              </button>
-           </div>
+         <div className="mt-auto space-y-8">
+            <div className="hidden md:flex gap-4">
+               <button 
+                 onClick={() => setViewMode('list')}
+                 className={`w-12 h-12 flex items-center justify-center border-2 border-white transition-all duration-300 ${viewMode === 'list' ? 'bg-white text-black' : 'bg-transparent text-white hover:bg-white/10'}`}
+               >
+                 <List size={20} />
+               </button>
+               <button 
+                 onClick={() => setViewMode('grid')}
+                 className={`w-12 h-12 flex items-center justify-center border-2 border-white transition-all duration-300 ${viewMode === 'grid' ? 'bg-white text-black' : 'bg-transparent text-white hover:bg-white/10'}`}
+               >
+                 <LayoutGrid size={20} />
+               </button>
+               <button 
+                 onClick={() => setViewMode('focus')}
+                 className={`w-12 h-12 flex items-center justify-center border-2 border-white transition-all duration-300 ${viewMode === 'focus' ? 'bg-white text-black' : 'bg-transparent text-white hover:bg-white/10'}`}
+               >
+                 <Maximize size={20} />
+               </button>
+               <button 
+                 onClick={() => setViewMode('stack')}
+                 className={`w-12 h-12 flex items-center justify-center border-2 border-white transition-all duration-300 ${viewMode === 'stack' ? 'bg-white text-black' : 'bg-transparent text-white hover:bg-white/10'}`}
+               >
+                 <Layers size={20} />
+               </button>
+            </div>
+
+            {/* Mobile View Experiments Button */}
+            <div className="md:hidden">
+               <button 
+                 onClick={() => {
+                   setActiveMobileView('experiments')
+                   setViewMode('list') // Force list mode on mobile for single column
+                 }}
+                 className="w-full h-14 border-2 border-white flex items-center justify-center gap-3 hover:bg-white hover:text-black transition-all duration-300 group"
+               >
+                 <span className="text-[12px] font-bold uppercase tracking-[0.2em]">view experiments</span>
+                 <Play size={16} fill="currentColor" className="group-hover:scale-110 transition-transform" />
+               </button>
+            </div>
            
            <div className="text-[10px] uppercase font-bold tracking-[0.2em] opacity-30 text-white">
              an experimental universe by <a href="https://x.com/vamsibatchuk" target="_blank" rel="noopener noreferrer" className="underline hover:opacity-100 transition-opacity">vamsi batchu</a>
@@ -190,7 +205,16 @@ export function NewLayoutClient({ initialExperiments }: NewLayoutClientProps) {
       </aside>
 
       {/* Right Side Contents */}
-      <main className="w-[75%] h-screen flex items-center justify-center bg-black relative">
+      <main className={`w-full md:w-[75%] h-screen flex items-center justify-center bg-black relative ${activeMobileView === 'experiments' ? 'flex' : 'hidden md:flex'}`}>
+        {/* Mobile Back Button */}
+        {activeMobileView === 'experiments' && (
+          <button 
+            onClick={() => setActiveMobileView('info')}
+            className="md:hidden fixed top-6 left-6 z-50 bg-white text-black w-10 h-10 flex items-center justify-center border border-white transition-all active:scale-95"
+          >
+            <ArrowLeft size={18} />
+          </button>
+        )}
         <AnimatePresence mode="wait">
           {viewMode === 'list' ? (
             <motion.div 
@@ -198,7 +222,7 @@ export function NewLayoutClient({ initialExperiments }: NewLayoutClientProps) {
               initial={{ opacity: 0 }} 
               animate={{ opacity: 1 }} 
               exit={{ opacity: 0 }}
-              className="w-full h-full overflow-y-auto px-12 py-16 custom-scrollbar"
+              className="w-full h-full overflow-y-auto px-6 md:px-12 py-12 md:py-16 custom-scrollbar"
             >
               <div className="columns-1 md:columns-2 lg:columns-3 gap-12 w-full">
                 {initialExperiments.map((exp, idx) => {
