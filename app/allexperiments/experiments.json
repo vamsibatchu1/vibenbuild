@@ -38,23 +38,6 @@
     "thumbnailVideo": "/videos/thumbnails/02_thumb.mp4"
   },
   {
-    "id": "exp-03",
-    "title": "flickbook",
-    "tags": [
-      "Movies",
-      "Art"
-    ],
-    "tokens": 15200,
-    "link": "https://flickbook-613508367596.us-west1.run.app/",
-    "text": "flickbook transforms your viewing history into a personal entertainment passport. Every movie and show you watch earns a unique, AI-generated stamp that gets added to your collection grid. Think of it as a visual diary of your screen time, where each stamp captures not just what you watched, but when you watched it.\n\nThe stamps are designed to evoke the nostalgia of travel passport stamps, with vintage typography, circular borders, and distinct visual motifs pulled from each title. Google Gemini generates these stamps in real time, creating artwork that feels both personal and collectible. Over time, your Flickbook becomes a beautiful archive of your cinematic journey.\n\nFlickbook turns passive consumption into something tangible. Instead of a forgettable list buried in an app, you get a curated gallery of memories. Share your passport with friends, compare collections, or simply scroll through the stamps and remember why you loved each watch.",
-    "images": [
-      0,
-      1,
-      2
-    ],
-    "video": "03.mp4"
-  },
-  {
     "id": "exp-04",
     "title": "elemental",
     "tags": [
@@ -129,24 +112,6 @@
     ],
     "video": "09.mp4",
     "thumbnailVideo": "/videos/thumbnails/07_thumb.mp4"
-  },
-  {
-    "id": "exp-08",
-    "title": "starweave",
-    "text": "Starweave is an interactive data visualization experience that maps the history of exoplanet discovery as a living, DNA-like strand. Built to transform raw scientific data into a kinetic timeline, it traces the chronological path of human discovery from the first pulsar planets of 1992 to the recent atmospheric studies by the James Webb Space Telescope. Every node on the strand represents a real, confirmed world found beyond our solar system, creating a continuous \"geometric signature\".",
-    "tags": [
-      "Visualization",
-      "Science",
-      "Space"
-    ],
-    "images": [
-      0,
-      1,
-      2
-    ],
-    "tokens": 11677,
-    "link": "https://starweave-696629161862.us-west1.run.app/",
-    "video": "11.mp4"
   },
   {
     "id": "exp-09",
