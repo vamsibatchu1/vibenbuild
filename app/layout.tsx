@@ -1,5 +1,5 @@
 import type { Metadata } from 'next'
-import { Newsreader, IBM_Plex_Mono, Plus_Jakarta_Sans, Inter, MuseoModerno, Gilda_Display, Londrina_Solid } from 'next/font/google'
+import { Newsreader, IBM_Plex_Mono, Plus_Jakarta_Sans, Inter, MuseoModerno, Gilda_Display, Londrina_Solid, Smythe } from 'next/font/google'
 import './globals.css'
 
 const newsreader = Newsreader({ 
@@ -44,6 +44,12 @@ const londrinaSolid = Londrina_Solid({
   variable: '--font-londrina-solid',
 })
 
+const smythe = Smythe({
+  subsets: ['latin'],
+  weight: ['400'],
+  variable: '--font-smythe',
+})
+
 export const metadata: Metadata = {
   title: 'Vibe N Build',
   description: '52 creative projects built throughout 2026',
@@ -59,7 +65,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body className={`${newsreader.variable} ${ibmPlexMono.variable} ${plusJakartaSans.variable} ${inter.variable} ${museoModerno.variable} ${gildaDisplay.variable} ${londrinaSolid.variable}`}>{children}</body>
+      <body className={`${newsreader.variable} ${ibmPlexMono.variable} ${plusJakartaSans.variable} ${inter.variable} ${museoModerno.variable} ${gildaDisplay.variable} ${londrinaSolid.variable} ${smythe.variable}`}>{children}</body>
     </html>
   )
 }

@@ -250,7 +250,7 @@ export function NewLayoutClient({ initialExperiments }: NewLayoutClientProps) {
 
            <motion.div 
              variants={PANEL_ITEM_VARIANTS}
-             className="text-[16px] md:text-[18px] text-white leading-relaxed max-w-[400px]"
+             className="text-[24px] md:text-[28px] text-white/90 leading-tight max-w-[400px] font-smythe"
            >
              {mainText}
            </motion.div>
