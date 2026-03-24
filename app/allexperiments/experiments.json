@@ -283,7 +283,7 @@
   {
     "id": "exp-22",
     "title": "net runner",
-    "text": "Enter experiment description here...",
+    "text": "a computer-vision based soccer analytics idea where you can select a soccer highlight video, and the app automatically detects home vs. away players, tracks the ball, and visualizes the match flow instantly. it took a couple of iterations but so far really good. and coming next is integrating gemini to recognize players by their jersey numbers effectively giving you a \"click-to-stat\" experience. Click any node, and pull up the player's live stats and bio.\n",
     "tags": [],
     "images": [],
     "tokens": 0,
