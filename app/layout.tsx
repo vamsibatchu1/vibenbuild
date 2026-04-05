@@ -1,5 +1,6 @@
 import type { Metadata } from 'next'
 import { Newsreader, IBM_Plex_Mono, Plus_Jakarta_Sans, Inter, MuseoModerno, Gilda_Display, Londrina_Solid, Smythe } from 'next/font/google'
+import { Analytics } from '@vercel/analytics/next'
 import './globals.css'
 
 const newsreader = Newsreader({ 
@@ -65,7 +66,10 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body className={`${newsreader.variable} ${ibmPlexMono.variable} ${plusJakartaSans.variable} ${inter.variable} ${museoModerno.variable} ${gildaDisplay.variable} ${londrinaSolid.variable} ${smythe.variable}`}>{children}</body>
+      <body className={`${newsreader.variable} ${ibmPlexMono.variable} ${plusJakartaSans.variable} ${inter.variable} ${museoModerno.variable} ${gildaDisplay.variable} ${londrinaSolid.variable} ${smythe.variable}`}>
+        {children}
+        <Analytics />
+      </body>
     </html>
   )
 }

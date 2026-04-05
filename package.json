@@ -13,6 +13,7 @@
     "deploy:firestore": "firebase deploy --only firestore:rules"
   },
   "dependencies": {
+    "@vercel/analytics": "^2.0.1",
     "firebase": "^12.7.0",
     "framer-motion": "^11.3.19",
     "lucide-react": "^0.562.0",
