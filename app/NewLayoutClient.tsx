@@ -5,6 +5,7 @@ import Image from 'next/image'
 import { motion, AnimatePresence } from 'framer-motion'
 import { Experiment } from '@/app/allexperiments/getExperiments'
 import { LayoutGrid, List, Maximize, Layers, ExternalLink, Play, ArrowLeft } from 'lucide-react'
+import RemoteControl from './RemoteControl'
 
 interface NewLayoutClientProps {
   initialExperiments: Experiment[]
@@ -87,6 +88,17 @@ export function NewLayoutClient({ initialExperiments }: NewLayoutClientProps) {
   const [placedImages, setPlacedImages] = useState<PlacedImage[]>([])
   const [viewMode, setViewMode] = useState<ViewMode>('list') // Default changed to 'list'
   const [activeMobileView, setActiveMobileView] = useState<'info' | 'experiments'>('info')
+  const [activeExperimentIndex, setActiveExperimentIndex] = useState(0)
+
+  const activeExp = initialExperiments[activeExperimentIndex] || initialExperiments[0]
+
+  const handleNext = () => {
+    setActiveExperimentIndex((prev) => (prev + 1) % initialExperiments.length)
+  }
+
+  const handlePrev = () => {
+    setActiveExperimentIndex((prev) => (prev - 1 + initialExperiments.length) % initialExperiments.length)
+  }
 
   const mainText = "Most vibe-coded apps look the same. I wanted to see what happens when you bring real design thinking to AI tools and ship relentlessly. This is that collection: games, maps, and data viz built to be played with."
 
@@ -250,7 +262,7 @@ export function NewLayoutClient({ initialExperiments }: NewLayoutClientProps) {
 
            <motion.div 
              variants={PANEL_ITEM_VARIANTS}
-             className="text-[24px] md:text-[28px] text-white/90 leading-tight max-w-[400px] font-smythe"
+             className="text-[16px] md:text-[18px] text-white/80 leading-relaxed max-w-[420px] font-ibm-plex-mono tracking-tighter uppercase"
            >
              {mainText}
            </motion.div>
@@ -266,22 +278,10 @@ export function NewLayoutClient({ initialExperiments }: NewLayoutClientProps) {
                  <List size={20} />
                </button>
                <button 
-                 onClick={() => setViewMode('grid')}
-                 className={`w-12 h-12 flex items-center justify-center border-2 border-white transition-all duration-300 ${viewMode === 'grid' ? 'bg-white text-black' : 'bg-transparent text-white hover:bg-white/10'}`}
-               >
-                 <LayoutGrid size={20} />
-               </button>
-               <button 
                  onClick={() => setViewMode('focus')}
                  className={`w-12 h-12 flex items-center justify-center border-2 border-white transition-all duration-300 ${viewMode === 'focus' ? 'bg-white text-black' : 'bg-transparent text-white hover:bg-white/10'}`}
                >
                  <Maximize size={20} />
-               </button>
-               <button 
-                 onClick={() => setViewMode('stack')}
-                 className={`w-12 h-12 flex items-center justify-center border-2 border-white transition-all duration-300 ${viewMode === 'stack' ? 'bg-white text-black' : 'bg-transparent text-white hover:bg-white/10'}`}
-               >
-                 <Layers size={20} />
                </button>
             </motion.div>
 
@@ -417,6 +417,53 @@ export function NewLayoutClient({ initialExperiments }: NewLayoutClientProps) {
                       )
                   })}
                 </div>
+              </div>
+            </motion.div>
+          ) : viewMode === 'focus' ? (
+            <motion.div 
+              key="focus-view" 
+              initial={{ opacity: 0, scale: 0.95 }} 
+              animate={{ opacity: 1, scale: 1 }} 
+              exit={{ opacity: 0, scale: 0.95 }}
+              transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
+              className="w-full h-full flex flex-col items-center justify-between pb-[40px] px-[40px]"
+            >
+              <div className="flex-1 w-full flex items-center justify-center p-8">
+                <motion.div 
+                  key={`focus-thumb-${activeExp.id}`}
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, y: -20 }}
+                  className="w-full max-w-[1000px] aspect-video relative rounded-2xl overflow-hidden shadow-2xl border border-white/10"
+                >
+                  {activeExp.thumbnailVideo ? (
+                    <video 
+                      src={activeExp.thumbnailVideo} 
+                      autoPlay 
+                      loop 
+                      muted 
+                      playsInline 
+                      className="w-full h-full object-cover"
+                    />
+                  ) : (
+                    <img 
+                      src={getImagePath(activeExp.id, activeExp.images[0])} 
+                      alt={activeExp.title} 
+                      className="w-full h-full object-cover" 
+                    />
+                  )}
+                </motion.div>
+              </div>
+
+              <div className="w-full max-w-[1000px] flex justify-center mt-auto">
+                <RemoteControl 
+                  title={activeExp.title} 
+                  details={activeExp.text} 
+                  onNext={handleNext}
+                  onPrev={handlePrev}
+                  channelNumber={activeExperimentIndex + 1}
+                  totalChannels={initialExperiments.length}
+                />
               </div>
             </motion.div>
           ) : (
