@@ -26,6 +26,8 @@ interface RemoteControlProps {
   onPrev?: () => void;
   channelNumber?: number;
   totalChannels?: number;
+  activeView?: 'layers' | 'grid';
+  onViewChange?: (view: 'layers' | 'grid') => void;
 }
 
 export default function RemoteControl({ 
@@ -34,13 +36,14 @@ export default function RemoteControl({
   onNext, 
   onPrev, 
   channelNumber = 1,
-  totalChannels = 1
+  totalChannels = 1,
+  activeView = 'layers',
+  onViewChange
 }: RemoteControlProps) {
   const [isPlaying, setIsPlaying] = useState(false);
   const [isMuted, setIsMuted] = useState(false);
   const [isFullScreen, setIsFullScreen] = useState(false);
   const [hidePrompt, setHidePrompt] = useState(false);
-  const [activeView, setActiveView] = useState<'layers' | 'grid'>('layers');
 
   const springConfig = { type: 'spring', stiffness: 300, damping: 30 };
 
@@ -141,13 +144,13 @@ export default function RemoteControl({
           {/* View Toggle Pill */}
           <div className="bg-[#333333] rounded-[32px] p-1.5 flex flex-col gap-1 border border-white/5">
             <button 
-              onClick={() => setActiveView('layers')}
+              onClick={() => onViewChange?.('layers')}
               className={`p-3 rounded-[24px] transition-all duration-300 ${activeView === 'layers' ? 'bg-white text-black shadow-lg scale-100' : 'text-[#808080] hover:text-white'}`}
             >
               <Layers size={20} strokeWidth={2.5} />
             </button>
             <button 
-              onClick={() => setActiveView('grid')}
+              onClick={() => onViewChange?.('grid')}
               className={`p-3 rounded-[24px] transition-all duration-300 ${activeView === 'grid' ? 'bg-white text-black shadow-lg scale-100' : 'text-[#808080] hover:text-white'}`}
             >
               <Grid size={20} strokeWidth={2.5} />

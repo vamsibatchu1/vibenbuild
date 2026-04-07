@@ -89,6 +89,7 @@ export function NewLayoutClient({ initialExperiments }: NewLayoutClientProps) {
   const [viewMode, setViewMode] = useState<ViewMode>('list') // Default changed to 'list'
   const [activeMobileView, setActiveMobileView] = useState<'info' | 'experiments'>('info')
   const [activeExperimentIndex, setActiveExperimentIndex] = useState(0)
+  const [focusViewMode, setFocusViewMode] = useState<'layers' | 'grid'>('layers')
 
   const activeExp = initialExperiments[activeExperimentIndex] || initialExperiments[0]
 
@@ -428,31 +429,76 @@ export function NewLayoutClient({ initialExperiments }: NewLayoutClientProps) {
               transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
               className="w-full h-full flex flex-col items-center justify-between pb-[40px] px-[40px]"
             >
-              <div className="flex-1 w-full flex items-center justify-center p-8">
-                <motion.div 
-                  key={`focus-thumb-${activeExp.id}`}
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  exit={{ opacity: 0, y: -20 }}
-                  className="w-full max-w-[1000px] aspect-video relative rounded-2xl overflow-hidden shadow-2xl border border-white/10"
-                >
-                  {activeExp.thumbnailVideo ? (
-                    <video 
-                      src={activeExp.thumbnailVideo} 
-                      autoPlay 
-                      loop 
-                      muted 
-                      playsInline 
-                      className="w-full h-full object-cover"
-                    />
+              <div className="flex-1 w-full flex items-center justify-center p-8 overflow-hidden">
+                <AnimatePresence mode="wait">
+                  {focusViewMode === 'layers' ? (
+                    <motion.div 
+                      key={`focus-thumb-${activeExp.id}`}
+                      initial={{ opacity: 0, y: 20 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      exit={{ opacity: 0, y: -20 }}
+                      className="w-full max-w-[1000px] aspect-video relative rounded-2xl overflow-hidden shadow-2xl border border-white/10"
+                    >
+                      {activeExp.thumbnailVideo ? (
+                        <video 
+                          key={activeExp.thumbnailVideo}
+                          src={activeExp.thumbnailVideo} 
+                          autoPlay 
+                          loop 
+                          muted 
+                          playsInline 
+                          className="w-full h-full object-cover"
+                        />
+                      ) : (
+                        <img 
+                          src={getImagePath(activeExp.id, activeExp.images[0])} 
+                          alt={activeExp.title} 
+                          className="w-full h-full object-cover" 
+                        />
+                      )}
+                    </motion.div>
                   ) : (
-                    <img 
-                      src={getImagePath(activeExp.id, activeExp.images[0])} 
-                      alt={activeExp.title} 
-                      className="w-full h-full object-cover" 
-                    />
+                    <motion.div 
+                      key="focus-grid"
+                      initial={{ opacity: 0, scale: 0.9 }}
+                      animate={{ opacity: 1, scale: 1 }}
+                      exit={{ opacity: 0, scale: 0.9 }}
+                      className="w-full max-w-[1000px] aspect-video h-full grid grid-cols-3 grid-rows-3 gap-3"
+                    >
+                      {initialExperiments.slice(0, 9).map((exp, i) => (
+                        <div 
+                          key={`focus-grid-item-${exp.id}`}
+                          onClick={() => {
+                            setActiveExperimentIndex(i);
+                            setFocusViewMode('layers');
+                          }}
+                          className={`relative overflow-hidden rounded-lg cursor-pointer border-2 transition-all duration-300 hover:scale-[1.02] hover:shadow-2xl ${activeExperimentIndex === i ? 'border-white' : 'border-white/10 hover:border-white/40'}`}
+                        >
+                          {exp.thumbnailVideo ? (
+                            <video 
+                              src={exp.thumbnailVideo} 
+                              autoPlay 
+                              loop 
+                              muted 
+                              playsInline 
+                              className="w-full h-full object-cover pointer-events-none"
+                            />
+                          ) : (
+                            <img 
+                              src={getImagePath(exp.id, exp.images[0])} 
+                              alt={exp.title} 
+                              className="w-full h-full object-cover pointer-events-none" 
+                            />
+                          )}
+                          <div className="absolute inset-0 bg-black/20 hover:bg-black/0 transition-colors" />
+                          <div className="absolute bottom-2 left-2 px-2 py-0.5 bg-black/60 backdrop-blur-md rounded text-[10px] font-bold text-white opacity-0 transition-opacity whitespace-nowrap overflow-hidden text-ellipsis max-w-[90%] group-hover:opacity-100 uppercase tracking-tighter">
+                            {exp.title}
+                          </div>
+                        </div>
+                      ))}
+                    </motion.div>
                   )}
-                </motion.div>
+                </AnimatePresence>
               </div>
 
               <div className="w-full max-w-[1000px] flex justify-center mt-auto">
@@ -463,6 +509,8 @@ export function NewLayoutClient({ initialExperiments }: NewLayoutClientProps) {
                   onPrev={handlePrev}
                   channelNumber={activeExperimentIndex + 1}
                   totalChannels={initialExperiments.length}
+                  activeView={focusViewMode}
+                  onViewChange={setFocusViewMode}
                 />
               </div>
             </motion.div>
