@@ -90,15 +90,24 @@ export function NewLayoutClient({ initialExperiments }: NewLayoutClientProps) {
   const [activeMobileView, setActiveMobileView] = useState<'info' | 'experiments'>('info')
   const [activeExperimentIndex, setActiveExperimentIndex] = useState(0)
   const [focusViewMode, setFocusViewMode] = useState<'layers' | 'grid'>('layers')
+  const [isChannelChanging, setIsChannelChanging] = useState(false)
 
   const activeExp = initialExperiments[activeExperimentIndex] || initialExperiments[0]
 
+  const triggerChannelChange = (newIndex: number) => {
+    setIsChannelChanging(true)
+    setActiveExperimentIndex(newIndex)
+    setTimeout(() => {
+      setIsChannelChanging(false)
+    }, 250) // Small burst of static
+  }
+
   const handleNext = () => {
-    setActiveExperimentIndex((prev) => (prev + 1) % initialExperiments.length)
+    triggerChannelChange((activeExperimentIndex + 1) % initialExperiments.length)
   }
 
   const handlePrev = () => {
-    setActiveExperimentIndex((prev) => (prev - 1 + initialExperiments.length) % initialExperiments.length)
+    triggerChannelChange((activeExperimentIndex - 1 + initialExperiments.length) % initialExperiments.length)
   }
 
   const mainText = "Most vibe-coded apps look the same. I wanted to see what happens when you bring real design thinking to AI tools and ship relentlessly. This is that collection: games, maps, and data viz built to be played with."
@@ -439,23 +448,25 @@ export function NewLayoutClient({ initialExperiments }: NewLayoutClientProps) {
                       exit={{ opacity: 0, y: -20 }}
                       className="w-full max-w-[1000px] aspect-video relative rounded-2xl overflow-hidden shadow-2xl border border-white/10"
                     >
-                      {activeExp.thumbnailVideo ? (
-                        <video 
-                          key={activeExp.thumbnailVideo}
-                          src={activeExp.thumbnailVideo} 
-                          autoPlay 
-                          loop 
-                          muted 
-                          playsInline 
-                          className="w-full h-full object-cover"
-                        />
-                      ) : (
-                        <img 
-                          src={getImagePath(activeExp.id, activeExp.images[0])} 
-                          alt={activeExp.title} 
-                          className="w-full h-full object-cover" 
-                        />
-                      )}
+                      <AnimatePresence>
+                        {(isChannelChanging) && (
+                          <motion.div 
+                            key="static-fill"
+                            initial={{ opacity: 0 }}
+                            animate={{ opacity: 1 }}
+                            exit={{ opacity: 0 }}
+                            className="absolute inset-0 z-20"
+                          >
+                            <TVStatic />
+                          </motion.div>
+                        )}
+                      </AnimatePresence>
+
+                      <TrackedImage 
+                         src={activeExp.thumbnailVideo || getImagePath(activeExp.id, activeExp.images[0])}
+                         alt={activeExp.title}
+                         isVideo={!!activeExp.thumbnailVideo}
+                      />
                     </motion.div>
                   ) : (
                     <motion.div 
@@ -469,27 +480,17 @@ export function NewLayoutClient({ initialExperiments }: NewLayoutClientProps) {
                         <div 
                           key={`focus-grid-item-${exp.id}`}
                           onClick={() => {
-                            setActiveExperimentIndex(i);
+                            triggerChannelChange(i);
                             setFocusViewMode('layers');
                           }}
                           className={`relative overflow-hidden rounded-lg cursor-pointer border-2 transition-all duration-300 hover:scale-[1.02] hover:shadow-2xl ${activeExperimentIndex === i ? 'border-white' : 'border-white/10 hover:border-white/40'}`}
                         >
-                          {exp.thumbnailVideo ? (
-                            <video 
-                              src={exp.thumbnailVideo} 
-                              autoPlay 
-                              loop 
-                              muted 
-                              playsInline 
-                              className="w-full h-full object-cover pointer-events-none"
-                            />
-                          ) : (
-                            <img 
-                              src={getImagePath(exp.id, exp.images[0])} 
-                              alt={exp.title} 
-                              className="w-full h-full object-cover pointer-events-none" 
-                            />
-                          )}
+                          <TrackedImage 
+                             src={exp.thumbnailVideo || getImagePath(exp.id, exp.images[0])}
+                             alt={exp.title}
+                             isVideo={!!exp.thumbnailVideo}
+                             hideStaticOnLoad={false}
+                          />
                           <div className="absolute inset-0 bg-black/20 hover:bg-black/0 transition-colors" />
                           <div className="absolute bottom-2 left-2 px-2 py-0.5 bg-black/60 backdrop-blur-md rounded text-[10px] font-bold text-white opacity-0 transition-opacity whitespace-nowrap overflow-hidden text-ellipsis max-w-[90%] group-hover:opacity-100 uppercase tracking-tighter">
                             {exp.title}
@@ -536,8 +537,12 @@ export function NewLayoutClient({ initialExperiments }: NewLayoutClientProps) {
           50% { opacity: 0.25; }
           100% { opacity: 0.1; }
         }
-        .animate-pulsate {
-          animation: placeholder-pulsate 3s infinite ease-in-out;
+        @keyframes scanline {
+          0% { transform: translateY(-100%); }
+          100% { transform: translateY(100%); }
+        }
+        .animate-scanline {
+          animation: scanline 4s linear infinite;
         }
       `}</style>
     </div>
@@ -693,5 +698,92 @@ function GridExperimentItem({ img, idx, loadingSequenceIndex, onLoadComplete }: 
             </div>
         </div>
     </motion.div>
+  );
+}
+
+function TVStatic() {
+  const canvasRef = useRef<HTMLCanvasElement>(null);
+
+  useEffect(() => {
+    const canvas = canvasRef.current;
+    if (!canvas) return;
+    const ctx = canvas.getContext('2d');
+    if (!ctx) return;
+
+    let animationFrameId: number;
+
+    const render = () => {
+      const w = canvas.width;
+      const h = canvas.height;
+      const imageData = ctx.createImageData(w, h);
+      const data = imageData.data;
+
+      for (let i = 0; i < data.length; i += 4) {
+        const val = Math.random() * 255;
+        data[i] = val;
+        data[i + 1] = val;
+        data[i + 2] = val;
+        data[i + 3] = 255;
+      }
+
+      ctx.putImageData(imageData, 0, 0);
+      animationFrameId = requestAnimationFrame(render);
+    };
+
+    render();
+    return () => cancelAnimationFrame(animationFrameId);
+  }, []);
+
+  return (
+    <div className="w-full h-full relative overflow-hidden bg-black">
+      <canvas 
+        ref={canvasRef} 
+        width="256" 
+        height="256" 
+        className="w-full h-full object-cover opacity-40 mix-blend-screen"
+      />
+      <div className="absolute inset-0 bg-gradient-to-b from-transparent via-white/[0.03] to-transparent bg-[length:100%_4px] animate-scanline pointer-events-none" />
+    </div>
+  );
+}
+
+function TrackedImage({ src, alt, isVideo = false, hideStaticOnLoad = true }: { src: string, alt: string, isVideo?: boolean, hideStaticOnLoad?: boolean }) {
+  const [isLoaded, setIsLoaded] = useState(false);
+
+  return (
+    <div className="relative w-full h-full bg-black">
+      <AnimatePresence>
+        {(!isLoaded && hideStaticOnLoad) && (
+          <motion.div 
+            key="static-overlay"
+            initial={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            className="absolute inset-0 z-10"
+          >
+            <TVStatic />
+          </motion.div>
+        )}
+      </AnimatePresence>
+      
+      {isVideo ? (
+        <video 
+          key={src}
+          src={src} 
+          autoPlay 
+          loop 
+          muted 
+          playsInline 
+          onLoadedData={() => setIsLoaded(true)}
+          className={`w-full h-full object-cover transition-opacity duration-500 ${isLoaded ? 'opacity-100' : 'opacity-0'}`}
+        />
+      ) : (
+        <img 
+          src={src} 
+          alt={alt} 
+          onLoad={() => setIsLoaded(true)}
+          className={`w-full h-full object-cover transition-opacity duration-500 ${isLoaded ? 'opacity-100' : 'opacity-0'}`} 
+        />
+      )}
+    </div>
   );
 }
