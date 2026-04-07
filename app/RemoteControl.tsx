@@ -105,7 +105,7 @@ export default function RemoteControl({
         </motion.div>
 
         {/* Middle Section (Prompt & Divider) */}
-        <AnimatePresence>
+        <AnimatePresence mode="wait">
           {!hidePrompt && (
             <motion.div 
               key="middle"
@@ -155,16 +155,18 @@ export default function RemoteControl({
 
           {/* Channel Control */}
           <div className="bg-[#333333] rounded-[32px] p-2.5 pr-8 flex items-center gap-4 border border-white/5 overflow-hidden">
-            <div className="w-[84px] h-[84px] rounded-[24px] overflow-hidden border border-white/10 shadow-lg shrink-0">
-              <img 
-                src={`https://picsum.photos/seed/vibe-${channelNumber}/200/200`}
-                alt="Channel Preview" 
-                className="w-full h-full object-cover scale-x-[-1] rotate-180"
-                referrerPolicy="no-referrer"
-              />
+            <div className="w-[84px] h-[84px] rounded-[24px] overflow-hidden border border-white/10 shadow-lg shrink-0 relative bg-black">
+              <ThumbnailVisualizer channelNumber={channelNumber} title={title} />
             </div>
             <div className="flex flex-col items-center justify-center min-w-[60px] shrink-0">
-              <span className="text-[#808080] text-[10px] uppercase font-black tracking-[0.15em] mb-1">Channel</span>
+              <motion.div 
+                animate={{ opacity: [0.4, 1, 0.4] }}
+                transition={{ duration: 1.5, repeat: Infinity, ease: "easeInOut" }}
+                className="flex items-center gap-1.5 mb-1"
+              >
+                <div className="w-1.5 h-1.5 rounded-full bg-[#00ffcc] shadow-[0_0_8px_rgba(0,255,204,0.6)]" />
+                <span className="text-[#00ffcc] text-[10px] uppercase font-black tracking-[0.15em]">Live</span>
+              </motion.div>
               <button 
                 onClick={onNext}
                 className="text-white hover:scale-125 transition-transform active:scale-95"
@@ -172,7 +174,8 @@ export default function RemoteControl({
                 <ChevronUp size={22} strokeWidth={3} />
               </button>
               <div className="text-white text-[11px] font-black tracking-tight text-center leading-[1.1] my-1 tabular-nums">
-                CH {String(channelNumber).padStart(2, '0')}<br />UP
+                EXP {String(channelNumber).padStart(2, '0')}<br />
+                &nbsp;
               </div>
               <button 
                 onClick={onPrev}
@@ -200,6 +203,91 @@ export default function RemoteControl({
           background: rgba(255, 255, 255, 0.2);
         }
       `}</style>
+    </div>
+  );
+}
+
+function ThumbnailVisualizer({ channelNumber, title }: { channelNumber: number, title: string }) {
+  // Generate a seeded random-ish number for variations
+  const seed = channelNumber * 123.45;
+  const isAlt = channelNumber % 3 === 0;
+  
+  return (
+    <div className="w-full h-full relative overflow-hidden bg-[#0a0a0a] flex items-center justify-center font-mono">
+      {/* Background Grid */}
+      <div className="absolute inset-0 opacity-20"
+        style={{
+          backgroundImage: isAlt 
+            ? `linear-gradient(rgba(255,255,255,0.1) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.1) 1px, transparent 1px)`
+            : `radial-gradient(circle at 2px 2px, rgba(255,255,255,0.4) 1px, transparent 0)`,
+          backgroundSize: isAlt ? '10px 10px' : `${8 + (channelNumber % 4) * 6}px ${8 + (channelNumber % 4) * 6}px`
+        }}
+      />
+
+      {/* Dynamic Geometric Shapes */}
+      <AnimatePresence mode="wait">
+        <motion.div
+          key={channelNumber}
+          initial={{ opacity: 0, y: 10, filter: 'blur(4px)' }}
+          animate={{ opacity: 1, y: 0, filter: 'blur(0px)' }}
+          exit={{ opacity: 0, y: -10, filter: 'blur(4px)' }}
+          transition={{ duration: 0.3 }}
+          className="relative w-full h-full flex items-center justify-center"
+        >
+          {/* Glitch Overlay (during transition) */}
+          <motion.div
+            initial={{ opacity: 1 }}
+            animate={{ opacity: 0 }}
+            transition={{ duration: 0.2 }}
+            className="absolute inset-0 bg-white/20 z-10"
+          />
+
+          {/* Central Shape */}
+          <motion.div 
+            animate={{ 
+              rotate: [0, 90, 180, 270, 360],
+              scale: [1, 1.1, 0.9, 1],
+              borderRadius: channelNumber % 2 === 0 ? ["20%", "50%", "20%"] : ["0%", "0%", "0%"]
+            }}
+            transition={{ duration: 15, repeat: Infinity, ease: "linear" }}
+            className={`w-12 h-12 border border-white/20 flex items-center justify-center overflow-hidden`}
+          >
+             <div className="w-[1px] h-full bg-white/10 absolute rotate-45" />
+             <div className="w-[1px] h-full bg-white/10 absolute -rotate-45" />
+             <div className="w-full h-[1px] bg-white/10 absolute" />
+             <div className="w-[1px] h-full bg-white/10 absolute" />
+          </motion.div>
+
+          {/* Scanning Line */}
+          <motion.div 
+            animate={{ top: ["-10%", "110%"] }}
+            transition={{ duration: 3, repeat: Infinity, ease: "linear" }}
+            className="absolute left-0 right-0 h-[2px] bg-[#00ffcc]/30 shadow-[0_0_12px_rgba(0,255,204,0.4)] z-20"
+          />
+        </motion.div>
+      </AnimatePresence>
+
+      {/* Title Overlay (Abbreviated) */}
+      <div className="absolute inset-0 flex items-center justify-center pointer-events-none z-30">
+        <motion.span 
+          animate={{ x: [0, 1, -1, 0] }}
+          transition={{ duration: 0.1, repeat: Infinity, repeatType: 'reverse' }}
+          className="text-white font-black text-[12px] tracking-[0.2em] opacity-90 mix-blend-difference uppercase"
+        >
+          {title.slice(0, 3)}
+        </motion.span>
+      </div>
+
+      {/* Static Noise Overlay */}
+      <div className="absolute inset-0 pointer-events-none opacity-[0.05] mix-blend-overlay bg-[url('https://grainy-gradients.vercel.app/noise.svg')]" />
+      
+      {/* HUD-style Brackets */}
+      <div className="absolute inset-2 border border-white/5 pointer-events-none">
+        <div className="absolute top-0 left-0 w-1.5 h-1.5 border-t border-l border-white/40" />
+        <div className="absolute top-0 right-0 w-1.5 h-1.5 border-t border-r border-white/40" />
+        <div className="absolute bottom-0 left-0 w-1.5 h-1.5 border-b border-l border-white/40" />
+        <div className="absolute bottom-0 right-0 w-1.5 h-1.5 border-b border-r border-white/40" />
+      </div>
     </div>
   );
 }
