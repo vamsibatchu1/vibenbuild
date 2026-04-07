@@ -28,6 +28,8 @@ interface RemoteControlProps {
   totalChannels?: number;
   activeView?: 'layers' | 'grid';
   onViewChange?: (view: 'layers' | 'grid') => void;
+  isPlaying?: boolean;
+  onPlayChange?: (playing: boolean) => void;
 }
 
 export default function RemoteControl({ 
@@ -38,9 +40,10 @@ export default function RemoteControl({
   channelNumber = 1,
   totalChannels = 1,
   activeView = 'layers',
-  onViewChange
+  onViewChange,
+  isPlaying = false,
+  onPlayChange
 }: RemoteControlProps) {
-  const [isPlaying, setIsPlaying] = useState(false);
   const [isMuted, setIsMuted] = useState(false);
   const [isFullScreen, setIsFullScreen] = useState(false);
   const [hidePrompt, setHidePrompt] = useState(false);
@@ -53,11 +56,11 @@ export default function RemoteControl({
       <motion.div 
         layout 
         transition={springConfig}
-        className={`bg-[#1c1c1c] rounded-[56px] p-5 flex items-center gap-6 border border-white/5 shadow-2xl overflow-hidden ${hidePrompt ? 'w-auto' : 'flex-1'}`}
+        className={`bg-[#1c1c1c] rounded-[56px] p-5 flex items-center border border-white/5 shadow-2xl overflow-hidden ${hidePrompt ? 'w-auto' : 'flex-1'}`}
       >
         
         {/* Left Section: Playback Controls */}
-        <motion.div layout transition={springConfig} className="flex items-center gap-5 shrink-0">
+        <motion.div layout transition={springConfig} className="flex items-center gap-5 shrink-0 mr-6">
           {/* Large Monitor Button */}
           <button className="w-20 h-20 md:w-[100px] md:h-[100px] rounded-full bg-[#333333] flex items-center justify-center hover:bg-[#3d3d3d] transition-colors group">
             <Monitor className="w-8 h-8 md:w-10 md:h-10 text-white" strokeWidth={1.5} />
@@ -69,7 +72,7 @@ export default function RemoteControl({
             <ControlButton 
               icon={isPlaying ? <Pause size={18} fill="currentColor" /> : <Play size={18} fill="currentColor" className="ml-0.5" />} 
               isActive={isPlaying}
-              onClick={() => setIsPlaying(!isPlaying)}
+              onClick={() => onPlayChange?.(!isPlaying)}
             />
             <ControlButton icon={<SkipForward size={18} fill="currentColor" />} onClick={onNext} />
             <ControlButton icon={<RotateCcw size={18} strokeWidth={2.5} />} />
@@ -101,27 +104,20 @@ export default function RemoteControl({
           </div>
         </motion.div>
 
-        {/* Vertical Divider & Middle Section */}
+        {/* Middle Section (Prompt & Divider) */}
         <AnimatePresence>
           {!hidePrompt && (
-            <>
-              <motion.div 
-                key="divider"
-                initial={{ opacity: 0, scaleY: 0, width: 0 }}
-                animate={{ opacity: 1, scaleY: 1, width: 1 }}
-                exit={{ opacity: 0, scaleY: 0, width: 0 }}
-                transition={springConfig}
-                className="h-20 bg-white/10 mx-2 shrink-0 origin-center hidden lg:block" 
-              />
+            <motion.div 
+              key="middle"
+              initial={{ width: 0, flex: 0, opacity: 0, paddingRight: 0 }}
+              animate={{ width: 'auto', flex: 1, opacity: 1, paddingRight: 24 }}
+              exit={{ width: 0, flex: 0, opacity: 0, paddingRight: 0 }}
+              transition={springConfig}
+              className="flex items-center overflow-hidden shrink-0"
+            >
+              <div className="h-20 bg-white/10 w-[1px] shrink-0 origin-center hidden lg:block" />
 
-              <motion.div 
-                key="content"
-                initial={{ opacity: 0, scale: 0.95, width: 0 }}
-                animate={{ opacity: 1, scale: 1, width: 'auto' }}
-                exit={{ opacity: 0, scale: 0.95, width: 0 }}
-                transition={springConfig}
-                className="flex-1 min-w-[200px] flex flex-col gap-2.5 overflow-hidden"
-              >
+              <div className="flex-1 flex flex-col gap-2.5 pl-6 min-w-[200px]">
                 <div className="flex items-center gap-2">
                   <span className="text-white text-[15px] font-semibold">{title}</span>
                   <span className="bg-[#333333] text-[#a0a0a0] text-[10px] px-2.5 py-0.5 rounded-full font-bold tracking-wider border border-white/5 uppercase">LOG</span>
@@ -134,8 +130,8 @@ export default function RemoteControl({
                   </div>
                   <div className="absolute bottom-0 left-0 right-0 h-6 bg-gradient-to-t from-[#1c1c1c] to-transparent pointer-events-none" />
                 </div>
-              </motion.div>
-            </>
+              </div>
+            </motion.div>
           )}
         </AnimatePresence>
 
@@ -158,7 +154,7 @@ export default function RemoteControl({
           </div>
 
           {/* Channel Control */}
-          <div className="bg-[#333333] rounded-[48px] p-2.5 pr-8 flex items-center gap-4 border border-white/5 overflow-hidden">
+          <div className="bg-[#333333] rounded-[32px] p-2.5 pr-8 flex items-center gap-4 border border-white/5 overflow-hidden">
             <div className="w-[84px] h-[84px] rounded-[24px] overflow-hidden border border-white/10 shadow-lg shrink-0">
               <img 
                 src={`https://picsum.photos/seed/vibe-${channelNumber}/200/200`}

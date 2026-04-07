@@ -91,6 +91,7 @@ export function NewLayoutClient({ initialExperiments }: NewLayoutClientProps) {
   const [activeExperimentIndex, setActiveExperimentIndex] = useState(0)
   const [focusViewMode, setFocusViewMode] = useState<'layers' | 'grid'>('layers')
   const [isChannelChanging, setIsChannelChanging] = useState(false)
+  const [isAutoPlaying, setIsAutoPlaying] = useState(false)
 
   const activeExp = initialExperiments[activeExperimentIndex] || initialExperiments[0]
 
@@ -109,6 +110,17 @@ export function NewLayoutClient({ initialExperiments }: NewLayoutClientProps) {
   const handlePrev = () => {
     triggerChannelChange((activeExperimentIndex - 1 + initialExperiments.length) % initialExperiments.length)
   }
+
+  // Auto-play ticker
+  useEffect(() => {
+    let interval: any;
+    if (isAutoPlaying && viewMode === 'focus' && focusViewMode === 'layers') {
+      interval = setInterval(() => {
+        handleNext();
+      }, 3000);
+    }
+    return () => clearInterval(interval);
+  }, [isAutoPlaying, viewMode, focusViewMode, activeExperimentIndex]);
 
   const mainText = "Most vibe-coded apps look the same. I wanted to see what happens when you bring real design thinking to AI tools and ship relentlessly. This is that collection: games, maps, and data viz built to be played with."
 
@@ -512,6 +524,8 @@ export function NewLayoutClient({ initialExperiments }: NewLayoutClientProps) {
                   totalChannels={initialExperiments.length}
                   activeView={focusViewMode}
                   onViewChange={setFocusViewMode}
+                  isPlaying={isAutoPlaying}
+                  onPlayChange={setIsAutoPlaying}
                 />
               </div>
             </motion.div>
