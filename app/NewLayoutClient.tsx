@@ -86,7 +86,7 @@ const EXPERIMENT_ITEM_VARIANTS = {
 
 export function NewLayoutClient({ initialExperiments }: NewLayoutClientProps) {
   const [placedImages, setPlacedImages] = useState<PlacedImage[]>([])
-  const [viewMode, setViewMode] = useState<ViewMode>('list') // Default changed to 'list'
+  const [viewMode, setViewMode] = useState<ViewMode>('focus') // Default changed to 'focus'
   const [activeMobileView, setActiveMobileView] = useState<'info' | 'experiments'>('info')
   const [activeExperimentIndex, setActiveExperimentIndex] = useState(0)
   const [focusViewMode, setFocusViewMode] = useState<'layers' | 'grid'>('layers')
@@ -312,7 +312,7 @@ export function NewLayoutClient({ initialExperiments }: NewLayoutClientProps) {
                <button 
                  onClick={() => {
                    setActiveMobileView('experiments')
-                   setViewMode('list')
+                   setViewMode('focus')
                  }}
                  className="w-full h-14 border-2 border-white flex items-center justify-center gap-3 hover:bg-white hover:text-black transition-all duration-300 group"
                >
