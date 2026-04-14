@@ -50,6 +50,12 @@ export default function RemoteControl({
 
   const springConfig = { type: 'spring', stiffness: 300, damping: 30 };
 
+  const playSound = (soundName: string) => {
+    const audio = new Audio(`/sounds/${soundName}`);
+    audio.volume = 0.4;
+    audio.play().catch(e => console.error("Sound play failed:", e));
+  };
+
   return (
     <div className="flex items-center select-none mx-auto w-full justify-center">
       {/* Main Remote Pill */}
@@ -68,14 +74,14 @@ export default function RemoteControl({
 
           {/* Control Grid */}
           <div className="grid grid-cols-3 gap-2">
-            <ControlButton icon={<SkipBack size={18} fill="currentColor" />} onClick={onPrev} />
+            <ControlButton icon={<SkipBack size={18} fill="currentColor" />} onClick={() => { playSound('previous:next.mp3'); onPrev?.(); }} />
             <ControlButton 
               icon={isPlaying ? <Pause size={18} fill="currentColor" /> : <Play size={18} fill="currentColor" className="ml-0.5" />} 
               isActive={isPlaying}
               onClick={() => onPlayChange?.(!isPlaying)}
             />
-            <ControlButton icon={<SkipForward size={18} fill="currentColor" />} onClick={onNext} />
-            <ControlButton icon={<RotateCcw size={18} strokeWidth={2.5} />} />
+            <ControlButton icon={<SkipForward size={18} fill="currentColor" />} onClick={() => { playSound('previous:next.mp3'); onNext?.(); }} />
+            <ControlButton icon={<RotateCcw size={18} strokeWidth={2.5} />} onClick={() => playSound('refresh.mp3')} />
             <ControlButton 
               icon={isMuted ? <VolumeX size={18} strokeWidth={2.5} /> : <Volume2 size={18} strokeWidth={2.5} />} 
               isActive={isMuted}
@@ -92,7 +98,10 @@ export default function RemoteControl({
           <div className="flex flex-col items-center gap-2 px-2">
             <span className="text-white text-[13px] font-medium tracking-tight whitespace-nowrap">Hide Prompt</span>
             <div 
-              onClick={() => setHidePrompt(!hidePrompt)}
+              onClick={() => {
+                playSound('hide.mp3');
+                setHidePrompt(!hidePrompt);
+              }}
               className={`w-[52px] h-[28px] rounded-full relative cursor-pointer shadow-inner transition-colors duration-300 ${hidePrompt ? 'bg-white' : 'bg-[#333333]'}`}
             >
               <motion.div 
@@ -140,13 +149,19 @@ export default function RemoteControl({
           {/* View Toggle Pill */}
           <div className="bg-[#333333] rounded-[32px] p-1.5 flex flex-col gap-1 border border-white/5">
             <button 
-              onClick={() => onViewChange?.('layers')}
+              onClick={() => {
+                playSound('switch.mp3');
+                onViewChange?.('layers');
+              }}
               className={`p-3 rounded-[24px] transition-all duration-300 ${activeView === 'layers' ? 'bg-white text-black shadow-lg scale-100' : 'text-[#808080] hover:text-white'}`}
             >
               <Layers size={20} strokeWidth={2.5} />
             </button>
             <button 
-              onClick={() => onViewChange?.('grid')}
+              onClick={() => {
+                playSound('switch.mp3');
+                onViewChange?.('grid');
+              }}
               className={`p-3 rounded-[24px] transition-all duration-300 ${activeView === 'grid' ? 'bg-white text-black shadow-lg scale-100' : 'text-[#808080] hover:text-white'}`}
             >
               <Grid size={20} strokeWidth={2.5} />
@@ -168,7 +183,10 @@ export default function RemoteControl({
                 <span className="text-[#00ffcc] text-[10px] uppercase font-black tracking-[0.15em]">Live</span>
               </motion.div>
               <button 
-                onClick={onNext}
+                onClick={() => {
+                  playSound('up:down.mp3');
+                  onNext?.();
+                }}
                 className="text-white hover:scale-125 transition-transform active:scale-95"
               >
                 <ChevronUp size={22} strokeWidth={3} />
@@ -178,7 +196,10 @@ export default function RemoteControl({
                 &nbsp;
               </div>
               <button 
-                onClick={onPrev}
+                onClick={() => {
+                  playSound('up:down.mp3');
+                  onPrev?.();
+                }}
                 className="text-white hover:scale-125 transition-transform active:scale-95"
               >
                 <ChevronDown size={22} strokeWidth={3} />
