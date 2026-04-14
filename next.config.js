@@ -1,12 +1,12 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  output: 'export',
+  // output: 'export', // Disabled to allow API routes (serverless functions) on Vercel
   images: {
-    unoptimized: true, // Required for static export
+    unoptimized: true, 
     domains: [],
     remotePatterns: [],
   },
-  trailingSlash: true, // Helps with Firebase Hosting routing
+  // trailingSlash: true, 
 }
 
 module.exports = nextConfig
