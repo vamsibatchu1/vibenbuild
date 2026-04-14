@@ -1,6 +1,7 @@
 'use client'
 
 import { useState, useEffect, useRef, useCallback } from 'react'
+import Link from 'next/link'
 import Image from 'next/image'
 import { motion, AnimatePresence } from 'framer-motion'
 import { Experiment } from '@/app/home/allexperiments/getExperiments'
@@ -322,7 +323,7 @@ export function NewLayoutClient({ initialExperiments }: NewLayoutClientProps) {
             </motion.div>
            
            <motion.div variants={PANEL_ITEM_VARIANTS} className="text-[10px] uppercase font-bold tracking-[0.2em] opacity-30 text-white">
-             an experimental universe by <a href="https://x.com/vamsibatchuk" target="_blank" rel="noopener noreferrer" className="underline hover:opacity-100 transition-opacity">vamsi batchu</a>
+             an experimental universe by <Link href="/about" className="underline hover:opacity-100 transition-opacity">vamsi batchu</Link>. follow me on <a href="https://x.com/vamsibatchuk" target="_blank" rel="noopener noreferrer" className="underline hover:opacity-100 transition-opacity">X</a>
            </motion.div>
         </div>
       </motion.aside>
