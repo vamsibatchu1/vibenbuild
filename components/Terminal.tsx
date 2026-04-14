@@ -39,16 +39,27 @@ const Terminal: React.FC = () => {
           body: JSON.stringify({ message: userMessage }),
         });
 
+        const contentType = response.headers.get("content-type");
+        if (!contentType || !contentType.includes("application/json")) {
+           throw new Error(`Invalid response format (HTTP ${response.status}). Ensure the API route is deployed.`);
+        }
+
         const data = await response.json();
         
-        // Remove the "processing" message and add AI response
         setHistory((prev) => {
           const newHistory = [...prev];
           newHistory.pop(); // remove [AI] processing...
-          return [...newHistory, `> ${data.response || data.error}`];
+          if (!response.ok) {
+            return [...newHistory, `Error: ${data.error || 'System fault.'}`];
+          }
+          return [...newHistory, `> ${data.response}`];
         });
-      } catch (err) {
-        setHistory((prev) => [...prev, `System error: Failed to reach AI kernel.`]);
+      } catch (err: any) {
+        setHistory((prev) => {
+          const newHistory = [...prev];
+          newHistory.pop();
+          return [...newHistory, `System error: ${err.message || 'Failed to reach AI kernel.'}`];
+        });
       } finally {
         setIsLoading(false);
       }
