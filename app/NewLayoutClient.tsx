@@ -122,7 +122,7 @@ export function NewLayoutClient({ initialExperiments }: NewLayoutClientProps) {
     return () => clearInterval(interval);
   }, [isAutoPlaying, viewMode, focusViewMode, activeExperimentIndex]);
 
-  const mainText = "Most vibe-coded apps look the same. I wanted to see what happens when you bring real design thinking to AI tools and ship relentlessly. This is that collection: games, maps, and data viz built to be played with."
+  const mainText = "Welcome to my experimental universe, where I try to bring real design taste to AI coding. Prompting, shaping, obsessing over the details, then shipping. Everything here is built to be played with. Browse the collection, try things out. If you want to collaborate or just say hi, you'll find me through the links below."
 
   useEffect(() => {
     const allImages: PlacedImage[] = []
