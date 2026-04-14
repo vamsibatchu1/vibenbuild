@@ -1,5 +1,5 @@
 import { Metadata } from 'next'
-import { NewLayoutClient } from '../NewLayoutClient'
+import { NewLayoutClient } from './NewLayoutClient'
 import { getExperiments } from '@/app/home/allexperiments/getExperiments'
 
 export const metadata: Metadata = {
