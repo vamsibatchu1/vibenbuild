@@ -58,6 +58,8 @@ export const metadata: Metadata = {
   },
 }
 
+import Terminal from '@/components/Terminal'
+
 export default function RootLayout({
   children,
 }: {
@@ -65,7 +67,10 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body className={`${newsreader.variable} ${ibmPlexMono.variable} ${plusJakartaSans.variable} ${inter.variable} ${museoModerno.variable} ${gildaDisplay.variable} ${londrinaSolid.variable} ${smythe.variable}`}>{children}</body>
+      <body className={`${newsreader.variable} ${ibmPlexMono.variable} ${plusJakartaSans.variable} ${inter.variable} ${museoModerno.variable} ${gildaDisplay.variable} ${londrinaSolid.variable} ${smythe.variable}`}>
+        {children}
+        <Terminal />
+      </body>
     </html>
   )
 }
