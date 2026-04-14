@@ -174,10 +174,13 @@ export default function LoadingSequence() {
             style={{ bottom: '-12px' }}
           >
             <div className="relative w-full max-w-[800px] px-4 md:px-0">
-              <img
+              <Image
                 src="/images/port/landing.png"
                 alt="Landing"
-                className="w-full max-w-[800px] h-auto"
+                width={800}
+                height={600}
+                className="w-full h-auto"
+                priority
               />
               {/* Typing text overlay */}
               <div className="absolute inset-0 flex items-start justify-center pt-[24px] md:pt-[56px] px-4 md:px-0">

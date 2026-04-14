@@ -104,7 +104,7 @@ export function AboutLayoutClient() {
             <div className="text-[10px] uppercase font-black tracking-[0.4em] text-black/40">Philosophy</div>
             <h2 className="text-[40px] md:text-[64px] font-newsreader leading-[0.9] tracking-tight">Design is an<br/>active experiment.</h2>
             <p className="text-lg md:text-xl text-black/60 font-ibm-plex-mono leading-relaxed max-w-2xl">
-              I believe that the best products aren't just built; they are felt. My work focuses on creating interfaces that react, breathe, and challenge the user to interact in new ways. 
+              I believe that the best products aren&apos;t just built; they are felt. My work focuses on creating interfaces that react, breathe, and challenge the user to interact in new ways. 
             </p>
           </section>
 

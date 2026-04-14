@@ -96,21 +96,21 @@ export function NewLayoutClient({ initialExperiments }: NewLayoutClientProps) {
 
   const activeExp = initialExperiments[activeExperimentIndex] || initialExperiments[0]
 
-  const triggerChannelChange = (newIndex: number) => {
+  const triggerChannelChange = useCallback((newIndex: number) => {
     setIsChannelChanging(true)
     setActiveExperimentIndex(newIndex)
     setTimeout(() => {
       setIsChannelChanging(false)
     }, 250) // Small burst of static
-  }
+  }, [])
 
-  const handleNext = () => {
+  const handleNext = useCallback(() => {
     triggerChannelChange((activeExperimentIndex + 1) % initialExperiments.length)
-  }
+  }, [activeExperimentIndex, initialExperiments.length, triggerChannelChange])
 
-  const handlePrev = () => {
+  const handlePrev = useCallback(() => {
     triggerChannelChange((activeExperimentIndex - 1 + initialExperiments.length) % initialExperiments.length)
-  }
+  }, [activeExperimentIndex, initialExperiments.length, triggerChannelChange])
 
   // Auto-play ticker
   useEffect(() => {
@@ -121,7 +121,7 @@ export function NewLayoutClient({ initialExperiments }: NewLayoutClientProps) {
       }, 3000);
     }
     return () => clearInterval(interval);
-  }, [isAutoPlaying, viewMode, focusViewMode, activeExperimentIndex]);
+  }, [isAutoPlaying, viewMode, focusViewMode, handleNext]);
 
   const mainText = "Welcome to my experimental universe, where I try to bring real design taste to AI coding. Prompting, shaping, obsessing over the details, then shipping. Everything here is built to be played with. Browse the collection, try things out. If you want to collaborate or just say hi, you'll find me through the links below."
 
@@ -622,9 +622,11 @@ function ExperimentItem({ exp, idx, visualOrder, getFirstFiveSentences, loadingS
                   className="w-full h-full object-cover"
                 />
               ) : (
-                <img 
+                <Image 
                    src={getImagePath(exp.id, exp.images[0])} 
                    alt={exp.title} 
+                   width={800}
+                   height={450}
                    onLoad={() => setIsLoaded(true)}
                    className="w-full h-full object-cover transition-all duration-700 group-hover:scale-105" 
                 />
@@ -792,9 +794,10 @@ function TrackedImage({ src, alt, isVideo = false, hideStaticOnLoad = true }: { 
           className={`w-full h-full object-cover transition-opacity duration-500 ${isLoaded ? 'opacity-100' : 'opacity-0'}`}
         />
       ) : (
-        <img 
+        <Image 
           src={src} 
           alt={alt} 
+          fill
           onLoad={() => setIsLoaded(true)}
           className={`w-full h-full object-cover transition-opacity duration-500 ${isLoaded ? 'opacity-100' : 'opacity-0'}`} 
         />
