@@ -1,4 +1,4 @@
-import LoadingSequence from '@/components/LoadingSequence'
+import LoadingSequence from '@/app/loading/LoadingSequence'
 
 export default function LandingPage() {
   return <LoadingSequence />
