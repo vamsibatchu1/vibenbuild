@@ -322,8 +322,11 @@ export function NewLayoutClient({ initialExperiments }: NewLayoutClientProps) {
                </button>
             </motion.div>
            
-           <motion.div variants={PANEL_ITEM_VARIANTS} className="text-[10px] uppercase font-bold tracking-[0.2em] opacity-30 text-white">
-             an experimental universe by <Link href="/about" className="underline hover:opacity-100 transition-opacity">vamsi batchu</Link>. follow me on <a href="https://x.com/vamsibatchuk" target="_blank" rel="noopener noreferrer" className="underline hover:opacity-100 transition-opacity">X</a>
+           <motion.div 
+             variants={PANEL_ITEM_VARIANTS} 
+             className="text-[10px] uppercase font-bold tracking-[0.2em] text-white leading-relaxed"
+           >
+             an experimental universe by <Link href="/about" className="underline decoration-white underline-offset-4 hover:opacity-70 transition-opacity">vamsi batchu</Link>. follow me on <Link href="https://x.com/vamsibatchuk" target="_blank" className="underline decoration-white underline-offset-4 hover:opacity-70 transition-opacity">X</Link>
            </motion.div>
         </div>
       </motion.aside>

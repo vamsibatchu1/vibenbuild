@@ -5,6 +5,7 @@ import Image from 'next/image'
 import Link from 'next/link'
 import { motion, AnimatePresence } from 'framer-motion'
 import { Play, ArrowLeft } from 'lucide-react'
+import HomeContent from './HomeContent'
 
 // Variants same as home for consistency
 const PANEL_VARIANTS = {
@@ -33,8 +34,6 @@ const PANEL_ITEM_VARIANTS = {
 export function AboutLayoutClient() {
   const [activeMobileView, setActiveMobileView] = useState<'info' | 'content'>('info')
 
-  const aboutText = "I'm Vamsi Batchu, a designer and developer obsessed with the intersection of high-fidelity aesthetics and agentic AI. This space serves as my digital laboratory where I experiment with layouts, interactions, and the future of web experiences. Every project here is a step towards defining what a truly 'agentic' web feels like."
-
   return (
     <div className="min-h-screen bg-white overflow-hidden flex flex-col md:flex-row text-black relative font-ibm-plex-mono">
       {/* Texture Overlay - Switched to multiply for white background */}
@@ -60,13 +59,6 @@ export function AboutLayoutClient() {
                className="w-full h-auto invert" 
              />
            </motion.div>
-
-           <motion.div 
-             variants={PANEL_ITEM_VARIANTS}
-             className="text-[16px] md:text-[18px] text-black/80 leading-relaxed max-w-[420px] font-ibm-plex-mono tracking-tighter uppercase"
-           >
-             {aboutText}
-           </motion.div>
         </div>
 
         <div className="mt-auto space-y-8">
@@ -80,9 +72,14 @@ export function AboutLayoutClient() {
                </button>
             </motion.div>
            
-           <motion.div variants={PANEL_ITEM_VARIANTS} className="text-[10px] uppercase font-bold tracking-[0.2em] opacity-30 text-black">
-             <Link href="/home" className="underline hover:opacity-100 transition-opacity">go back to experiments</Link>
+           <motion.div 
+             variants={PANEL_ITEM_VARIANTS}
+             className="text-[10px] uppercase font-bold tracking-[0.2em] text-black leading-relaxed"
+           >
+             an <Link href="/home" className="underline decoration-black underline-offset-4 hover:opacity-70 transition-opacity">experimental universe</Link> by vamsi batchu. follow me on <Link href="https://x.com/vamsibatchuk" target="_blank" className="underline decoration-black underline-offset-4 hover:opacity-70 transition-opacity">X</Link>
            </motion.div>
+
+
         </div>
       </motion.aside>
 
@@ -98,39 +95,8 @@ export function AboutLayoutClient() {
           </button>
         )}
 
-        <div className="w-full max-w-[1200px] mx-auto px-8 md:px-16 py-16 md:py-24 space-y-24">
-          {/* Section 1: Philosophy */}
-          <section className="space-y-8">
-            <div className="text-[10px] uppercase font-black tracking-[0.4em] text-black/40">Philosophy</div>
-            <h2 className="text-[40px] md:text-[64px] font-newsreader leading-[0.9] tracking-tight">Design is an<br/>active experiment.</h2>
-            <p className="text-lg md:text-xl text-black/60 font-ibm-plex-mono leading-relaxed max-w-2xl">
-              I believe that the best products aren&apos;t just built; they are felt. My work focuses on creating interfaces that react, breathe, and challenge the user to interact in new ways. 
-            </p>
-          </section>
-
-          {/* Section 2: Experience Grid Placeholder */}
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-12">
-            <div className="border border-black/10 p-8 space-y-4 hover:border-black/30 transition-colors bg-black/[0.02]">
-              <div className="text-xs uppercase tracking-widest text-[#006655]">Current Focus</div>
-              <h3 className="text-2xl font-newsreader">Agentic Interfaces</h3>
-              <p className="text-sm opacity-60 leading-relaxed">
-                Exploring how AI agents can interact with UI in real-time to create personalized, dynamic user flows.
-              </p>
-            </div>
-            <div className="border border-black/10 p-8 space-y-4 hover:border-black/30 transition-colors bg-white/[0.02]">
-              <div className="text-xs uppercase tracking-widest text-[#006655]">Expertise</div>
-              <h3 className="text-2xl font-newsreader">Visual Design</h3>
-              <p className="text-sm opacity-60 leading-relaxed">
-                High-fidelity motion design, brutalist aesthetics, and technical grid layouts.
-              </p>
-            </div>
-          </div>
-
-          {/* Section 3: More content placeholder */}
-          <section className="space-y-8 border-t border-black/10 pt-16">
-            <div className="text-[10px] uppercase font-black tracking-[0.4em] text-black/40">Continuum</div>
-            <p className="text-md opacity-40 italic">More archival content to be indexed here...</p>
-          </section>
+        <div className="w-full mx-auto px-8 md:px-16 py-16 md:py-24">
+          <HomeContent />
         </div>
       </main>
 
