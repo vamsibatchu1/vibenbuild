@@ -16,7 +16,7 @@ export async function POST(request: NextRequest) {
       }
     }
 
-    const filePath = path.join(process.cwd(), 'app', 'allexperiments', 'wip-ideas.json')
+    const filePath = path.join(process.cwd(), 'app', 'home', 'allexperiments', 'wip-ideas.json')
     await writeFile(filePath, JSON.stringify(ideas, null, 2), 'utf-8')
 
     return NextResponse.json({ success: true })

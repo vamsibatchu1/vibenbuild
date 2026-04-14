@@ -2,7 +2,7 @@
 
 import React, { useState, useCallback, useEffect } from 'react'
 import Image from 'next/image'
-import { Experiment } from '@/app/allexperiments/getExperiments'
+import { Experiment } from '@/app/home/allexperiments/getExperiments'
 import { Lock, Save, X, Plus, Trash2, Upload, Eye, Edit, Video } from 'lucide-react'
 import { motion } from 'framer-motion'
 

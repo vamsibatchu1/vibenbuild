@@ -1,7 +1,7 @@
 import { Metadata } from 'next'
 import { AdminClient } from './AdminClient'
-import { getExperiments } from '@/app/allexperiments/getExperiments'
-import { getWipIdeas } from '@/app/allexperiments/getWipIdeas'
+import { getExperiments } from '@/app/home/allexperiments/getExperiments'
+import { getWipIdeas } from '@/app/home/allexperiments/getWipIdeas'
 
 export const metadata: Metadata = {
   title: 'Vibe N Build - Admin',

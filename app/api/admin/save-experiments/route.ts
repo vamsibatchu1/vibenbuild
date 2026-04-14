@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { writeFile } from 'fs/promises'
 import path from 'path'
-import { Experiment } from '@/app/allexperiments/getExperiments'
+import { Experiment } from '@/app/home/allexperiments/getExperiments'
 
 export async function POST(request: NextRequest) {
   try {
@@ -20,7 +20,7 @@ export async function POST(request: NextRequest) {
     }
 
     // Write to experiments.json
-    const filePath = path.join(process.cwd(), 'app', 'allexperiments', 'experiments.json')
+    const filePath = path.join(process.cwd(), 'app', 'home', 'allexperiments', 'experiments.json')
     await writeFile(filePath, JSON.stringify(experiments, null, 2), 'utf-8')
 
     return NextResponse.json({ success: true })

@@ -222,7 +222,7 @@ export function Experiments2Client() {
                       Home
                     </Link>
                     <Link
-                      href="/allexperiments"
+                      href="/home/allexperiments"
                       onClick={() => setIsMenuOpen(false)}
                       className="block w-full text-left px-4 py-3 border border-black/30 hover:bg-black/5 transition-colors font-ibm-plex-mono text-sm uppercase text-black"
                     >

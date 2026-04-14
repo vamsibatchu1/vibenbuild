@@ -3,7 +3,7 @@
 import { useState, useEffect, useRef, useCallback } from 'react'
 import Image from 'next/image'
 import { motion, AnimatePresence } from 'framer-motion'
-import { Experiment } from '@/app/allexperiments/getExperiments'
+import { Experiment } from '@/app/home/allexperiments/getExperiments'
 import { LayoutGrid, List, Maximize, Layers, ExternalLink, Play, ArrowLeft } from 'lucide-react'
 import RemoteControl from './RemoteControl'
 
