@@ -2,6 +2,7 @@
 
 import React, { useState, useEffect, useRef } from 'react';
 import { motion, useDragControls } from 'framer-motion';
+import { X, Minus } from 'lucide-react';
 
 const Terminal: React.FC = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -9,26 +10,81 @@ const Terminal: React.FC = () => {
   const [input, setInput] = useState('');
   const [history, setHistory] = useState<string[]>([]);
   const [isLoading, setIsLoading] = useState(false);
+  const [selectedIndex, setSelectedIndex] = useState(0);
+  const [showCommands, setShowCommands] = useState(false);
+  
+  const experiments = [
+    { id: '01', title: 'gridscape', tags: 'ai · mapping', status: 'live' },
+    { id: '02', title: 'worldwide', tags: 'geo · tactical', status: 'live' },
+    { id: '04', title: 'elemental', tags: 'science · interactive', status: 'live' },
+    { id: '05', title: 'canopy', tags: 'viz · cinematic', status: 'wip' },
+    { id: '12', title: 'warpfield', tags: 'p5.js · particles', status: 'active' },
+  ];
+
+  const SLASH_COMMANDS = [
+    { cmd: '/share', desc: 'Copy portfolio link' },
+    { cmd: '/message', desc: 'Message Vamsi (Bumsee)' },
+    { id: 'linkedin', cmd: '/linkedin', desc: 'Visit LinkedIn profile' },
+    { cmd: '/idea', desc: 'Submit an experiment idea' },
+    { cmd: '/resume', desc: 'Download technical resume' },
+    { cmd: '/clear', desc: 'Clear terminal history' },
+  ];
   
   const scrollRef = useRef<HTMLDivElement>(null);
+  const promptRef = useRef<HTMLDivElement>(null);
 
   // Auto-scroll on history change
   useEffect(() => {
-    if (scrollRef.current) {
+    if (scrollRef.current && !showCommands) {
       scrollRef.current.scrollTop = scrollRef.current.scrollHeight;
     }
-  }, [history]);
+  }, [history, showCommands]);
+
+  // Handle slash command scroll centering
+  useEffect(() => {
+    if (showCommands && scrollRef.current && promptRef.current) {
+        const topPos = promptRef.current.offsetTop;
+        scrollRef.current.scrollTo({
+            top: topPos - 40,
+            behavior: 'smooth'
+        });
+    }
+  }, [showCommands]);
+
+  useEffect(() => {
+    setShowCommands(input.startsWith('/'));
+  }, [input]);
 
   function startDrag(event: React.PointerEvent) {
     dragControls.start(event);
   }
 
   const handleCommand = async (e: React.KeyboardEvent) => {
-    if (e.key === 'Enter' && input.trim() && !isLoading) {
+    if (showCommands && (e.key === 'ArrowUp' || e.key === 'ArrowDown')) {
+        // We could add arrow nav for slash commands here, but keeping it simple for now per user request.
+        return;
+    }
+
+    if (e.key === 'ArrowUp') {
+      e.preventDefault();
+      setSelectedIndex((prev) => (prev > 0 ? prev - 1 : experiments.length - 1));
+    } else if (e.key === 'ArrowDown') {
+      e.preventDefault();
+      setSelectedIndex((prev) => (prev < experiments.length - 1 ? prev + 1 : 0));
+    } else if (e.key === 'Enter' && input.trim() && !isLoading) {
       const userMessage = input.trim();
+      
+      // Handle slash commands logic
+      if (userMessage === '/clear') {
+        setHistory([]);
+        setInput('');
+        return;
+      }
+      
       setHistory((prev) => [...prev, `guest@vibebuild:~$ ${userMessage}`]);
       setInput('');
       setIsLoading(true);
+      setShowCommands(false);
 
       try {
         setHistory((prev) => [...prev, `[AI] processing request...`]);
@@ -94,13 +150,21 @@ const Terminal: React.FC = () => {
             onPointerDown={startDrag}
             className="h-[32px] bg-[#2d2d2d] flex items-center px-4 cursor-grab active:cursor-grabbing select-none relative shrink-0"
           >
-            <div className="flex gap-2 mr-auto z-10">
+            <div className="flex gap-2 mr-auto z-10 group/controls">
               <button 
                 onPointerDown={(e) => e.stopPropagation()} 
                 onClick={() => setIsOpen(false)} 
-                className="w-3 h-3 bg-[#ff5f56] rounded-full hover:brightness-110 active:brightness-90 transition-all border border-black/10 shadow-sm"
-              />
-              <div className="w-3 h-3 bg-[#ffbd2e] rounded-full border border-black/10 shadow-sm" />
+                className="w-3 h-3 bg-[#ff5f56] rounded-full hover:brightness-110 active:brightness-90 transition-all border border-black/10 shadow-sm flex items-center justify-center group"
+              >
+                <X size={8} className="text-black/60 opacity-0 group-hover:opacity-100 transition-opacity" />
+              </button>
+              <button 
+                 onPointerDown={(e) => e.stopPropagation()} 
+                 onClick={() => setIsOpen(false)} // Mimicking minimize for now
+                 className="w-3 h-3 bg-[#ffbd2e] rounded-full border border-black/10 shadow-sm flex items-center justify-center group"
+              >
+                <Minus size={8} className="text-black/60 opacity-0 group-hover:opacity-100 transition-opacity" />
+              </button>
               <div className="w-3 h-3 bg-[#27c93f] rounded-full border border-black/10 shadow-sm" />
             </div>
             <div className="absolute inset-0 flex items-center justify-center text-white/40 font-bold tracking-tight pointer-events-none text-[11px]">
@@ -125,41 +189,20 @@ const Terminal: React.FC = () => {
         <div>
             <h3 className="text-white/30 font-bold mb-2 text-[11px]">Experiments</h3>
             <div className="space-y-1">
-                {[
-                    { id: '01', title: 'gridscape', tags: 'ai · mapping', status: 'live' },
-                    { id: '02', title: 'worldwide', tags: 'geo · tactical', status: 'live' },
-                    { id: '04', title: 'elemental', tags: 'science · interactive', status: 'live' },
-                    { id: '05', title: 'canopy', tags: 'viz · cinematic', status: 'wip' },
-                    { id: '12', title: 'warpfield', tags: 'p5.js · particles', status: 'active' },
-                ].map((item, i) => (
-                    <div key={i} className="flex items-center gap-2 group cursor-pointer pr-2 ml-1 hover:bg-white/5 transition-colors">
-                        <span className="text-cyan-400 invisible group-hover:visible -ml-4">▶</span>
-                        <span className={`shrink-0 ${item.status === 'wip' ? 'text-yellow-500' : 'text-green-400'}`}>♢</span>
-                        <span className="text-white font-bold truncate">{item.title}</span>
-                        <span className="text-white/20">·</span>
-                        <span className="text-white/30 whitespace-nowrap">{item.tags}</span>
-                        <span className="text-white/20 ml-auto">·</span>
-                        <span className={`text-[9px] uppercase tracking-tighter ${item.status === 'wip' ? 'text-yellow-500/50' : 'text-green-400/50'}`}>{item.status}</span>
-                    </div>
-                ))}
-            </div>
-        </div>
-
-        <div>
-            <h3 className="text-white/30 font-bold mb-2 text-[11px]">Connectivity</h3>
-            <div className="space-y-1 pl-2">
-                {[
-                    { label: 'Follow on X', icon: '♦', color: 'text-cyan-400', link: 'x.com/vamsibatchuk' },
-                    { label: 'GitHub Repository', icon: '♦', color: 'text-cyan-400', link: 'github.com/vamsibatchu' },
-                    { label: 'Portfolio v1', icon: '□', color: 'text-white/40', link: 'vamsibatchu.com' },
-                    { label: 'System Kernel', icon: '·', color: 'text-white/30', link: 'active' },
-                ].map((item, i) => (
-                    <div key={i} className="flex items-center gap-2 cursor-pointer group hover:bg-white/5 pr-2">
-                        <span className={`${item.color} shrink-0 text-[12px]`}>{item.icon}</span>
-                        <span className="text-white/90 truncate group-hover:text-white">{item.label}</span>
-                        <span className="text-white/10 group-hover:text-white/30 ml-auto text-[9px]">{item.link}</span>
-                    </div>
-                ))}
+                {experiments.map((item, i) => {
+                    const isSelected = i === selectedIndex;
+                    return (
+                        <div key={i} className={`flex items-center gap-2 pr-2 ml-1 transition-colors ${isSelected ? 'bg-white/5' : ''}`}>
+                            <span className={`text-cyan-400 -ml-4 ${isSelected ? 'visible' : 'invisible'}`}>▶</span>
+                            <span className={`shrink-0 ${isSelected ? 'text-green-300' : (item.status === 'wip' ? 'text-yellow-500/60' : 'text-green-500/40')}`}>♢</span>
+                            <span className={`font-bold truncate ${isSelected ? 'text-white' : 'text-white/60'}`}>{item.title}</span>
+                            <span className="text-white/20">·</span>
+                            <span className="text-white/30 whitespace-nowrap">{item.tags}</span>
+                            <span className="text-white/20 ml-auto">·</span>
+                            <span className={`text-[9px] uppercase tracking-tighter ${isSelected ? 'text-green-400' : (item.status === 'wip' ? 'text-yellow-500/30' : 'text-green-400/30')}`}>{item.status}</span>
+                        </div>
+                    );
+                })}
             </div>
         </div>
 
@@ -169,26 +212,40 @@ const Terminal: React.FC = () => {
         ))}
 
         {/* Command Prompt */}
-        <div className="flex items-start gap-2 pt-2 relative">
-            <span className="text-green-400 shrink-0">guest@vibebuild:~$</span>
-            <div className="flex-1 relative flex items-center min-h-[14px]">
-                {/* Visual Text + Cursor */}
-                <div className="absolute inset-0 pointer-events-none flex items-center whitespace-pre-wrap break-all pr-4">
-                    <span className="text-white">{input}</span>
-                    <span className={`inline-block w-[7px] h-[13px] bg-white ml-[1px] ${isLoading ? 'opacity-50' : 'animate-terminal-blink'}`} />
+        <div ref={promptRef} className="flex flex-col gap-2 pt-2 relative">
+            <div className="flex items-start gap-2 relative">
+                <span className="text-green-400 shrink-0">guest@vibebuild:~$</span>
+                <div className="flex-1 relative flex items-center min-h-[14px]">
+                    {/* Visual Text + Cursor */}
+                    <div className="absolute inset-0 pointer-events-none flex items-center whitespace-pre-wrap break-all pr-4">
+                        <span className="text-white">{input}</span>
+                        <span className={`inline-block w-[7px] h-[13px] bg-white ml-[1px] ${isLoading ? 'opacity-50' : 'animate-terminal-blink'}`} />
+                    </div>
+                    
+                    {/* Real hidden input */}
+                    <input 
+                        type="text"
+                        value={input}
+                        onChange={(e) => setInput(e.target.value)}
+                        onKeyDown={handleCommand}
+                        readOnly={isLoading}
+                        autoFocus
+                        className="w-full bg-transparent border-none outline-none text-transparent caret-transparent focus:ring-0 p-0 z-10"
+                    />
                 </div>
-                
-                {/* Real hidden input */}
-                <input 
-                    type="text"
-                    value={input}
-                    onChange={(e) => setInput(e.target.value)}
-                    onKeyDown={handleCommand}
-                    readOnly={isLoading}
-                    autoFocus
-                    className="w-full bg-transparent border-none outline-none text-transparent caret-transparent focus:ring-0 p-0 z-10"
-                />
             </div>
+
+            {/* Slash Commands Suggester - Now Below */}
+            {showCommands && (
+                <div className="bg-[#2d2d2d]/30 border-y border-white/5 py-4 px-2 space-y-3 mt-2">
+                    {SLASH_COMMANDS.filter(c => c.cmd.startsWith(input)).map((c, i) => (
+                        <div key={i} className="flex justify-between items-center text-[10px] group cursor-pointer hover:bg-white/5 px-2">
+                            <span className="text-[#a5b4fc] font-bold">{c.cmd}</span>
+                            <span className="text-white/30 uppercase tracking-widest">{c.desc}</span>
+                        </div>
+                    ))}
+                </div>
+            )}
         </div>
       </div>
 
